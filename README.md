@@ -59,7 +59,7 @@ div elements and inserting the widgets into them in the order that they appear
 in the config file.  The colors and margins of the layout are specified in
 `static/css/style.css`.
 
-```yml
+```yaml
 - type: Layout
   columns:
     - id: column1
@@ -82,7 +82,7 @@ in the config file.  The colors and margins of the layout are specified in
 
 #### Text Widget Example
 
-```yml
+```yaml
 - id: Example Text Widget
   type: Text
   width: 200
@@ -113,7 +113,7 @@ in the config file.  The colors and margins of the layout are specified in
 
 #### LineGraph Widget Example
 
-```yml
+```yaml
 - id: Z-Roll
   type: LineGraph
   width: 600
