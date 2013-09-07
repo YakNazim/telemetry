@@ -12,13 +12,6 @@ fc = {
     'port': "35001",
     'message_type': "messages",
     'messages': {
-        'header': {
-            'members': [
-                {'key': "fourcc", 'struct': struct.Struct("!4s")},
-                {'key': "timestamp", 'struct': struct.Struct("!6s")},
-                {'key': "length", 'struct': struct.Struct("!H")},
-            ],
-        },
         'ADIS': {
             'members': [
                 {'key': "VCC",     'struct': struct.Struct("<h"), 'units': {'mks': "volt", 'scale': 2.418}},
@@ -51,24 +44,24 @@ FEEDS = {
 
 class MessageReader(object):
 
+    message_header = struct.Struct('!4sHLH')
+
     def __init__(self, messages):
         self.messages = messages
 
-    def read_packet(self, packet):
-        
+    def decode_packet(self, packet):
+
         # Read header
-        header = {}
-        for field in self.messages['header']['members']:
-            s = field['struct']
-            header[field['key']], = s.unpack(packet[:s.size])
-            # truncate what we already read
-            packet = packet[s.size:]
-        print header
+        s = self.message_header
+        fourcc, timestamp_hi, timestamp_lo, length = s.unpack(packet[:s.size])
+        timestamp = timestamp_hi << 32 | timestamp_lo
+        packet = packet[s.size:]
+        print fourcc, timestamp, length
 
         # read body
-        message_type = self.messages.get(header['fourcc'], None)
+        message_type = self.messages.get(fourcc, None)
         if message_type is not None:
-            body = {'type': header['fourcc']}
+            body = {'type': fourcc}
             for field in message_type.get('members', []):
                 s = field['struct']
                 body[field['key']], = s.unpack(packet[:s.size])
