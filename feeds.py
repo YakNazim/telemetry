@@ -67,37 +67,40 @@ class MessageReader(object):
     def decode_packet(self, packet):
         """A decoder for a packet"""
 
-        # Read header
-        fourcc, timestamp_hi, timestamp_lo, message_length = self.header.unpack(packet[:self.header.size])
 
-        # fix timestamp
-        timestamp = timestamp_hi << 32 | timestamp_lo
+        # Loop until we've read the entire packet
+        while len(packet) > 0:
+            # Read header
+            fourcc, timestamp_hi, timestamp_lo, message_length = self.header.unpack(packet[:self.header.size])
 
-        # truncate what we've already read
-        packet = packet[self.header.size:]
-        print fourcc, timestamp, message_length
-
-        # Read body
-        # get message type from header
-        message_type = self.messages.get(fourcc, None)
-        if message_type is not None:
-
-            # init a container for the values
-            body = {'type': fourcc}
-
-            # check to see if we read the right number of bytes
-            if message_length != message_type['struct'].size:
-                # If the message isn't the right length, lets try and unpack it
-                # using the size of the struct.
-                message_length = message_type['struct'].size
-
-            unpacked = message_type['struct'].unpack(packet[:message_length])
-            for i, field in enumerate(message_type['members']):
-                body[field['key']] = unpacked[i] * field.get('units', {}).get('scale', 1)
+            # fix timestamp
+            timestamp = timestamp_hi << 32 | timestamp_lo
 
             # truncate what we've already read
-            packet = packet[message_length:]
-            print body
+            packet = packet[self.header.size:]
+            print fourcc, timestamp, message_length
+
+            # Read body
+            # get message type from header
+            message_type = self.messages.get(fourcc, None)
+            if message_type is not None:
+
+                # init a container for the values
+                body = {'type': fourcc}
+
+                # check to see if we read the right number of bytes
+                if message_length != message_type['struct'].size:
+                    # If the message isn't the right length, lets try and unpack it
+                    # using the size of the struct.
+                    message_length = message_type['struct'].size
+
+                unpacked = message_type['struct'].unpack(packet[:message_length])
+                for i, field in enumerate(message_type['members']):
+                    body[field['key']] = unpacked[i] * field.get('units', {}).get('scale', 1)
+
+                # truncate what we've already read
+                packet = packet[message_length:]
+                print body
 
 # list of message types used in the message_type key
 MESSAGE_TYPES = {
