@@ -15,17 +15,17 @@ fc = {
         'ADIS': {
             'endianness': '<',
             'members': [
-                {'key': "VCC",     'struct': "h", 'units': {'mks': "volt", 'scale': 2.418}},
+                {'key': "VCC",     'struct': "h", 'units': {'mks': "volt", 'scale': 0.002418}},
                 {'key': "Gryo_X",  'struct': "h", 'untis': {'mks': "hertz", 'scale': 0.05}},
                 {'key': "Gryo_Y",  'struct': "h", 'units': {'mks': "hertz", 'scale': 0.05}},
                 {'key': "Gryo_Z",  'struct': "h", 'units': {'mks': "hertz", 'scale': 0.05}},
-                {'key': "Acc_X",   'struct': "h", 'units': {'mks': "meter/s/s", 'scale': 3.33}},
-                {'key': "Acc_Y",   'struct': "h", 'units': {'mks': "meter/s/s", 'scale': 3.33}},
-                {'key': "Acc_Z",   'struct': "h", 'units': {'mks': "meter/s/s", 'scale': 3.33}},
+                {'key': "Acc_X",   'struct': "h", 'units': {'mks': "meter/s/s", 'scale': 0.0333}},
+                {'key': "Acc_Y",   'struct': "h", 'units': {'mks': "meter/s/s", 'scale': 0.0333}},
+                {'key': "Acc_Z",   'struct': "h", 'units': {'mks': "meter/s/s", 'scale': 0.0333}},
                 {'key': "Magn_X",  'struct': "h", 'units': {'mks': "tesla", 'scale': 0.5}},
                 {'key': "Magn_X",  'struct': "h", 'units': {'mks': "tesla", 'scale': 0.5}},
                 {'key': "Magn_X",  'struct': "h", 'units': {'mks': "tesla", 'scale': 0.5}},
-                {'key': "Temp",    'struct': "h", 'units': {'mks': "kelvin", 'scale': 0.14}},
+                {'key': "Temp",    'struct': "h", 'units': {'mks': "kelvin", 'scale': 0.14, 'shift': 273.15}},
                 {'key': "Aux_ADC", 'struct': "h", 'units': {'mks': "volt", 'scale': 806}},
             ],
         },
@@ -95,8 +95,13 @@ class MessageReader(object):
                 # read from packet
                 unpacked = message_type['struct'].unpack(packet[:message_length])
                 for i, field in enumerate(message_type['members']):
+                    # get unit math
+                    units = field.get('units', {})
+                    shift = units.get('shift', 0)
+                    scale = units.get('scale', 1)
+
                     # dump into dict
-                    body[field['key']] = unpacked[i] * field.get('units', {}).get('scale', 1)
+                    body[field['key']] = (unpacked[i] * scale) + shift
 
                 # truncate what we've already read
                 packet = packet[message_length:]
