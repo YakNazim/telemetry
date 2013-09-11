@@ -5,45 +5,6 @@ network to the data, and the different messages sent by the feed.
 
 import struct
 
-# Flight Computer
-fc = {
-    'port_type': "UDP",
-    'ip': "",
-    'port': "35001",
-    'message_type': "messages",
-    'messages': {
-        'ADIS': {
-            'endianness': '<',
-            'members': [
-                {'key': "VCC",     'struct': "h", 'units': {'mks': "volt", 'scale': 0.002418}},
-                {'key': "Gryo_X",  'struct': "h", 'untis': {'mks': "hertz", 'scale': 0.05}},
-                {'key': "Gryo_Y",  'struct': "h", 'units': {'mks': "hertz", 'scale': 0.05}},
-                {'key': "Gryo_Z",  'struct': "h", 'units': {'mks': "hertz", 'scale': 0.05}},
-                {'key': "Acc_X",   'struct': "h", 'units': {'mks': "meter/s/s", 'scale': 0.0333}},
-                {'key': "Acc_Y",   'struct': "h", 'units': {'mks': "meter/s/s", 'scale': 0.0333}},
-                {'key': "Acc_Z",   'struct': "h", 'units': {'mks': "meter/s/s", 'scale': 0.0333}},
-                {'key': "Magn_X",  'struct': "h", 'units': {'mks': "tesla", 'scale': 0.5}},
-                {'key': "Magn_X",  'struct': "h", 'units': {'mks': "tesla", 'scale': 0.5}},
-                {'key': "Magn_X",  'struct': "h", 'units': {'mks': "tesla", 'scale': 0.5}},
-                {'key': "Temp",    'struct': "h", 'units': {'mks': "kelvin", 'scale': 0.14, 'shift': 273.15}},
-                {'key': "Aux_ADC", 'struct': "h", 'units': {'mks': "volt", 'scale': 806}},
-            ],
-        },
-        'ROLL': {
-            'endianness': '<',
-            'members': [
-                {'key': "PWM", 'struct': "H", 'units': {'mks': "seconds", 'scale': 0}},
-                {'key': "Disable", 'struct': "B"},
-            ],
-        },
-    },
-}
-
-# List all active feeds
-FEEDS = {
-    'fc': fc,
-}
-
 
 class MessageReader(object):
     """A message reader class for PASA FC messages"""
@@ -109,7 +70,43 @@ class MessageReader(object):
                 # Debug
                 print body
 
-# list of message types used in the message_type key
-MESSAGE_TYPES = {
-    'messages': MessageReader,
+## Definitions of feeds:
+
+# Flight Computer
+fc = {
+    'port_type': "UDP",
+    'ip': "",
+    'port': "35001",
+    'message_type': MessageReader,
+    'messages': {
+        'ADIS': {
+            'endianness': '<',
+            'members': [
+                {'key': "VCC",     'struct': "h", 'units': {'mks': "volt", 'scale': 0.002418}},
+                {'key': "Gryo_X",  'struct': "h", 'untis': {'mks': "hertz", 'scale': 0.05}},
+                {'key': "Gryo_Y",  'struct': "h", 'units': {'mks': "hertz", 'scale': 0.05}},
+                {'key': "Gryo_Z",  'struct': "h", 'units': {'mks': "hertz", 'scale': 0.05}},
+                {'key': "Acc_X",   'struct': "h", 'units': {'mks': "meter/s/s", 'scale': 0.0333}},
+                {'key': "Acc_Y",   'struct': "h", 'units': {'mks': "meter/s/s", 'scale': 0.0333}},
+                {'key': "Acc_Z",   'struct': "h", 'units': {'mks': "meter/s/s", 'scale': 0.0333}},
+                {'key': "Magn_X",  'struct': "h", 'units': {'mks': "tesla", 'scale': 0.5}},
+                {'key': "Magn_X",  'struct': "h", 'units': {'mks': "tesla", 'scale': 0.5}},
+                {'key': "Magn_X",  'struct': "h", 'units': {'mks': "tesla", 'scale': 0.5}},
+                {'key': "Temp",    'struct': "h", 'units': {'mks': "kelvin", 'scale': 0.14, 'shift': 273.15}},
+                {'key': "Aux_ADC", 'struct': "h", 'units': {'mks': "volt", 'scale': 806}},
+            ],
+        },
+        'ROLL': {
+            'endianness': '<',
+            'members': [
+                {'key': "PWM", 'struct': "H", 'units': {'mks': "seconds", 'scale': 0}},
+                {'key': "Disable", 'struct': "B"},
+            ],
+        },
+    },
+}
+
+# List all active feeds
+FEEDS = {
+    'fc': fc,
 }
