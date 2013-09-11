@@ -3,7 +3,7 @@
 import config
 import processing
 import parsing
-import back_to_front
+import server
 from time import time
 
 stats = parsing.Stats()
@@ -12,7 +12,7 @@ packet_log = open(config.PACKET_LOG_FILENAME, "a")
 # global objects for data processing
 def main():
     config.debug.open_logs()
-    back_to_front.thread.start_new_thread(back_to_front.tornado_thread, (0, 0))
+    server.thread.start_new_thread(server.tornado_thread, (0, 0))
     receive_packets()
 
 def receive_packets():
@@ -88,7 +88,7 @@ def send_ADIS():
     # ADIS, prepare and send
     if parsing.Messages.adis.counter > 0:
         parsing.Messages.adis.add_other_fields()
-        back_to_front.send_json_obj(parsing.Messages.adis.data)
+        server.send_json_obj(parsing.Messages.adis.data)
         config.debug.print_ADIS(parsing.Messages.adis.data)
     else:
         print "ADIS:  no data\n\n\n\n\n"
@@ -97,7 +97,7 @@ def send_ROLL():
     # ROLL, prepare and send
     if parsing.Messages.roll.counter > 0:
         parsing.Messages.roll.add_other_fields()
-        back_to_front.send_json_obj(parsing.Messages.roll.data)
+        server.send_json_obj(parsing.Messages.roll.data)
         debug.print_ROLL(parsing.Messages.roll.data)
     else:
         print "ROLL:  no data\n"
@@ -106,7 +106,7 @@ def send_GPS1():
     # GPS1, prepare and send
     if parsing.Messages.gps1.counter > 0:
         parsing.Messages.gps1.add_other_fields()
-        back_to_front.send_json_obj(parsing.Messages.gps1.data)
+        server.send_json_obj(parsing.Messages.gps1.data)
         debug.print_GPS1(parsing,Messages.gps1.data)
     else:
         print "GPS1:  no data\n\n\n\n\n\n\n\n\n"
@@ -116,7 +116,7 @@ def send_stats():
     # Send statistics
     obj = stats.get()
     config.debug.print_stats(obj)
-    back_to_front.send_json_obj(obj)
+    server.send_json_obj(obj)
 
 def reset_processing():
     global stats
