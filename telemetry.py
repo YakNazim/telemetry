@@ -1,4 +1,5 @@
-"""Main code for telemtry viewer"""
+#!/usr/bin/env python
+
 import config
 import processing
 import parsing
