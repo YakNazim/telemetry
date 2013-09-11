@@ -16,7 +16,6 @@ def main():
     receive_packets()
 
 def receive_packets():
-    global stats
     sock = parsing.init_socket()
 
     # listen socket
@@ -47,7 +46,6 @@ def receive_packets():
 
 
 def dump_packet_to_log_file(message, seq):
-    global packet_log
     # dump packet to log file
     packet_log.write(config.delimiter.pack('SEQN', seq, len(message)))  # add delimiter
     packet_log.write(message)
