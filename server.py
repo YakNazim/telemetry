@@ -1,6 +1,7 @@
 import tornado.ioloop
 import tornado.web
 import tornado.websocket
+import time
 import config
 import json
 import os
@@ -43,22 +44,44 @@ class Webservice(object):
         self.ioloop = tornado.ioloop.IOLoop.instance()
         sched = tornado.ioloop.PeriodicCallback(self.flush, config.FLUSH_RATE, io_loop=self.ioloop)
         sched.start()
+        self.packets = 0
+        self.last_seqn = 0
+        self.last_packet_recv = 0
+        self.missed = 0
 
     def flush(self):
-        obj = {
-          'fieldID': 'Stats',
-          'PacketsReceivedTotal': 12,
-          'PacketsLostTotal': 1,
-          'PacketsReceivedRecently': 1,
-          'PacketsLostRecently': 1,
-          'MostRecentTimestamp': 32548214,
-          'TimeLastPacketReceived': 32548214,
-        }
-
+        packets = 0
+        seqn = 0
+        missed = 0
         while not self.queue.empty():
             for x in self.queue.get():
-                for client in clients:
-                    client.write_message(json.dumps(x))
+                if x.get('fieldID') == 'SEQN':
+                    packets += 1
+                    self.packets += 1
+                    seqn = x.get('n')
+                    missed = (seqn - self.last_seqn) - 1
+
+                    self.last_seqn = seqn
+                    self.last_packet_recv = x.get('recv')
+                #for client in clients:
+                #    client.write_message(json.dumps(x))
+
+        self.missed += missed
+        droprate = 0
+        if packets:
+            droprate = missed/float(packets+missed) * 100
+        now = time.time()
+        obj = {
+          'fieldID': 'Stats',
+          'PacketsReceivedTotal': self.packets,
+          'PacketsLostTotal': self.missed,
+          'PacketsReceivedRecently': packets,
+          'PacketsLostRecently': missed,
+          'MostRecentTimestamp': now,
+          'TimeLastPacketReceived': now - self.last_packet_recv,
+          'PacketRate': packets/float(config.FLUSH_RATE) * 1000,
+          'DropRate': droprate,
+        }
 
         for client in clients:
             client.write_message(json.dumps(obj))

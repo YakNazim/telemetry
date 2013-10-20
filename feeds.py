@@ -7,6 +7,7 @@ import struct
 import threading
 import config
 import socket
+import time
 
 
 class UDPListener(threading.Thread):
@@ -30,14 +31,14 @@ class UDPListener(threading.Thread):
             data = None
             try:
                 data, addr = self.sock.recvfrom(config.PACKET_SIZE)
-            except:
+                if data is not None:
+                    obj = self.reader.decode_packet(data)
+                    for q in self.queues:
+                        q.put(obj)
+            except socket.timeout:
                 pass
 
-            if data is not None:
-                obj = self.reader.decode_packet(data)
-                for q in self.queues:
-                    q.put(obj)
-
+           
     def stop(self):
         self._stop.set()
         self.join()
@@ -67,12 +68,16 @@ class MessageReader(object):
         # packet header, sequence number
         seqn, = struct.unpack('!L', packet[0:4])
         packet = packet[4:]
-        yield {'fieldID': 'SEQN', 'n': seqn}
+        yield {'fieldID': 'SEQN', 'n': seqn, 'recv': time.time()}
 
         # Loop until we've read the entire packet
         while len(packet) > 0:
             # Read header:
-            fourcc, timestamp_hi, timestamp_lo, message_length = self.header.unpack(packet[:self.header.size])
+            try:
+                fourcc, timestamp_hi, timestamp_lo, message_length = self.header.unpack(packet[:self.header.size])
+            except:
+                print "Can't Read Header!!"
+                break
             # fix timestamp
             timestamp = timestamp_hi << 32 | timestamp_lo
             # truncate what we've already read
@@ -96,7 +101,11 @@ class MessageReader(object):
                     message_length = message_type['struct'].size
 
                 # read from packet
-                unpacked = message_type['struct'].unpack(packet[:message_length])
+                try:
+                    unpacked = message_type['struct'].unpack(packet[:message_length])
+                except:
+                    packet = packet[message_length:]
+                    continue
                 for i, field in enumerate(message_type['members']):
                     # get unit math
                     units = field.get('units', {})

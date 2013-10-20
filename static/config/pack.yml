@@ -1,0 +1,56 @@
+---
+
+  - type: Layout
+    columns:
+      - id: column1
+        width: 75%
+
+  - id: Packet Stats
+    type: Text
+    height: 230
+    column: column1
+    controls:
+      - label: Incoming Packets
+        source: Stats.PacketsReceivedRecently
+      - label: Incoming Total
+        source: Stats.PacketsReceivedTotal
+      - label: Lost Total
+        source: Stats.PacketsLostTotal
+      - label: Last Packet Rcvd
+        source: Stats.TimeLastPacketReceived
+        units: s
+      - label: Time
+        source: Stats.MostRecentTimestamp
+      - label: Rate
+        source: Stats.PacketRate
+        units: packet/s
+      - label: Drop Rate
+        source: Stats.DropRate
+        units: percent
+
+  - id: Packets
+    type: LineGraph
+    width: 1400
+    height: 200
+    column: column1
+    maxDataSize: Number.MAX_VALUE
+    controls:
+      - label: Packet Rate
+        source: Stats.PacketRate
+        units: packet/s
+      - label: Loss
+        source: Stats.DropRate
+        units: '%'
+
+  - id: Data
+    type: LineGraph
+    width: 1400
+    height: 400
+    column: column1
+    maxDataSize: Number.MAX_VALUE
+    controls:
+      - label: Accel X
+        source: ADIS.Acc_X
+        units: m/s^2 
+
+ 
