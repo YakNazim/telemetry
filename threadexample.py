@@ -7,13 +7,11 @@ import os
 import tornado.ioloop
 import tornado.web
 
-
-
-
 class ListenUDP(threading.Thread):
 
-    def __init__(self):
+    def __init__(self, queue):
         threading.Thread.__init__(self)
+        self.queue = queue
         self._stop = threading.Event()
         self.daemon = True
 
@@ -28,7 +26,7 @@ class ListenUDP(threading.Thread):
         while (not self._stop.is_set()):
             try:
                 data, addr = self.sock.recvfrom(1024) # buffer size is 1024 bytes
-                print "received message:", data
+                self.queue.put(data)
             except:
                 pass
 
@@ -36,13 +34,23 @@ class ListenUDP(threading.Thread):
         self._stop.set()
         self.join()
 
-
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
         self.render('client.html')
 
+class Messages(object):
+
+    def __init__(self, queue):
+        self.queue = queue
+
+    def printer(self):
+        while not self.queue.empty():
+            print self.queue.get()
+
 if __name__ == '__main__':
-    stream = ListenUDP()
+    q = Queue.Queue()
+    stream = ListenUDP(q)
+    mess = Messages(q)
 
     try:
         stream.start()
@@ -53,9 +61,10 @@ if __name__ == '__main__':
         ], template_path=static_path, static_path=static_path)
         application.listen(8088)
 
-        tornado.ioloop.IOLoop.instance().start()
-
-
+        ioloop = tornado.ioloop.IOLoop.instance()
+        sched = tornado.ioloop.PeriodicCallback(mess.printer, 500, io_loop=ioloop)
+        sched.start()
+        ioloop.start()
 
     except KeyboardInterrupt, SystemExit:
         stream.stop()
