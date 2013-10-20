@@ -27,6 +27,9 @@
       - label: Drop Rate
         source: Stats.DropRate
         units: percent
+      - label: Current Sequence Number
+        source: Stats.CurrentSeqn
+
 
   - id: Packets
     type: LineGraph
