@@ -1,6 +1,7 @@
 import tornado.ioloop
 import tornado.web
 import tornado.websocket
+import config
 import json
 import os
 
@@ -38,9 +39,9 @@ class Webservice(object):
                 (r'/(.*)', tornado.web.StaticFileHandler, dict(path=static_path)),
             ], template_path=static_path, static_path=static_path)
         self.queue = queue
-        self.application.listen(8080)
+        self.application.listen(config.APP_PORT)
         self.ioloop = tornado.ioloop.IOLoop.instance()
-        sched = tornado.ioloop.PeriodicCallback(self.flush, 100, io_loop=self.ioloop)
+        sched = tornado.ioloop.PeriodicCallback(self.flush, config.FLUSH_RATE, io_loop=self.ioloop)
         sched.start()
 
     def flush(self):

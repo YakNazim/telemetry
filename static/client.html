@@ -86,7 +86,7 @@
 
   function loadConfigs() {
     var param = /[&?]config=([^&]+)/.exec(location.search);
-    var fileName = '/static/config/' + (param ? param[1] : 'config.yml');
+    var fileName = '/static/config/' + (param ? param[1] : 'config.yml')+"?refrest=1";
     return jsyaml.load(LoadFile(fileName));
   }
   

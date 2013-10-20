@@ -86,22 +86,8 @@
     maxDataSize: Number.MAX_VALUE
     controls:
       - label: Z Roll
-        source: ADIS.GyroscopeX
+        source: ADIS.Acc_X
         units: deg/sec
-        
-  - id: Altitude
-    type: Gauge
-    label: Altitude
-    size: 250
-    column: column2_b
-    minorTicks: 5
-    max: 10000
-    yellowPercent: 80
-    redPercent: 90
-    controls:
-      - label: Height
-        source: GPS1.Height
-        units: m
 
   - id: Gyroscrope
     type: Text

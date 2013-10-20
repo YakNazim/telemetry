@@ -64,6 +64,11 @@ class MessageReader(object):
     def decode_packet(self, packet):
         """A decoder for a packet"""
 
+        # packet header, sequence number
+        seqn, = struct.unpack('!L', packet[0:4])
+        packet = packet[4:]
+        yield {'fieldID': 'SEQN', 'n': seqn}
+
         # Loop until we've read the entire packet
         while len(packet) > 0:
             # Read header:
@@ -140,6 +145,15 @@ fc = {
                 {'key': "Disable", 'struct': "B"},
             ],
         },
+        'MPL3': {
+            'endianness': '<',
+            'members': [
+                {'key': "dummy1", 'struct': "L"},
+                {'key': "dummy2", 'struct': "L"},
+                #{'key': "dummy3", 'struct': "B"},
+            ],
+        },
+
     },
 }
 
