@@ -34,9 +34,11 @@ class ListenUDP(threading.Thread):
         self._stop.set()
         self.join()
 
+
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
         self.render('client.html')
+
 
 class Messages(object):
 

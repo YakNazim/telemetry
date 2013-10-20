@@ -4,6 +4,43 @@ network to the data, and the different messages sent by the feed.
 """
 
 import struct
+import threading
+import config
+import socket
+
+
+class UDPListener(threading.Thread):
+    """A reusable UDP listener that sends incoming packes to a message reader"""
+
+    def __init__(self, ip, port, reader):
+        threading.Thread.__init__(self)
+        self._stop = threading.Event()
+        self.daemon = True
+        self.queues = []
+        self.reader = reader
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.sock.bind((ip, port))
+        self.sock.settimeout(0.01)
+
+    def add_queue(self, q):
+        self.queues.append(q)
+
+    def run(self):
+        while (not self._stop.is_set()):
+            data = None
+            try:
+                data, addr = self.sock.recvfrom(config.PACKET_SIZE)
+            except:
+                pass
+
+            if data is not None:
+                obj = self.reader.decode_packet(data)
+                for q in self.queues:
+                    q.put(obj)
+
+    def stop(self):
+        self._stop.set()
+        self.join()
 
 
 class MessageReader(object):
@@ -37,7 +74,7 @@ class MessageReader(object):
             packet = packet[self.header.size:]
 
             # Debug
-            print fourcc, timestamp, message_length
+            #print fourcc, timestamp, message_length
 
             # Read body:
             # get message type from header
@@ -68,15 +105,15 @@ class MessageReader(object):
                 packet = packet[message_length:]
 
                 # Debug
-                print body
+                yield body
 
 ## Definitions of feeds:
 
 # Flight Computer
 fc = {
-    'port_type': "UDP",
+    'listener': UDPListener,
     'ip': "",
-    'port': "35001",
+    'port': 35001,
     'message_type': MessageReader,
     'messages': {
         'ADIS': {

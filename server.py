@@ -1,17 +1,71 @@
-import thread
-
 import tornado.ioloop
 import tornado.web
 import tornado.websocket
 import json
 import os
 
-open_web_sockets = []  # an array of open websocket connections
-open_web_sockets_lock = thread.allocate_lock()  # lock used when accessing the
-                                                # thread running the Tornado
-                                                # code
+clients = []
 
 
+class MainHandler(tornado.web.RequestHandler):
+
+    def get(self):
+        self.render('client.html')
+
+
+class FrontEndWebSocket(tornado.websocket.WebSocketHandler):
+
+    def open(self):
+        if self not in clients:
+            clients.append(self)
+
+    def on_message(self, message):
+        pass
+
+    def on_close(self):
+        if self in clients:
+            clients.remove(self)
+
+
+
+class Webservice(object):
+
+    def __init__(self, queue):
+        static_path = os.path.join(os.path.dirname(__file__), 'static')
+        self.application = tornado.web.Application([
+                (r'/', MainHandler),
+                (r'/ws', FrontEndWebSocket),
+                (r'/(.*)', tornado.web.StaticFileHandler, dict(path=static_path)),
+            ], template_path=static_path, static_path=static_path)
+        self.queue = queue
+        self.application.listen(8080)
+        self.ioloop = tornado.ioloop.IOLoop.instance()
+        sched = tornado.ioloop.PeriodicCallback(self.flush, 100, io_loop=self.ioloop)
+        sched.start()
+
+    def flush(self):
+        obj = {
+          'fieldID': 'Stats',
+          'PacketsReceivedTotal': 12,
+          'PacketsLostTotal': 1,
+          'PacketsReceivedRecently': 1,
+          'PacketsLostRecently': 1,
+          'MostRecentTimestamp': 32548214,
+          'TimeLastPacketReceived': 32548214,
+        }
+
+        while not self.queue.empty():
+            for x in self.queue.get():
+                for client in clients:
+                    client.write_message(json.dumps(x))
+
+        for client in clients:
+            client.write_message(json.dumps(obj))
+
+    def run(self):
+        self.ioloop.start()
+
+"""        
 class FrontEndWebSocket(tornado.websocket.WebSocketHandler):
     def open(self):  # appends a new connection to the end of the array of
                      # connections and generates its position in the array
@@ -77,3 +131,5 @@ def send_json_obj(json_obj):
            #   http://docs.python.org/2/library/json.html#basic-usage
 
     open_web_sockets_lock.release()
+
+"""
