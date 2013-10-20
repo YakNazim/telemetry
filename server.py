@@ -54,7 +54,10 @@ class Webservice(object):
         seqn = 0
         missed = 0
         adis = 0
+        adist = 0
         adisn = 0
+
+        packed_data = []
         while not self.queue.empty():
             for x in self.queue.get():
                 if x.get('fieldID') == 'SEQN':
@@ -65,9 +68,12 @@ class Webservice(object):
 
                     self.last_seqn = seqn
                     self.last_packet_recv = x.get('recv')
-                elif x.get('fieldID') == 'ADIS':
-                    adis += x['Acc_X']
-                    adisn += 1
+                #elif x.get('fieldID') == 'ADIS':
+                #    adis = x['Acc_X']
+                #    adist += adis
+                #    adisn += 1
+                else:
+                    packed_data.append(x)
                 #for client in clients:
                 #    client.write_message(json.dumps(x))
 
@@ -89,13 +95,14 @@ class Webservice(object):
           'CurrentSeqn': seqn,
         }
 
-        if adisn:
-            adis = adis / float(adisn)
-            for client in clients:
-                client.write_message(json.dumps({'fieldID': 'ADIS', 'Acc_X': adis}))
+        #if adisn:
+        #    for client in clients:
+        #        client.write_message(json.dumps({'fieldID': 'ADIS', 'Acc_X_avg': adist / float(adisn), 'Acc_X': adis}))
 
         for client in clients:
             client.write_message(json.dumps(obj))
+        for client in clients:
+            client.write_message(json.dumps({'data': packed_data}))
         
     def run(self):
         self.ioloop.start()

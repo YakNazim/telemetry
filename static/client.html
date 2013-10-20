@@ -3,78 +3,77 @@
  <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.css"/>
+  <script src="/static/scripts/jquery.min.js"></script>
+  <script src="/static/scripts/d3.v2.js"></script>
+  <script src="/static/scripts/d3_func.js"></script>
+  <script src="/static/scripts/js-yaml.min.js"></script>
+  <script src="/static/scripts/quantities.js"></script>
+  <script src="/static/scripts/units.js"></script>
+  <script src="/static/widgets/widget.js"></script>
+  <script src="/static/widgets/gauge.js"></script>
+  <script src="/static/widgets/line_graph.js"></script>
+  <script src="/static/widgets/text_widget.js"></script>
+  <title>PSAS - Real Time Telemetry Visualization</title>
+ </head>
+ <body>
 
-    <title>PSAS - Real Time Telemetry Visualization</title>
+  <div id="wrapper">
+   <div id="header">
+    <a class="brand" href="/"><img src="/" alt="logo" width="40" height="40"></a>
+    <ul class="tabs">
+     <li><a href="/">Index</a></li>
+     <li><a href="/?config=pack.yml">Packet Statistics</a></li>
+     <li><a href="/?config=adis_config.yml">ADIS</a></li>
+    </ul>
+   </div>
+   <div class="container"></div>
+  </div>
 
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.css"/>
+  <div id="overlay"> </div>
+  <div id="msgBox">
+    <h1 id="msg"></h1>
+  </div>
 
-    <script src="/static/scripts/jquery.min.js"></script>
-    <script src="/static/scripts/d3.v2.js"></script>
-    <script src="/static/scripts/d3_func.js"></script>
-    <script src="/static/scripts/js-yaml.min.js"></script>
-    <script src="/static/scripts/quantities.js"></script>
-    <script src="/static/scripts/units.js"></script>
-    <script src="/static/widgets/widget.js"></script>
-    <script src="/static/widgets/gauge.js"></script>
-    <script src="/static/widgets/line_graph.js"></script>
-    <script src="/static/widgets/text_widget.js"></script>
-  </head>
+ <script>
 
-  <body>
-    <div id="overlay"></div>
-    <div id="msgBox">
-      <h1 id="msg"></h1>
-    </div>
-    <div id="wrapper">
-      <div class="container"/>
-    </div>
-  </body>
+    // Websocket
+    $(function () {  
+        // if user is running mozilla then use it's built-in WebSocket
+        window.WebSocket = window.WebSocket || window.MozWebSocket;
+        var connection = new WebSocket('ws://localhost:8080/ws');
 
-</html>
+        connection.onopen = function () {
+            connection.send('Client Connected');
+        };
+        connection.onerror = function (error) {
+        };
+        connection.onclose = function () {
+            // Show lost connection message
+            var overlay = document.getElementById('overlay');
+            var msgBox = document.getElementById('msgBox');
+            var msg = document.getElementById('msg');
+            msg.innerHTML = 'POLL FAILURE';
+            overlay.style.display = "block";
+            msgBox.style.display = "block";
+        };
 
-<script>
-
-  // Websocket
-  $(function () {  
-    // if user is running mozilla then use it's built-in WebSocket
-    window.WebSocket = window.WebSocket || window.MozWebSocket;
-    var connection = new WebSocket('ws://localhost:8080/ws');
-    
-    connection.onopen = function () {
-      connection.send('Client Connected');
-    };
-    connection.onerror = function (error) {
-    };
-    connection.onclose = function () {
-      // Show lost connection message
-      var overlay = document.getElementById('overlay');
-      var msgBox = document.getElementById('msgBox');
-      var msg = document.getElementById('msg');
-      msg.innerHTML = 'POLL FAILURE';
-      overlay.style.opacity = .2;
-      overlay.style.display = "block";
-      msgBox.style.display = "block";
-    };
-    
-    connection.onmessage = function (message) {
-      // try to decode json (this script assumes that each message from the server is json)
-      try {
-        var json = JSON.parse(message.data);
-        
-        if (json.fieldID != undefined) {
-          widgets.forEach(function(widget) {
-            widget.putJSON(json);
-          });
-        }
-
-        //console.log(message.data);
-        
-      } catch (e) {
-        console.log(e.toString());
-        return;
-      }
-    };
-  });
+        // A websocket message
+        connection.onmessage = function (message) {
+            // try to decode json
+            try {
+                var json = JSON.parse(message.data);
+                if (json.fieldID != undefined) {
+                    widgets.forEach(function(widget) {
+                        widget.putJSON(json);
+                    });
+                }
+            } catch (e) {
+                console.log(e.toString());
+                return;
+            }
+        };
+    });
 
   function LoadFile(pathOfFileToRead){
     var request = new XMLHttpRequest();
@@ -137,3 +136,7 @@
     return toAppend;
   }
 </script>
+ </body>
+
+</html>
+

@@ -55,5 +55,8 @@
       - label: Accel X
         source: ADIS.Acc_X
         units: m/s^2 
+      - label: Accel X Average
+        source: ADIS.Acc_X_avg
+        units: m/s^2
 
  
