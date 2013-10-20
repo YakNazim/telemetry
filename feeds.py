@@ -82,7 +82,7 @@ class MessageReader(object):
             if message_type is not None:
 
                 # init a container for the values
-                body = {'type': fourcc}
+                body = {'fieldID': fourcc}
 
                 # check to see if we read the right number of bytes
                 if message_length != message_type['struct'].size:

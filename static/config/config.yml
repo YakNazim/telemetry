@@ -66,7 +66,7 @@
     column: column1
     controls:
       - label: X
-        source: ADIS.AccelerometerX
+        source: ADIS.Acc_X
         units: m/s^2
       - label: Y
         source: ADIS.AccelerometerY
