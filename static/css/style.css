@@ -1,6 +1,6 @@
 body {
     margin: 0px auto;
-    background: #ffffff;
+    background: #fff;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
@@ -28,22 +28,17 @@ body {
         padding: 0 10px;
     }
 
-
-
-
 /* Layout */
 .container {
   margin: 5px 5px 5px;
   overflow: hidden;
 }
-.widget {
-  background: #ffffff;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
+
 .widget.lock {
   width: 250px;
   height: 125px;
 }
+
 value{
   font-family: "Andale Mono", AndaleMono, Consolas, monaco, "Lucida Console", "Lucida Sans Typewriter", monospace;
 }
@@ -59,18 +54,45 @@ svg {
   shape-rendering: crispEdges;
 }
 
+/* Text Widget */
+.widget h2 {
+    margin: 0.2em 0;
+}
+
+.widget table td {
+    padding: 0;
+    color: #888;
+}
+
+.widget table .label {
+    text-align: right;
+}
+
+.widget table value {
+    color: #000;
+    padding-left: 10px;
+}
+
+.widget table .units {
+    font-style: italic;
+}
+
+
+
+
 /* Lost connection overlay */
 #overlay {
-      display: none;
-      z-index: 2;
-      background: #000;
-      opacity: 0.2;
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      top: 0px;
-      left: 0px;
+    display: none;
+    z-index: 2;
+    background: url(/static/css/line.svg) no-repeat center center fixed;
+    background-size: 100%;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
 }
+
 
 #msgBox {
       display: none;
@@ -78,7 +100,7 @@ svg {
       z-index: 3;
       margin: 25% auto 0px auto;
       width: 25%; 
-      background: red;
+      background: #f00;
       color: #000;
       text-align: center;
 }

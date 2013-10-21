@@ -46,7 +46,7 @@ class Webservice(object):
         sched.start()
         self.packets = 0
         self.last_seqn = 0
-        self.last_packet_recv = 0
+        self.last_packet_recv = time.time() #TODO: more sane init
         self.missed = 0
 
     def flush(self):

@@ -2,13 +2,18 @@
 
   - type: Layout
     columns:
-      - id: column1
-        width: 75%
+      - id: Column_1
+        width: 100%
+        columns:
+          - id: Column_3
+            width: 25%
+          - id: Column_4
+            width: 75%
 
   - id: Packet Stats
     type: Text
     height: 230
-    column: column1
+    column: Column_3
     controls:
       - label: Incoming Packets
         source: Stats.PacketsReceivedRecently
@@ -33,9 +38,9 @@
 
   - id: Packets
     type: LineGraph
-    width: 1400
-    height: 200
-    column: column1
+    width: 1100
+    height: 190
+    column: Column_4
     maxDataSize: Number.MAX_VALUE
     controls:
       - label: Packet Rate
@@ -44,19 +49,3 @@
       - label: Loss
         source: Stats.DropRate
         units: '%'
-
-  - id: Data
-    type: LineGraph
-    width: 1400
-    height: 400
-    column: column1
-    maxDataSize: Number.MAX_VALUE
-    controls:
-      - label: Accel X
-        source: ADIS.Acc_X
-        units: m/s^2 
-      - label: Accel X Average
-        source: ADIS.Acc_X_avg
-        units: m/s^2
-
- 

@@ -30,7 +30,8 @@
    <div class="container"></div>
   </div>
 
-  <div id="overlay"> </div>
+  <div id="overlay">
+  </div>
   <div id="msgBox">
     <h1 id="msg"></h1>
   </div>
@@ -86,7 +87,7 @@
 
   function loadConfigs() {
     var param = /[&?]config=([^&]+)/.exec(location.search);
-    var fileName = '/static/config/' + (param ? param[1] : 'config.yml')+"?refrest=1";
+    var fileName = '/static/config/' + (param ? param[1] : 'config.yml')+"?time";
     return jsyaml.load(LoadFile(fileName));
   }
   

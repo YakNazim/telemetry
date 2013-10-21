@@ -1,0 +1,6 @@
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg version="1.1" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1024px" height="1024px" viewBox="0 0 1024 1024">
+  <rect width="1024" height="1024" fill="#000" fill-opacity="0.3"/> 
+  <line fill="none" stroke="#f00" x1="0" y1="0" x2="1024" y2="1024"/>
+  <line fill="none" stroke="#f00" x1="1024" y1="0" x2="0" y2="1024"/>
+</svg>
