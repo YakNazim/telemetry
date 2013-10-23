@@ -87,7 +87,8 @@
 
   function loadConfigs() {
     var param = /[&?]config=([^&]+)/.exec(location.search);
-    var fileName = '/static/config/' + (param ? param[1] : 'config.yml')+"?time";
+    var d = new Date();
+    var fileName = '/static/config/' + (param ? param[1] : 'config.yml')+'?'+d.getTime();
     return jsyaml.load(LoadFile(fileName));
   }
   
