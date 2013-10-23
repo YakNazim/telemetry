@@ -35,5 +35,4 @@ try:
 except KeyboardInterrupt, SystemExit:
     for thread in threads:
         thread.stop()
-    pass
 

@@ -42,10 +42,12 @@ class UDPListener(threading.Thread):
     def stop(self):
         self._stop.set()
         self.join()
+        self.sock.close()
+
 
 
 class MessageReader(object):
-    """A message reader class for PASA FC messages"""
+    """A message reader class for PSAS FC messages"""
 
     # This header is consistant across messages
     header = struct.Struct('!4sHLH')
