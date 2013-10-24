@@ -5,7 +5,7 @@ import json
 
 PACKET_SIZE = 4096     # maximum UDP packet size for listener to receive
 APP_PORT = 8080        # Application port to run front end web server
-FLUSH_RATE = 300       # backend to frontend update frequency, in ms
+FLUSH_RATE = 250       # backend to frontend update frequency, in ms
 
 
 # debugging

@@ -18,7 +18,7 @@
           - id: column2_c
             width: 50%
 
-  - id: Stats
+  - id: Packet Stats
     type: Text
     height: 125
     column: column1
@@ -31,6 +31,18 @@
         source: Stats.PacketsLostTotal
       - label: Last Packet Rcvd
         source: Stats.TimeLastPacketReceived
+        units: s
+      - label: Time
+        source: Stats.MostRecentTimestamp
+      - label: Rate
+        source: Stats.PacketRate
+        units: packet/s
+      - label: Drop Rate
+        source: Stats.DropRate
+        units: percent
+      - label: Current Sequence Number
+        source: Stats.CurrentSeqn
+
 
   - id: GPS Status
     type: Text
@@ -41,7 +53,7 @@
         source: GPS1.NavMode
       - label: Satellites
         source: GPS1.NumOfSats
-        
+
   - id: GPS
     type: Text
     height: 125
@@ -59,35 +71,33 @@
       - label: Max Height
         source: GPS1.Height.Max
         units: m
-        
+
   - id: Acceleration
     type: Text
     height: 125
     column: column1
     controls:
       - label: X
-        source: ADIS.Acc_X
+        source: ADIS.Acc_X_mean
         units: m/s^2
       - label: Y
-        source: ADIS.AccelerometerY
+        source: ADIS.Acc_Y_mean
         units: m/s^2
       - label: Z
-        source: ADIS.AccelerometerZ
+        source: ADIS.Acc_Z_mean
         units: m/s^2
-      - label: Magnitude
-        source: ADIS.AccelerometerMagn
-        units: gee
+
         
-  - id: Z-Roll
+  - id: Up_Accel
     type: LineGraph
     width: 600
     height: 320
     column: column2_a
-    maxDataSize: Number.MAX_VALUE
+    maxDataSize: 100
     controls:
-      - label: Z Roll
-        source: ADIS.Acc_X
-        units: deg/sec
+      - label: Up Accel
+        source: ADIS.Acc_X_mean
+        units: m/s^2
 
   - id: Gyroscrope
     type: Text
@@ -95,15 +105,12 @@
     column: column2_c
     controls:
       - label: X
-        source: ADIS.GyroscopeX
+        source: ADIS.Gyro_X_mean
         units: deg/sec
       - label: Y
-        source: ADIS.GyroscopeY
+        source: ADIS.Gyro_Y_mean
         units: deg/sec
       - label: Z
-        source: ADIS.GyroscopeZ
-        units: deg/sec
-      - label: Magnitude
-        source: ADIS.GyroscopeMagn
+        source: ADIS.Gyro_Z_mean
         units: deg/sec
         
