@@ -38,7 +38,7 @@
 
   - id: Packets
     type: LineGraph
-    width: 1100
+    width: 1200
     height: 190
     column: Column_4
     maxDataSize: Number.MAX_VALUE
@@ -49,3 +49,4 @@
       - label: Loss
         source: Stats.DropRate
         units: '%'
+        color: red

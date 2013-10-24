@@ -49,24 +49,14 @@ class Webservice(object):
 
     def flush(self):
         self.pstat.run()
-        adis = 0
-        adist = 0
-        adisn = 0
 
         packed_data = []
         while not self.queue.empty():
             for x in self.queue.get():
                 if x.get('fieldID') == 'SEQN':
                     self.pstat.packet(x.get('n'), x.get('recv'))
-
-                #elif x.get('fieldID') == 'ADIS':
-                #    adis = x['Acc_X']
-                #    adist += adis
-                #    adisn += 1
                 else:
                     packed_data.append(x)
-                #for client in clients:
-                #    client.write_message(json.dumps(x))
 
         now = time.time()
         obj = {
@@ -80,16 +70,11 @@ class Webservice(object):
           'PacketRate': self.pstat.this_packets/float(config.FLUSH_RATE) * 1000,
           'DropRate': self.pstat.this_droprate,
           'CurrentSeqn': self.pstat.seqn,
+          'data': stats.filter(packed_data)
         }
-
-        #if adisn:
-        #    for client in clients:
-        #        client.write_message(json.dumps({'fieldID': 'ADIS', 'Acc_X_avg': adist / float(adisn), 'Acc_X': adis}))
 
         for client in clients:
             client.write_message(json.dumps(obj))
-        for client in clients:
-            client.write_message(json.dumps({'data': packed_data}))
         
     def run(self):
         self.ioloop.start()

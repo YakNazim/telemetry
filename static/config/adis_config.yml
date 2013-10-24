@@ -31,17 +31,14 @@
     column: column1
     controls:
       - label: X
-        source: ADIS.AccelerometerX
+        source: ADIS.Acc_X_mean
         units: m/s^2
       - label: Y
-        source: ADIS.AccelerometerY
+        source: ADIS.Acc_Y_mean
         units: m/s^2
       - label: Z
-        source: ADIS.AccelerometerZ
+        source: ADIS.Acc_Z_mean
         units: m/s^2
-      - label: Magnitude
-        source: ADIS.AccelerometerMagn
-        units: gee
 
   - id: Gyroscrope
     type: Text
@@ -49,16 +46,13 @@
     column: column1
     controls:
       - label: X
-        source: ADIS.GyroscopeX
+        source: ADIS.Gyro_X_mean
         units: deg/sec
       - label: Y
-        source: ADIS.GyroscopeY
+        source: ADIS.Gyro_Y_mean
         units: deg/sec
       - label: Z
-        source: ADIS.GyroscopeZ
-        units: deg/sec
-      - label: Magnitude
-        source: ADIS.GyroscopeMagn
+        source: ADIS.Gyro_Z_mean
         units: deg/sec
         
   - id: Magnetometer
@@ -67,18 +61,15 @@
     column: column1
     controls:
       - label: X
-        source: ADIS.MagnetometerX
+        source: ADIS.Magn_X_mean
         units: T
       - label: Y
-        source: ADIS.MagnetometerY
+        source: ADIS.Magn_Y_mean
         units: T
       - label: Z
-        source: ADIS.MagnetometerZ
+        source: ADIS.Magn_Z_mean
         units: T
-      - label: Magnitude
-        source: ADIS.MagnetometerMagn
-        units: gauss
-         
+
   - id: Z-Roll
     type: LineGraph
     width: 600
@@ -87,17 +78,25 @@
     maxDataSize: 200
     controls:
       - label: Z Roll
-        source: ADIS.GyroscopeX.Neg
+        source: ADIS.Gyro_X_mean
         units: deg/sec
-        color: blue
-  - id: Temp/ADC
+      - label: Z Roll SD
+        source: ADIS.Gyro_X_sd
+        units: deg/sec
+      - label: Z Roll SDn
+        source: ADIS.Gyro_X_sd.neg
+        units: deg/sec
+
+
+
+  - id: Temp/VCC
     type: Text
     height: 125
     column: column2
     controls:
       - label: Temperature
-        source: ADIS.Temperature
+        source: ADIS.Temp_mean
         units: tempC
-      - label: Auxiliary ADC
-        source: ADIS.AuxiliaryADC
+      - label: VCC
+        source: ADIS.VCC_mean
         units: V

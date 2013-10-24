@@ -1,6 +1,6 @@
 """Statistics"""
 import time
-
+from math import sqrt
 
 class PacketStats(object):
 
@@ -37,4 +37,33 @@ class PacketStats(object):
 
         self.last_seqn = seqn
         self.last_packet_recv = ts
-       
+
+
+def filter(data):
+    types = {}
+    for d in data:
+        if d['fieldID'] not in types:
+            types[d['fieldID']] = {}
+            types[d['fieldID']]['count'] = 1
+            for key, val in d.iteritems():
+                if isinstance(val, float) or isinstance(val, int):
+                    types[d['fieldID']][key+'_delta'] = val
+                    types[d['fieldID']][key+'_mean'] = val
+                    types[d['fieldID']][key+'_S'] = 0
+                    types[d['fieldID']][key+'_sd'] = 0
+                    types[d['fieldID']][key] = val
+                else:
+                    types[d['fieldID']][key] = val
+        else:
+            types[d['fieldID']]['count'] += 1
+            for key, val in d.iteritems():
+                if isinstance(val, float) or isinstance(val, int):
+                    types[d['fieldID']][key+'_delta'] = val - types[d['fieldID']][key+'_mean']
+                    types[d['fieldID']][key+'_mean'] += types[d['fieldID']][key+'_delta']/float(types[d['fieldID']]['count'])
+                    types[d['fieldID']][key+'_S'] += types[d['fieldID']][key+'_delta']*(val - types[d['fieldID']][key+'_mean'])
+                    types[d['fieldID']][key+'_sd'] = sqrt(types[d['fieldID']][key+'_S']/float(types[d['fieldID']]['count']))
+                    types[d['fieldID']][key] = val
+                else:
+                    types[d['fieldID']][key] = val
+    return types
+

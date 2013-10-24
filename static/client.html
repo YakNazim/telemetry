@@ -67,6 +67,9 @@
                 if (json.fieldID != undefined) {
                     widgets.forEach(function(widget) {
                         widget.putJSON(json);
+                        for (message in json.data) {
+                            widget.putJSON(json.data[message]);
+                        }
                     });
                 }
             } catch (e) {
