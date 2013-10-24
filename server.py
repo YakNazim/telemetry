@@ -3,6 +3,7 @@ import tornado.web
 import tornado.websocket
 import time
 import config
+import stats
 import json
 import os
 
@@ -44,15 +45,10 @@ class Webservice(object):
         self.ioloop = tornado.ioloop.IOLoop.instance()
         sched = tornado.ioloop.PeriodicCallback(self.flush, config.FLUSH_RATE, io_loop=self.ioloop)
         sched.start()
-        self.packets = 0
-        self.last_seqn = 0
-        self.last_packet_recv = time.time() #TODO: more sane init
-        self.missed = 0
+        self.pstat = stats.PacketStats()
 
     def flush(self):
-        packets = 0
-        seqn = 0
-        missed = 0
+        self.pstat.run()
         adis = 0
         adist = 0
         adisn = 0
@@ -61,13 +57,8 @@ class Webservice(object):
         while not self.queue.empty():
             for x in self.queue.get():
                 if x.get('fieldID') == 'SEQN':
-                    packets += 1
-                    self.packets += 1
-                    seqn = x.get('n')
-                    missed = (seqn - self.last_seqn) - 1
+                    self.pstat.packet(x.get('n'), x.get('recv'))
 
-                    self.last_seqn = seqn
-                    self.last_packet_recv = x.get('recv')
                 #elif x.get('fieldID') == 'ADIS':
                 #    adis = x['Acc_X']
                 #    adist += adis
@@ -77,22 +68,18 @@ class Webservice(object):
                 #for client in clients:
                 #    client.write_message(json.dumps(x))
 
-        self.missed += missed
-        droprate = 0
-        if packets:
-            droprate = missed/float(packets+missed) * 100
         now = time.time()
         obj = {
           'fieldID': 'Stats',
-          'PacketsReceivedTotal': self.packets,
-          'PacketsLostTotal': self.missed,
-          'PacketsReceivedRecently': packets,
-          'PacketsLostRecently': missed,
+          'PacketsReceivedTotal': self.pstat.packets,
+          'PacketsLostTotal': self.pstat.missed,
+          'PacketsReceivedRecently': self.pstat.this_packets,
+          'PacketsLostRecently': self.pstat.this_missed,
           'MostRecentTimestamp': now,
-          'TimeLastPacketReceived': now - self.last_packet_recv,
-          'PacketRate': packets/float(config.FLUSH_RATE) * 1000,
-          'DropRate': droprate,
-          'CurrentSeqn': seqn,
+          'TimeLastPacketReceived': now - self.pstat.last_packet_recv,
+          'PacketRate': self.pstat.this_packets/float(config.FLUSH_RATE) * 1000,
+          'DropRate': self.pstat.this_droprate,
+          'CurrentSeqn': self.pstat.seqn,
         }
 
         #if adisn:
