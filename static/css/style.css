@@ -84,19 +84,17 @@ svg {
 .widget table td {
     padding: 0;
     color: #888;
-}
-
-.widget table .label {
     text-align: right;
 }
 
 .widget table value {
     color: #000;
-    padding-left: 10px;
 }
 
 .widget table .units {
     font-style: italic;
+    text-align: left;
+    padding-left: 10px;
 }
 
 

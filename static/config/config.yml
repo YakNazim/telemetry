@@ -39,7 +39,7 @@
         units: packet/s
       - label: Drop Rate
         source: Stats.DropRate
-        units: percent
+        units: '%'
       - label: Current Sequence Number
         source: Stats.CurrentSeqn
 

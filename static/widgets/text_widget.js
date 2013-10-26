@@ -16,7 +16,15 @@ function TextWidget(config) {
         var text = '<h2>' + config.id + '</h2>';
         text    += '<table><tbody>';
         this.config.controls.forEach(function(control) {
-           text += '<tr><td class="label">' + control.label + ':</td><td><value style="color:' + control.color + '">' + control.value + ' </value></td><td class="units">[' + control.units + ']</span></td></tr>';
+           text += '<tr><td class="label">';
+           text += control.label;
+           text += ':</td><td><value style="color:';
+           text += control.color + '">';
+           text += control.value;
+           text += ' </value></td><td class="units">';
+           if (control.units)
+                text += '[' + control.units + ']';
+          text += '</span></td></tr>';
         });
         text    += '</tbody></table>';
         this.setText(text);
