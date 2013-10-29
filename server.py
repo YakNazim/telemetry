@@ -35,11 +35,12 @@ class Webservice(object):
 
     def __init__(self, queue):
         static_path = os.path.join(os.path.dirname(__file__), 'static')
+        template_path = os.path.join(os.path.dirname(__file__), 'frontend')
         self.application = tornado.web.Application([
                 (r'/', MainHandler),
                 (r'/ws', FrontEndWebSocket),
                 (r'/(.*)', tornado.web.StaticFileHandler, dict(path=static_path)),
-            ], template_path=static_path, static_path=static_path)
+            ], template_path=template_path, static_path=static_path)
         self.queue = queue
         self.application.listen(config.APP_PORT)
         self.ioloop = tornado.ioloop.IOLoop.instance()
