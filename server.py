@@ -13,7 +13,7 @@ clients = []
 class MainHandler(tornado.web.RequestHandler):
 
     def get(self):
-        self.render('client.html')
+        self.render('index.html')
 
 
 class FrontEndWebSocket(tornado.websocket.WebSocketHandler):
