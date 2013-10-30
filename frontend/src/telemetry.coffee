@@ -11,25 +11,26 @@ class Connection
 
     @server = 'ws://'+ location.host + '/ws'
 
-    # This is our connection event
-    @onopen: (evt) ->
-        console.log 'CONNECTED'
-        document.getElementById("status").innerHTML = "Connected"
-        return
-
-    # Disconnect event
-    @onclose: (evt) ->
-        console.log 'DISCONNECT'
-        #document.getElementById("status").innerHTML = "Not Connected"
-        return
-
-
     # instance variables
     websocket = null
     retries = 0
 
-    constructor: ->
+    constructor: (@data) ->
         @openWebSocket()
+
+    # This is our connection event
+    onopen: (evt) ->
+        document.getElementById("status").innerHTML = "Connected"
+        return
+
+    # Disconnect event
+    onclose: (evt) ->
+        return
+
+    # Message event
+    onmessage: (evt) ->
+        @data.update(evt.data)
+        return
 
     retry: ->
         document.getElementById("status").innerHTML = "Retrying.." + @retries
@@ -48,20 +49,26 @@ class Connection
 
         @websocket.onopen = (evt) =>
             @retries = 0
-            @constructor.onopen(evt)
+            @onopen(evt)
             return
 
         @websocket.onclose = (evt) =>
             @retry()
-            @constructor.onclose(evt)
+            @onclose(evt)
             return
 
         @websocket.onerror = (evt) =>
             console.log 'ERROR', evt
             return
 
+        @websocket.onmessage = (evt) =>
+            console.log 'MESSAGE'
+            @onmessage(evt)
+            return
+
         return
-    
+
+
 class CurrentData
 
     # Data state
@@ -83,10 +90,9 @@ class CurrentData
         try r = eval(expression)
         return r
 
+
+# Run!
 data = new CurrentData()
+conn = new Connection(data)
 
-conn = new Connection()
-
-#conn.retryWebSocket()
-
-#console.log data.get('Math.sqrt((d.adis.acc*d.adis.acc) + (d.adis.gry*d.adis.gry))')
+setTimeout  (-> console.log data.get('d')), 3000
