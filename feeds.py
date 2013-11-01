@@ -70,7 +70,9 @@ class MessageReader(object):
         # packet header, sequence number
         seqn, = struct.unpack('!L', packet[0:4])
         packet = packet[4:]
-        yield {'fieldID': 'SEQN', 'n': seqn, 'recv': time.time()}
+
+        # TODO: fix hardcoded message type!!!!
+        yield {'fieldID': 'RECV_fc', 'n': seqn, 'recv': time.time()}
 
         # Loop until we've read the entire packet
         while len(packet) > 0:

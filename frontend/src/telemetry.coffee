@@ -91,8 +91,8 @@ class CurrentData
         return r
 
 
-# Run!
+# Run
 data = new CurrentData()
 conn = new Connection(data)
 
-setTimeout  (-> console.log data.get('d')), 3000
+setTimeout  (-> console.log data.get('d.ADIS.VCC + 1')), 3000

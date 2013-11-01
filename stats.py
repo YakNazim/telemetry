@@ -1,69 +1,98 @@
-"""Statistics"""
+"""Statistics for Telemetry server"""
+
 import time
 from math import sqrt
+import feeds
+
 
 class PacketStats(object):
+    """Can average multiple incoming packets before sending to frontend"""
 
     def __init__(self):
-        self.packets = 0
-        self.last_seqn = 0
-        self.last_packet_recv = time.time() #TODO: more sane init
-        self.missed = 0
-        self.seqn = 0
-        self.this_packets = 0
-        self.this_missed = 0
-        self.this_droprate = 0
-        self.this_rate = 0
+        self.data = {}
 
-    def run(self):
-        self.this_packets = 0
-        self.this_missed = 0
-        self.this_droprate = 0
-        self.this_rate = 0
-
-    def packet(self, seqn, ts):
-        self.seqn = seqn
-        self.last_packet_recv = ts
-        self.this_packets += 1
-        self.packets += 1
-
-        # computer missed packets
-        if (seqn - self.last_seqn) > 1:
-            self.this_missed += 1
-            self.missed += 1
-
-        self.this_droprate = self.this_missed/float(self.this_packets+self.this_missed) * 100 #%
-        #self.this_rate = self.self.this_packets / 
-
-        self.last_seqn = seqn
-        self.last_packet_recv = ts
+        # To differentiate incoming packet info we make a list of feeds
+        self.packet_types = []
+        for p in feeds.FEEDS.keys():
+            self.packet_types.append('RECV_'+p)
 
 
-def filter(data):
-    types = {}
-    for d in data:
-        if d['fieldID'] not in types:
-            types[d['fieldID']] = {}
-            types[d['fieldID']]['count'] = 1
+    def append_data(self, incoming):
+        """Called with a set of data from a thread. Should contain one
+        message (many messages per packet)"""
+
+        field_id = incoming.get('fieldID')
+
+        # is this a seqn number?
+        if field_id in self.packet_types:
+            if field_id not in self.data:
+                self.data[field_id] = {
+                    'PacketsReceivedRecently': 1,
+                    'LastSEQN': incoming.get('n', 0),
+                    'TimeLastPacketReceived': incoming.get('recv', 0),
+                    'PacketsLostRecently': 0,
+                }
+            else:
+                last_seqn = self.data[field_id]['LastSEQN']
+                this_seqn = incoming.get('n', 0)
+
+                seqn_diff = this_seqn - last_seqn
+                if seqn_diff == -1:
+                    # out of order packet?
+                    pass
+                elif seqn_diff < -1:
+                    # big shift?
+                    pass
+                elif seqn_diff > 1:
+                    self.data[field_id]['PacketsLostRecently'] += seqn_diff
+
+                self.data[field_id]['PacketsReceivedRecently'] += 1
+                self.data[field_id]['LastSEQN'] = this_seqn
+                self.data[field_id]['TimeLastPacketReceived'] = incoming.get('recv', 0)
+            return
+
+
+        if field_id not in self.data:
+            # if we've not seen this before make it exist and init its numbers
+            self.data[field_id] = {'count': 1}
+
+            # safely get members
+            d = incoming.get('recv', {})
             for key, val in d.iteritems():
+                # Average number types
                 if isinstance(val, float) or isinstance(val, int):
-                    types[d['fieldID']][key+'_delta'] = val
-                    types[d['fieldID']][key+'_mean'] = val
-                    types[d['fieldID']][key+'_S'] = 0
-                    types[d['fieldID']][key+'_sd'] = 0
-                    types[d['fieldID']][key] = val
+                    self.data[field_id][key+'_delta'] = val
+                    self.data[field_id][key+'_mean'] = val
+                    self.data[field_id][key+'_S'] = 0
+                    self.data[field_id][key+'_sd'] = 0
+                    self.data[field_id][key] = val
                 else:
-                    types[d['fieldID']][key] = val
+                    self.data[field_id][key] = val
+        
         else:
-            types[d['fieldID']]['count'] += 1
+            # Not the first instance of fieldID, so we append
+            count = self.data[field_id]['count'] + 1
+            self.data[field_id]['count'] = count
+            d = incoming.get('recv', {})
             for key, val in d.iteritems():
                 if isinstance(val, float) or isinstance(val, int):
-                    types[d['fieldID']][key+'_delta'] = val - types[d['fieldID']][key+'_mean']
-                    types[d['fieldID']][key+'_mean'] += types[d['fieldID']][key+'_delta']/float(types[d['fieldID']]['count'])
-                    types[d['fieldID']][key+'_S'] += types[d['fieldID']][key+'_delta']*(val - types[d['fieldID']][key+'_mean'])
-                    types[d['fieldID']][key+'_sd'] = sqrt(types[d['fieldID']][key+'_S']/float(types[d['fieldID']]['count']))
-                    types[d['fieldID']][key] = val
+                    # previous values
+                    mean = self.data[field_id][key+'_mean']
+                    delta = self.data[field_id][key+'_delta']
+                    S = self.data[field_id][key+'_S']
+
+                    # new values
+                    delta = val - mean
+                    mean += delta/float(count)
+                    S += delta*(val - mean)
+                    sd = sqrt(S/float(count))
+
+                    # update
+                    self.data[field_id][key+'_delta'] = delta
+                    self.data[field_id][key+'_mean'] = mean
+                    self.data[field_id][key+'_S'] = S
+                    self.data[field_id][key+'_sd'] = sd
+                    self.data[field_id][key] = val
                 else:
-                    types[d['fieldID']][key] = val
-    return types
+                    types[field_id][key] = val
 

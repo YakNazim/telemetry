@@ -7,22 +7,26 @@ import stats
 import json
 import os
 
+# Stores list of attached clients for the websocket
 clients = []
 
 
 class MainHandler(tornado.web.RequestHandler):
+    """Basic web server. This is a single page javascript webapp"""
 
     def get(self):
         self.render('index.html')
 
 
 class FrontEndWebSocket(tornado.websocket.WebSocketHandler):
+    """Basic WebSocket class"""
 
     def open(self):
         if self not in clients:
             clients.append(self)
 
     def on_message(self, message):
+        """We're throwing out messages from the front end"""
         pass
 
     def on_close(self):
@@ -30,10 +34,17 @@ class FrontEndWebSocket(tornado.websocket.WebSocketHandler):
             clients.remove(self)
 
 
-
 class Webservice(object):
+    """The webservice will spin up a webserver that listens on the configured port both for serving the
+    static content and the data websocket
+    """
 
     def __init__(self, queue):
+
+        # Reference to thread queue
+        self.queue = queue
+
+        # Configure tornado HTTPServer
         static_path = os.path.join(os.path.dirname(__file__), 'static')
         template_path = os.path.join(os.path.dirname(__file__), 'frontend')
         self.application = tornado.web.Application([
@@ -41,41 +52,35 @@ class Webservice(object):
                 (r'/ws', FrontEndWebSocket),
                 (r'/(.*)', tornado.web.StaticFileHandler, dict(path=static_path)),
             ], template_path=template_path, static_path=static_path)
-        self.queue = queue
         self.application.listen(config.APP_PORT)
+
         self.ioloop = tornado.ioloop.IOLoop.instance()
+
+        # Always be sending data to frontend, set up scheduled callbacks
         sched = tornado.ioloop.PeriodicCallback(self.flush, config.FLUSH_RATE, io_loop=self.ioloop)
         sched.start()
-        self.pstat = stats.PacketStats()
 
     def flush(self):
-        self.pstat.run()
+        """Called by tornado.ioloop.PeriodicCallback when we want the front end synced to
+        current data that's been collected. Reads out the data and sends it to a statstics
+        class the collates it.
+        """
 
-        packed_data = []
+        # Make statitics object
+        pstat = stats.PacketStats()
+
+        # pull data out of queue (from listener threads)
         while not self.queue.empty():
-            for x in self.queue.get():
-                if x.get('fieldID') == 'SEQN':
-                    self.pstat.packet(x.get('n'), x.get('recv'))
-                else:
-                    packed_data.append(x)
+            for data in self.queue.get():
+                pstat.append_data(data)
 
-        now = time.time()
-        obj = {
-          'fieldID': 'Stats',
-          'PacketsReceivedTotal': self.pstat.packets,
-          'PacketsLostTotal': self.pstat.missed,
-          'PacketsReceivedRecently': self.pstat.this_packets,
-          'PacketsLostRecently': self.pstat.this_missed,
-          'MostRecentTimestamp': now,
-          'TimeLastPacketReceived': now - self.pstat.last_packet_recv,
-          'PacketRate': self.pstat.this_packets/float(config.FLUSH_RATE) * 1000,
-          'DropRate': self.pstat.this_droprate,
-          'CurrentSeqn': self.pstat.seqn,
-          'data': stats.filter(packed_data)
-        }
+        # We're finished gathering data
+        data = pstat.data
 
+        # write data to clients
         for client in clients:
-            client.write_message(json.dumps(obj))
-        
+            client.write_message(json.dumps(data))
+
     def run(self):
+        """Starts the IOloop. This is blocking!"""
         self.ioloop.start()
