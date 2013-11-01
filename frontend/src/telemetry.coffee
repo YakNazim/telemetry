@@ -62,7 +62,7 @@ class Connection
             return
 
         @websocket.onmessage = (evt) =>
-            console.log 'MESSAGE'
+            #console.log 'MESSAGE'
             @onmessage(evt)
             return
 
@@ -74,9 +74,13 @@ class CurrentData
     # Data state
     d = null
 
+    constructor: (@widgets) ->
+
     # update state with current data
     update: (chunk) ->
         d = JSON.parse chunk
+        for wid in @widgets
+            wid.update(@)
         return
 
     # Clean state
@@ -92,7 +96,11 @@ class CurrentData
 
 
 # Run
-data = new CurrentData()
+
+w = new Message('asdfasdf')
+
+data = new CurrentData([w])
 conn = new Connection(data)
 
-setTimeout  (-> console.log data.get('d.ADIS.VCC + 1')), 3000
+#setTimeout (-> console.log data.get('d.ADIS.VCC + 1')), 3000
+
