@@ -77,15 +77,15 @@
     column: column2
     maxDataSize: 200
     controls:
-      - label: Z Roll
-        source: ADIS.Gyro_X_mean
-        units: deg/sec
-      - label: Z Roll SD
-        source: ADIS.Gyro_X_sd
-        units: deg/sec
-      - label: Z Roll SDn
-        source: ADIS.Gyro_X_sd.Neg
-        units: deg/sec
+      - label: X 
+        source: ADIS.Acc_X_mean
+        units: m/s^2
+      - label: Y
+        source: ADIS.Acc_Y_mean
+        units: m/s^2
+      - label: Z
+        source: ADIS.Acc_Z_mean
+        units: m/s^2
 
 
 

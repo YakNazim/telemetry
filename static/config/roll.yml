@@ -1,0 +1,62 @@
+---
+
+  - id: RollLayout
+    type: Layout
+    columns:
+      - id: column1
+        width: 25%
+      - id: column2
+        width: 75%
+
+  - id: Stats
+    type: Text
+    height: 200
+    column: column1
+    controls:
+      - label: Incoming Packets
+        source: Stats.PacketsReceivedRecently
+      - label: Last Packet Rcvd
+        source: Stats.TimeLastPacketReceived
+        units: s
+      - label: Time
+        source: Stats.MostRecentTimestamp
+      - label: Drop Rate
+        source: Stats.DropRate
+        units: percent
+
+  - id: Gyroscrope
+    type: Text
+    height: 125
+    column: column1
+    controls:
+      - label: X
+        source: ADIS.Gyro_X_mean
+        units: deg/sec
+      - label: Y
+        source: ADIS.Gyro_Y_mean
+        units: deg/sec
+      - label: Z
+        source: ADIS.Gyro_Z_mean
+        units: deg/sec
+
+  - id: Disable Bit
+    type: Text
+    height: 125
+    column: column1
+    controls:
+      - label: Roll Disable
+        source: ROLL.Disable
+
+
+  - id: Roll
+    type: LineGraph
+    width: 600
+    height: 330
+    column: column2
+    maxDataSize: 200
+    controls:
+      - label: Roll Rate
+        source: ADIS.Gyro_X_mean
+        units: deg/sec
+      - label: Servo
+        source: ROLL.PWM
