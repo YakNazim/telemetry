@@ -46,6 +46,8 @@
     controls:
       - label: Roll Disable
         source: ROLL.Disable
+      - label: Message
+        source: MESG.Message
 
 
   - id: Roll
