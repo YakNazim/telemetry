@@ -145,7 +145,7 @@ fc = {
     'messages': {
         'ADIS': {
             'type': "Fixed",
-            'endianness': '<',
+            'endianness': '!',
             'members': [
                 {'key': "VCC",     'struct': "h", 'units': {'mks': "volt", 'scale': 0.002418}},
                 {'key': "Gyro_X",  'struct': "h", 'untis': {'mks': "hertz", 'scale': 0.05}},
