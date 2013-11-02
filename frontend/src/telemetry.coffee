@@ -72,34 +72,36 @@ class Connection
 class CurrentData
 
     # Data state
-    d = null
+    d = {}
 
     constructor: (@widgets) ->
 
     # update state with current data
     update: (chunk) ->
-        d = JSON.parse chunk
+        newd = JSON.parse chunk
+        for type of newd
+            console.log type
+            d[type] = newd[type]
         for wid in @widgets
             wid.update(@)
         return
 
     # Clean state
     clean: ->
-        d = null
+        d = {}
         return
 
     # Eval expression and return data, or null if broken
     get: (expression) ->
-        r = null
-        try r = eval(expression)
-        return r
+        eval(expression)
 
 
 # Run
 
 w = new Message('asdfasdf')
+p = new Packets('Packets')
 
-data = new CurrentData([w])
+data = new CurrentData([w, p])
 conn = new Connection(data)
 
 #setTimeout (-> console.log data.get('d.ADIS.VCC + 1')), 3000
