@@ -59,10 +59,11 @@ class MessageReader(object):
     def compute_sizes(self):
         """Build a struct object based on the field definitions"""
         for message in self.messages:
-            struct_string = self.messages[message]['endianness']
-            for member in self.messages[message]['members']:
-                struct_string += member['struct']
-            self.messages[message]['struct'] = struct.Struct(struct_string)
+            if self.messages[message]['type'] == "Fixed":
+                struct_string = self.messages[message]['endianness']
+                for member in self.messages[message]['members']:
+                    struct_string += member['struct']
+                self.messages[message]['struct'] = struct.Struct(struct_string)                
 
     def decode_packet(self, packet):
         """A decoder for a packet"""
@@ -98,32 +99,42 @@ class MessageReader(object):
                 # init a container for the values
                 body = {'fieldID': fourcc}
 
-                # check to see if we read the right number of bytes
-                if message_length != message_type['struct'].size:
-                    # If the message isn't the right length, lets try and unpack
-                    # it using the size of the struct.
-                    message_length = message_type['struct'].size
+                # Fixed lenght messages have a struct already
+                st = message_type.get('struct', None)
+                if st is not None:
+                    # check to see if we read the right number of bytes
+                    if message_length != st.size:
+                        # If the message isn't the right length, lets try and unpack
+                        # it using the size of the struct.
+                        message_length = st.size
+                else:
+                    st = struct.Struct('%ds'%message_length)
 
                 # read from packet
                 try:
-                    unpacked = message_type['struct'].unpack(packet[:message_length])
+                    unpacked = st.unpack(packet[:message_length])
                 except:
+                    print "message read error"
                     packet = packet[message_length:]
                     continue
                 for i, field in enumerate(message_type['members']):
                     # get unit math
-                    units = field.get('units', {})
-                    shift = units.get('shift', 0)
-                    scale = units.get('scale', 1)
-
-                    # dump into dict
-                    body[field['key']] = (unpacked[i] * scale) + shift
-
-                # truncate what we've already read
-                packet = packet[message_length:]
+                    units = field.get('units', None)
+                    if units is not None:
+                        shift = units.get('shift', 0)
+                        scale = units.get('scale', 1)
+                        # dump into dict
+                        body[field['key']] = (unpacked[i] * scale) + shift
+                    else:
+                        body[field['key']] = unpacked[i]
 
                 # Debug
                 yield body
+            else:
+                print "skipped unkown header"
+
+            # truncate what we've already read
+            packet = packet[message_length:]
 
 ## Definitions of feeds:
 
@@ -135,7 +146,8 @@ fc = {
     'message_type': MessageReader,
     'messages': {
         'ADIS': {
-            'endianness': '<',
+            'type': "Fixed",
+            'endianness': '!',
             'members': [
                 {'key': "VCC",     'struct': "h", 'units': {'mks': "volt", 'scale': 0.002418}},
                 {'key': "Gyro_X",  'struct': "h", 'untis': {'mks': "hertz", 'scale': 0.05}},
@@ -152,6 +164,7 @@ fc = {
             ],
         },
         'ROLL': {
+            'type': "Fixed",
             'endianness': '<',
             'members': [
                 {'key': "PWM", 'struct': "H", 'units': {'mks': "seconds", 'scale': 0}},
@@ -159,6 +172,7 @@ fc = {
             ],
         },
         'MPL3': {
+            'type': "Fixed",
             'endianness': '<',
             'members': [
                 {'key': "dummy1", 'struct': "L"},
@@ -166,7 +180,12 @@ fc = {
                 #{'key': "dummy3", 'struct': "B"},
             ],
         },
-
+        'MESG': {
+            'type': "String",
+            'members': [
+                {'key': "Message", 'struct': "STRING"},
+            ],
+        },
     },
 }
 
