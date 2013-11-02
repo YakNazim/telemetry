@@ -77,6 +77,8 @@ class Webservice(object):
         # We're finished gathering data
         data = pstat.data
 
+        data['servertime'] = time.time()
+
         # write data to clients
         for client in clients:
             client.write_message(json.dumps(data))
