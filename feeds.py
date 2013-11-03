@@ -183,7 +183,7 @@ fc = {
         'MESG': {
             'type': "String",
             'members': [
-                {'key': "Message", 'struct': "STRING"},
+                {'key': "Message"},
             ],
         },
     },

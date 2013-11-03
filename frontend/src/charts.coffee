@@ -19,11 +19,11 @@ class window.CanvasChart
 
         @y = d3.scale.linear()
             .range([0, @height])
-            .domain([-1, 12])
+            .domain([-15, 15])
 
         @x = d3.scale.linear()
             .range([0, @width])
-            .domain([-50, 0])
+            .domain([-59, 0])
 
         @yAxis = d3.svg.axis()
             .scale(@y)
@@ -57,7 +57,8 @@ class window.CanvasChart
             a =
                 v: d.v
                 t: d.t - now
-            timedata.push a
+            if a.t > -59
+                timedata.push a
 
         #console.log timedata
         @path.datum(timedata)
