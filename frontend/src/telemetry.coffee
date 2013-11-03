@@ -99,8 +99,9 @@ class CurrentData
 
 w = new Message('Messages')
 p = new Packets('Packets')
+g = new Graph('graphh')
 
-data = new CurrentData([w, p])
+data = new CurrentData([w, p, g])
 conn = new Connection(data)
 
 #setTimeout (-> console.log data.get('d.ADIS.VCC + 1')), 3000
