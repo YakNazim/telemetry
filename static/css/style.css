@@ -70,15 +70,29 @@ svg {
   margin: 0px 5px 10px;
 }
 
-.axis path, .axis line {
+.chart .axis path,
+.chart .tick line {
   fill: none;
-  stroke: #000;
+  stroke: #bbb;
   shape-rendering: crispEdges;
+}
+
+.chart .tick text {
+    fill: #555;
 }
 
 .chart path.line {
     fill: none;
     stroke: steelblue;
+    stroke-width: 1.4;
+}
+
+.chart path.xgrid,
+.chart path.ygrid {
+    fill: none;
+    stroke: #e5e5e5;
+    stroke-dasharray: 3, 10;
+    shape-rendering: crispEdges;
 }
 
 /* Text Widget */
