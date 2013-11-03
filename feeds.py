@@ -97,7 +97,7 @@ class MessageReader(object):
             if message_type is not None:
 
                 # init a container for the values
-                body = {'fieldID': fourcc, 'recv': {}}
+                body = {'fieldID': fourcc, 'recv': {}, 'timestamp': time.time()}
 
                 # Fixed lenght messages have a struct already
                 st = message_type.get('struct', None)

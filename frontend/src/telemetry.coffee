@@ -80,7 +80,6 @@ class CurrentData
     update: (chunk) ->
         newd = JSON.parse chunk
         for type of newd
-            console.log type
             d[type] = newd[type]
         for wid in @widgets
             wid.update(@)
@@ -98,7 +97,7 @@ class CurrentData
 
 # Run
 
-w = new Message('asdfasdf')
+w = new Message('Messages')
 p = new Packets('Packets')
 
 data = new CurrentData([w, p])

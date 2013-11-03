@@ -22,6 +22,7 @@ class PacketStats(object):
         message (many messages per packet)"""
 
         field_id = incoming.get('fieldID')
+        timetamp = incoming.get('timestamp')
 
         # is this a seqn number?
         if field_id in self.packet_types:
@@ -54,7 +55,7 @@ class PacketStats(object):
 
         if field_id not in self.data:
             # if we've not seen this before make it exist and init its numbers
-            self.data[field_id] = {'count': 1}
+            self.data[field_id] = {'count': 1, 'timestamp': timetamp}
 
             # safely get members
             d = incoming.get('recv', {})
@@ -73,6 +74,7 @@ class PacketStats(object):
             # Not the first instance of fieldID, so we append
             count = self.data[field_id]['count'] + 1
             self.data[field_id]['count'] = count
+            self.data[field_id]['timestamp'] = timetamp
             d = incoming.get('recv', {})
             for key, val in d.iteritems():
                 if isinstance(val, float) or isinstance(val, int):
