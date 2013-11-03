@@ -76,6 +76,11 @@ svg {
   shape-rendering: crispEdges;
 }
 
+.chart path.line {
+    fill: none;
+    stroke: steelblue;
+}
+
 /* Text Widget */
 .widget h2 {
     margin: 0.2em 0;

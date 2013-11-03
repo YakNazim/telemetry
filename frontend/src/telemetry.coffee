@@ -1,7 +1,7 @@
 # Main PSAS Controller.
 
 # inject context into a function that is othewise called globally
-proxy = (fn, context) ->
+window.proxy = (fn, context) ->
     p = -> fn.apply(context)
     return p
 

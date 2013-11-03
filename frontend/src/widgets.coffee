@@ -35,18 +35,18 @@ class window.Message extends Widget
         for msg in @buffer
             place.innerHTML += msg['Message']+'<br>'
 
-        console.log d.get('d')
-
 class window.Graph extends Widget
 
     constructor: (id) ->
         super(id)
         @div = document.getElementById(@id)
+        @chart = new CanvasChart(@id)
         @buffer = []
 
     update: (d) ->
         value = d.get('d.ADIS.Acc_X_mean')
         time = d.get('d.ADIS.timestamp')
+        now = d.get('d.servertime')
         
         if value? and time?
             message =
@@ -57,6 +57,7 @@ class window.Graph extends Widget
             if @buffer[@buffer.length - 1].t != time
                 @buffer.push message
 
-        @div.innerHTML = ''
-        for n in @buffer
-            @div.innerHTML += '<li>'+n.v+'|'+n.t+'</li>'
+        @chart.update @buffer, now
+        #@div.innerHTML = ''
+        #for n in @buffer
+        #    @div.innerHTML += '<li>'+n.v+'|'+n.t+'</li>'
