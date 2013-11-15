@@ -1,5 +1,10 @@
 # PSAS Telemetry
 
+## Documentation
+
+Documentation for the telemetry server is on [read the docs](http://psas-telemetry-server.readthedocs.org/).
+
+
 ## Front-end
 
 The front-end portion of the Real Time Telemetry Visualizer allows the user to
