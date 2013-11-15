@@ -4,9 +4,9 @@ class window.CanvasChart
     constructor: (id)->
         @margin =
             top: 20
-            right: 20
-            bottom: 30
-            left: 40
+            right: 50
+            bottom: 40
+            left: 50
         w = document.getElementById(id).clientWidth
         @width = w - @margin.left - @margin.right
         @height = 450 - @margin.top - @margin.bottom
@@ -20,7 +20,7 @@ class window.CanvasChart
 
         @y = d3.scale.linear()
             .range([0, @height])
-            .domain([-15, 15])
+            .domain([15, -15])
 
         @x = d3.scale.linear()
             .range([0, @width])
@@ -39,7 +39,6 @@ class window.CanvasChart
             .x( (d) -> x(d.t) )
             .y( (d) -> y(d.v) )
 
-
         h = @height
         w = @width
         @svg.selectAll("path.xgrid").data(@x.ticks()).enter()
@@ -52,7 +51,6 @@ class window.CanvasChart
               .attr('class', 'ygrid')
               .attr("d", (d) -> "M0 " + y(d) + "L" + w + " " + y(d) )
 
-
         @svg.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + @height + ")")
@@ -62,7 +60,6 @@ class window.CanvasChart
                 .attr("dy", "3em")
                 .style("text-anchor", "middle")
                 .text("[seconds]")
-
 
         @svg.append("g")
             .attr("class", "y axis")
@@ -74,9 +71,26 @@ class window.CanvasChart
                 .style("text-anchor", "end")
                 .text("[m/s^2]")
 
-
         @path = @svg.append("path")
-
+        @needle = @svg.append("path").data([10])
+            .attr('class', 'needle')
+            .attr('d', (d) ->
+                r =  'M' + x(0) + ' ' + (y(d))
+                r += 'L' + (x(0)+6) + ' ' + (y(d)+6)
+                r += 'L' + (x(0)+25) + ' ' + (y(d)+6)
+                r += 'L' + (x(0)+25) + ' ' + (y(d)-6)
+                r += 'L' + (x(0)+6) + ' ' + (y(d)-6)
+                r += 'L' + x(0) + ' ' + (y(d))
+                r
+            )
+        @needlenum = @svg.append('text').data([10])
+            .attr('class', 'needlenum')
+            .style("text-anchor", "end")
+            .attr('x', (d) -> x(0) )
+            .attr('y', (d) -> y(d) )
+            .attr('dx', '21px')
+            .attr('dy', '4px')
+            .text((d) -> d)
 
     update: (data, now)->
 
@@ -92,3 +106,5 @@ class window.CanvasChart
         @path.datum(timedata)
             .attr("class", "line")
             .attr("d", @line)
+
+        
