@@ -4,26 +4,54 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/static/lib/d3.v3.min.js"></script>
+  <script src="/static/lib/jquery-1.10.2.min.js"></script>
+  <script src="/static/lib/jquery.gridster.min.js"></script>
   <script src="/static/psas/widgets.js"></script>
   <script src="/static/psas/charts.js"></script>
+  <link href="/static/css/jquery.gridster.min.css" rel="stylesheet">
   <link href="/static/css/style.css" rel="stylesheet">
 
   <title>PSAS - Real Time Telemetry Server</title>
  </head>
  <body>
   <h1>PSAS &mdash; Real Time Telemetry Server</h1>
-  <p>Status:</p>
-  <p id="status">Not Connected</p>
-  <div id="Packets">
-  </div>
-  <div id="Messages">
-  </div>
-  <div>
-    <h4>Chart:</h4>
-    <div id="graphh" style="width:75%;"></div>
+
+  <div class="gridster">
+    <ul>
+        <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+            <p>Status:</p>
+            <p id="status">Not Connected</p>
+        </li>
+
+        <li data-row="1" data-col="2" data-sizex="2" data-sizey="1">
+            <div id="Packets"></div>
+        </li>
+
+        <li data-row="2" data-col="1" data-sizex="1" data-sizey="2">
+            <div id="Messages">
+            </div>
+        </li>
+
+        <li data-row="2" data-col="2" data-sizex="4" data-sizey="2">
+            <h4>Chart:</h4>
+            <div id="graphh" style="width:75%;"></div>
+        </li>
+    </ul>
   </div>
 
   <script src="/static/psas/telemetry.js"></script>
+  <script>
+    $(function(){ //DOM Ready
+     
+        $(".gridster ul").gridster({
+            widget_margins: [5, 5],
+            widget_base_dimensions: [200, 200]
+        });
+
+        window.start();
+     
+    });
+  </script>
  </body>
 </html>
 

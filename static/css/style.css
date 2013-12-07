@@ -161,3 +161,18 @@ svg {
       width: 100%;
       height: 100%;
 }
+
+
+/* Grid */
+.gs-w {
+    background: #eef;
+}
+
+.gridster ul {
+    list-style: none;
+}
+
+.gridster h4 {
+    margin-top: 0;
+    margin-bottom: 4px;
+}
