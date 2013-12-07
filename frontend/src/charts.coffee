@@ -10,8 +10,8 @@ class window.CanvasChart
         parent = document.getElementById(id).parentElement
         w = parent.clientWidth
         h = parent.clientHeight
-        @width = w - @margin.left - @margin.right
-        @height = h - 25 - @margin.top - @margin.bottom
+        @width = w - 10 - @margin.left - @margin.right
+        @height = h - 25 - 10 - @margin.top - @margin.bottom
 
         @svg = d3.select('#'+id).append('svg')
             .attr('class', 'chart')

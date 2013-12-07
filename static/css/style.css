@@ -166,6 +166,11 @@ svg {
 /* Grid */
 .gs-w {
     background: #eef;
+    padding: 10px;
+}
+
+.gridster {
+    padding: 0px;
 }
 
 .gridster ul {
