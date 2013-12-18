@@ -46,16 +46,15 @@
             widget_base_dimensions: [200, 200],
             avoid_overlapped_widgets: true,
             extra_rows: 1,
+            resize: {
+                enabled: true
+            }
         }).data('gridster');
     });
 
     function new_grid () {
-        var widget = ['<li><button class="expand right" onclick="exapnd_right(this)">&gt;</button></li>', 1, 1,1,1];
+        var widget = ['<li>A</li>', 1, 1,1,1];
         gridster.add_widget.apply(gridster, widget);
-    }
-
-    function exapnd_right (w) {
-        gridster.resize_widget($(w).parent(), 2, 1);
     }
   </script>
  </body>
