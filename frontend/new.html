@@ -19,7 +19,7 @@
     <a class="brand" href="/"><img src="/static/css/PSAS_Logo-small.png" alt="logo" width="40" height="40"></a>
     <ul class="tabs">
      <li><a href="/">Default</a></li>
-     <li><a href="/create" class="new">New Layout</a></li>
+     <li><a href="/New" class="new">New</a></li>
     </ul>
     <div id="status-holder" class="pull-right">
       server: <span id="status">Not Connected</span>
@@ -28,34 +28,35 @@
 
   <div class="gridster">
     <ul>
-        <li data-row="1" data-col="2" data-sizex="2" data-sizey="1">
-            <div id="Packets"></div>
-        </li>
-
-        <li data-row="1" data-col="1" data-sizex="1" data-sizey="3">
-            <div id="Messages">
-            </div>
-        </li>
-
-        <li data-row="2" data-col="2" data-sizex="4" data-sizey="2">
-            <h4>Chart:</h4>
-            <div id="graphh" style="width:75%;"></div>
+        <li id="newbutton" data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+            <button onclick="new_grid()">+</button>
         </li>
     </ul>
   </div>
 
   <script src="/static/psas/telemetry.js"></script>
   <script>
+
+    var gridster;
+    
     $(function(){ //DOM Ready
      
-        $(".gridster ul").gridster({
+        gridster = $(".gridster ul").gridster({
             widget_margins: [15, 15],
-            widget_base_dimensions: [200, 200]
-        });
-
-        window.start();
-     
+            widget_base_dimensions: [200, 200],
+            avoid_overlapped_widgets: true,
+            extra_rows: 1,
+        }).data('gridster');
     });
+
+    function new_grid () {
+        var widget = ['<li><button class="expand right" onclick="exapnd_right(this)">&gt;</button></li>', 1, 1,1,1];
+        gridster.add_widget.apply(gridster, widget);
+    }
+
+    function exapnd_right (w) {
+        gridster.resize_widget($(w).parent(), 2, 1);
+    }
   </script>
  </body>
 </html>

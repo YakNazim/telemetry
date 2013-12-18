@@ -198,3 +198,14 @@ svg {
     margin-top: 0;
     margin-bottom: 4px;
 }
+
+#newbutton {
+    width: 34px;
+    height: 34px;
+}
+
+.expand.right{
+    float: right;
+    height: 100%;
+    width: 20px;
+}

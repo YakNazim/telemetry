@@ -18,6 +18,13 @@ class MainHandler(tornado.web.RequestHandler):
         self.render('index.html')
 
 
+class NewLayoutHandler(tornado.web.RequestHandler):
+    """Basic web server that creates and saves new layouts"""
+
+    def get(self):
+        self.render('new.html')
+
+
 class FrontEndWebSocket(tornado.websocket.WebSocketHandler):
     """Basic WebSocket class"""
 
@@ -49,6 +56,7 @@ class Webservice(object):
         template_path = os.path.join(os.path.dirname(__file__), 'frontend')
         self.application = tornado.web.Application([
                 (r'/', MainHandler),
+                (r'/create', NewLayoutHandler),
                 (r'/ws', FrontEndWebSocket),
                 (r'/(.*)', tornado.web.StaticFileHandler, dict(path=static_path)),
             ], template_path=template_path, static_path=static_path)
