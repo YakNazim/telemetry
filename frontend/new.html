@@ -26,11 +26,16 @@
     </div>
   </div>
 
+  <div id="controls">
+    <ul>
+      <li>Layout Name: <input type="text"></li>
+      <li><button>Save</button></li>
+      <li><button onclick="new_grid()">Add Tile</button></li>
+    </ul>
+  </div>
+
   <div class="gridster">
     <ul>
-        <li id="newbutton" data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-            <button onclick="new_grid()">+</button>
-        </li>
     </ul>
   </div>
 
@@ -53,7 +58,11 @@
     });
 
     function new_grid () {
-        var widget = ['<li>A</li>', 1, 1,1,1];
+        var widget = ['<li><span>Widget Type:</span>\
+  <select class="form-control">\
+    <option>Text Values</option>\
+    <option>Chart</option>\
+  </select></li>', 1, 1,1,1];
         gridster.add_widget.apply(gridster, widget);
     }
   </script>
