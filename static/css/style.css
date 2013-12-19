@@ -201,9 +201,8 @@ svg {
 
 
 /* Grid */
-.gs-w {
+.tile {
     background: #fff;
-    padding: 10px;
 }
 
 .gridster {
@@ -219,13 +218,6 @@ svg {
     margin-bottom: 4px;
 }
 
-#newbutton {
-    width: 34px;
-    height: 34px;
-}
-
-.expand.right{
-    float: right;
-    height: 100%;
-    width: 20px;
+.tile>.lines {
+    list-style: square;
 }

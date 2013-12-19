@@ -8,6 +8,7 @@
   <script src="/static/lib/jquery.gridster.min.js"></script>
   <script src="/static/psas/widgets.js"></script>
   <script src="/static/psas/charts.js"></script>
+  <script src="/static/psas/editor.js"></script>
   <link href="/static/css/jquery.gridster.min.css" rel="stylesheet">
   <link href="/static/css/style.css" rel="stylesheet">
 
@@ -58,11 +59,8 @@
     });
 
     function new_grid () {
-        var widget = ['<li><span>Widget Type:</span>\
-  <select class="form-control">\
-    <option>Text Values</option>\
-    <option>Chart</option>\
-  </select></li>', 1, 1,1,1];
+        var newtile = window.addTile();
+        var widget = [newtile.html(), 1, 1, 1, 1];
         gridster.add_widget.apply(gridster, widget);
     }
   </script>
