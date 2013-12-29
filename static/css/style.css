@@ -77,14 +77,8 @@ body {
   height: 125px;
 }
 
-.pull-right {
-  float: right !important;
-}
 
-.pull-left {
-  float: left !important;
-}
-
+/*Chart*/
 value{
   font-family: "Andale Mono", AndaleMono, Consolas, monaco, "Lucida Console", "Lucida Sans Typewriter", monospace;
 }
