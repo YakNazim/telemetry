@@ -9,6 +9,7 @@
   <script src="/static/psas/widgets.js"></script>
   <script src="/static/psas/charts.js"></script>
   <script src="/static/psas/editor.js"></script>
+  <link href="/static/css/bootstrap.min.css" rel="stylesheet">
   <link href="/static/css/jquery.gridster.min.css" rel="stylesheet">
   <link href="/static/css/style.css" rel="stylesheet">
 
@@ -20,19 +21,25 @@
     <a class="brand" href="/"><img src="/static/css/PSAS_Logo-small.png" alt="logo" width="40" height="40"></a>
     <ul class="tabs">
      <li><a href="/">Default</a></li>
-     <li><a href="/New" class="new">New</a></li>
+     <li><a href="/create" class="new">New Layout</a></li>
     </ul>
-    <div id="status-holder" class="pull-right">
-      server: <span id="status">Not Connected</span>
-    </div>
   </div>
 
   <div id="controls">
-    <ul>
-      <li>Layout Name: <input type="text"></li>
-      <li><button>Save</button></li>
-      <li><button onclick="new_grid()">Add Tile</button></li>
-    </ul>
+    <form class="form-inline" role="form">
+      <div class="form-group">
+        <label class="col-sm-5 control-label" for="layoutname">Layout Name: </label>
+        <div class="col-sm-7">
+          <input type="text" class="form-control input-sm" id="layoutname" placeholder="Telemetry">
+        </div>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary" id="savelayout">Save</button>
+      </div>
+      <div class="form-group">
+        <button class="btn" onclick="new_grid(); return false;">Add Tile</button>
+      </div>
+    <form>
   </div>
 
   <div class="gridster">
@@ -60,7 +67,7 @@
 
     function new_grid () {
         var newtile = window.addTile();
-        var widget = [newtile.html(), 1, 1, 1, 1];
+        var widget = [newtile.html(), newtile.sizex, newtile.sizey, 1, 1];
         gridster.add_widget.apply(gridster, widget);
     }
   </script>

@@ -1,5 +1,7 @@
 # Controls for adding and editing layouts
 
+jquery = $
+
 types = ['text', 'chart']
 
 tiles = []
@@ -9,26 +11,29 @@ class Tile
     # instance variables
     type = 'text'
     title = 'Title'
-    sizex = 1
+    sizex = 2
     sizey = 1
     coords = [1,1]
 
     constructor: (@id) ->
 
+    sizex: sizex
+    sizey: sizey
+
     html: () ->
-        h  = '<li class="tile">'
-        h += '<input type="text" value="Title">'
-        h += '<span>Widget Type:</span>'
-        h += '<select class="form-control">'
-        h += '  <option>Text Values</option>'
-        h += '</select>'
-        h += '<ul class="lines">'
-        h += '  <li><input type="text" value="Name">:<input type="text" value="data"> [<input type="text" value="units">]</li>'
-        h += '  <li><button>Add line</button></li>'
-        h += '</ul>'
+        h  = '<li id="#' + @id + '" class="tile">'
+        h += ' <div class="col-sm-5"><input type="text" class="form-control input-sm" placeholder="' + title + '"></div>'
+        h += ' <div class="col-sm-2">Type:</div>'
+        h += ' <div class="col-sm-5">'
+        h += '  <select class="form-control">'
+        h += '   <option>Text Values</option>'
+        h += '  </select>'
+        h += '</div>'
         h += '</li>'
         h
 
+window.addLine = (button) ->
+    console.log jquery(button)
 
 window.addTile = () ->
     t = new Tile('asdf')
