@@ -23,16 +23,16 @@ class MainHandler(tornado.web.RequestHandler):
         temp = template.Loader(widgetdir)
 
         adis = [
-            {'name': "ADIS X-Accel", 'data': "d.ADIS.Acc_X_mean"},
-            {'name': "ADIS Y-Accel", 'data': "d.ADIS.Acc_Y_mean"},
-            {'name': "ADIS Z-Accel", 'data': "d.ADIS.Acc_Z_mean"},
+            {'name': "ADIS X-Accel", 'data': "d.ADIS.Acc_X_mean", 'drift': "key"},
+            {'name': "ADIS Y-Accel", 'data': "d.ADIS.Acc_Y_mean", 'drift': "major"},
+            {'name': "ADIS Z-Accel", 'data': "d.ADIS.Acc_Z_mean", 'drift': "major"},
             {'name': "divider"},
-            {'name': "ADIS X-Gyro", 'data': "d.ADIS.Gyro_X_mean"},
+            {'name': "ADIS X-Gyro", 'data': "d.ADIS.Gyro_X_mean", 'drift': "minor"},
         ]
         adis_html = temp.load("metric.html").generate(name="ADIS", metrics=adis)
 
         packet = [
-            {'name': "Time since last FC packet", 'data': "d.servertime - d.RECV_fc.TimeLastPacketReceived"},
+            {'name': "Time since last FC packet", 'data': "d.servertime - d.RECV_fc.TimeLastPacketReceived", 'drift': "minor"},
         ] 
         packet_html = temp.load("metric.html").generate(name="Connection Stats", metrics=packet)
 
