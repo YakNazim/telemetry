@@ -7,5 +7,7 @@ class window.Metric extends Widget
     update: (d) ->
         val = d.get(@datastring)
         if typeof val == 'number'
-            val = val.toFixed(2)
+            val = sprintf("%5.1f", val)
+        else
+            val = '<span class="nodata">' + val + '</span>'
         @node.innerHTML = val

@@ -202,3 +202,7 @@ svg {
 .tile>.lines {
     list-style: square;
 }
+
+.nodata {
+    color: #ebb;
+}

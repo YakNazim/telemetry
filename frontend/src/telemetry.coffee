@@ -114,7 +114,6 @@ window.start = () ->
     for node in data_binds
         n = new Metric('metric', node)
         list.push n
-        console.log node
 
     data = new CurrentData(list)
     conn = new Connection(data)
