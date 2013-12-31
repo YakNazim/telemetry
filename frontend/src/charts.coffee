@@ -1,19 +1,16 @@
+# Canvas base chart
+class CanvasChart
 
-class window.CanvasChart
+    constructor: (node, @margin, xaxis, yaxis, grid)->
 
-    constructor: (id)->
-        @margin =
-            top: 20
-            right: 50
-            bottom: 40
-            left: 50
-        parent = document.getElementById(id).parentElement
-        w = parent.clientWidth
-        h = parent.clientHeight
-        @width = w - 10 - @margin.left - @margin.right
-        @height = h - 25 - 10 - @margin.top - @margin.bottom
+        w = node.clientWidth
+        h = node.clientHeight
+        #h = 50
 
-        @svg = d3.select('#'+id).append('svg')
+        @width = w - @margin.left - @margin.right
+        @height = h - @margin.top - @margin.bottom
+
+        @svg = d3.select(node).append('svg')
             .attr('class', 'chart')
             .attr('width', @width + @margin.left + @margin.right)
             .attr('height', @height + @margin.top + @margin.bottom)
@@ -26,14 +23,7 @@ class window.CanvasChart
 
         @x = d3.scale.linear()
             .range([0, @width])
-            .domain([-59, 0])
-
-        @yAxis = d3.svg.axis()
-            .scale(@y)
-            .orient("left")
-
-        @xAxis = d3.svg.axis()
-            .scale(@x)
+            .domain([-10, 0])
 
         x = @x
         y = @y
@@ -43,37 +33,50 @@ class window.CanvasChart
 
         h = @height
         w = @width
-        @svg.selectAll("path.xgrid").data(@x.ticks()).enter()
-            .append("path")
-              .attr('class', 'xgrid')
-              .attr("d", (d) -> "M" + x(d) + " 0L" + x(d) + " " + h )
 
-        @svg.selectAll("path.ygrid").data(@y.ticks()).enter()
-            .append("path")
-              .attr('class', 'ygrid')
-              .attr("d", (d) -> "M0 " + y(d) + "L" + w + " " + y(d) )
+        if grid
+            @svg.selectAll("path.xgrid").data(@x.ticks()).enter()
+                .append("path")
+                  .attr('class', 'xgrid')
+                  .attr("d", (d) -> "M" + x(d) + " 0L" + x(d) + " " + h )
 
-        @svg.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + @height + ")")
-            .call(@xAxis)
-             .append("text")
-                .attr("x", @width/2.0)
-                .attr("dy", "3em")
-                .style("text-anchor", "middle")
-                .text("[seconds]")
+            @svg.selectAll("path.ygrid").data(@y.ticks()).enter()
+                .append("path")
+                  .attr('class', 'ygrid')
+                  .attr("d", (d) -> "M0 " + y(d) + "L" + w + " " + y(d) )
 
-        @svg.append("g")
-            .attr("class", "y axis")
-            .call(@yAxis)
-              .append("text")
-                .attr("transform", "rotate(-90)")
-                .attr("y", 6)
-                .attr("dy", ".71em")
-                .style("text-anchor", "end")
-                .text("[m/s^2]")
+        if xaxis
+            @xAxis = d3.svg.axis()
+                .scale(@x)
+
+            @svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + @height + ")")
+                .call(@xAxis)
+                 .append("text")
+                    .attr("x", @width/2.0)
+                    .attr("dy", "3em")
+                    .style("text-anchor", "middle")
+                    .text("[seconds]")
+
+        if yaxis
+            @yAxis = d3.svg.axis()
+                .scale(@y)
+                .orient("left")
+
+            @svg.append("g")
+                .attr("class", "y axis")
+                .call(@yAxis)
+                  .append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 6)
+                    .attr("dy", ".71em")
+                    .style("text-anchor", "end")
+                    .text("[m/s^2]")
 
         @path = @svg.append("path")
+
+        ###
         @needle = @svg.append("path").data([10])
             .attr('class', 'needle')
             .attr('d', (d) ->
@@ -93,20 +96,34 @@ class window.CanvasChart
             .attr('dx', '21px')
             .attr('dy', '4px')
             .text((d) -> d)
+        ###
 
     update: (data, now)->
-
         timedata = []
         for d in data
             a =
                 v: d.v
                 t: d.t - now
-            if a.t > -59
+            if a.t > -10
                 timedata.push a
 
-        #console.log timedata
         @path.datum(timedata)
             .attr("class", "line")
             .attr("d", @line)
 
-        
+class Sparkline extends CanvasChart
+
+    constructor: (node, usekey)->
+        if usekey
+            margin =
+                top: 0
+                right: 5
+                bottom: 17
+                left: 7
+        else
+            margin =
+                top: 0
+                right: 5
+                bottom: 0
+                left: 7
+        super(node, margin, usekey, false, false)

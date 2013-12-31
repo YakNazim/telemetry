@@ -97,7 +97,9 @@ class CurrentData
             ret = eval(expression)
         catch error
             console.log error
-            ret = 'nodata'
+            ret = '-----'
+        if not ret?
+            ret = '-----'
         ret
 
 # Run

@@ -23,22 +23,25 @@ class MainHandler(tornado.web.RequestHandler):
         temp = template.Loader(widgetdir)
 
         adis = [
-            {'name': "ADIS X-Accel", 'data': "d.ADIS.Acc_X_mean", 'drift': "key"},
-            {'name': "ADIS Y-Accel", 'data': "d.ADIS.Acc_Y_mean", 'drift': "major"},
-            {'name': "ADIS Z-Accel", 'data': "d.ADIS.Acc_Z_mean", 'drift': "major"},
+            {'name': "ADIS X-Accel", 'data': "d.ADIS.Acc_X_mean", 'drift': "key",  'spark': True},
+            {'name': "ADIS Y-Accel", 'data': "d.ADIS.Acc_Y_mean", 'drift': "major", 'spark': True},
+            {'name': "ADIS Z-Accel", 'data': "d.ADIS.Acc_Z_mean", 'drift': "major", 'spark': False},
             {'name': "divider"},
-            {'name': "ADIS X-Gyro", 'data': "d.ADIS.Gyro_X_mean", 'drift': "minor"},
+            {'name': "ADIS X-Gyro", 'data': "d.ADIS.Gyro_X_mean", 'drift': "minor", 'spark': True},
+            {'name': "ADIS X-Mag",  'data': "d.ADIS.Magn_X_mean", 'drift': "minor", 'spark': True},
         ]
         adis_html = temp.load("metric.html").generate(name="ADIS", metrics=adis)
 
         packet = [
-            {'name': "Time since last FC packet", 'data': "d.servertime - d.RECV_fc.TimeLastPacketReceived", 'drift': "minor"},
+            {'name': "Time since last FC packet", 'data': "d.servertime - d.RECV_fc.TimeLastPacketReceived", 'drift': "minor", 'spark': False},
+            {'name': "Dropped FC packets",        'data': "d.RECV_fc.PacketsLostRecently", 'drift': "minor", 'spark': False},
+            {'name': "Packet Rate",               'data': "d.RECV_fc.PacketsReceivedRecently / 0.1", 'drift': "minor", 'spark': False},
         ] 
         packet_html = temp.load("metric.html").generate(name="Connection Stats", metrics=packet)
 
         widgets = [
             {'x': 1, 'y': 1, 'sx':2, 'sy': 1, 'html': packet_html},
-            {'x': 3, 'y': 1, 'sx':2, 'sy': 2, 'html': adis_html},
+            {'x': 3, 'y': 1, 'sx':3, 'sy': 3, 'html': adis_html},
        ]
 
         self.render('index.html', layouts=layouts, widgets=widgets)
