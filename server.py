@@ -1,6 +1,7 @@
 import tornado.ioloop
 import tornado.web
 import tornado.websocket
+from tornado import template
 import time
 import config
 import stats
@@ -15,7 +16,15 @@ class MainHandler(tornado.web.RequestHandler):
     """Basic web server. This is a single page javascript webapp"""
 
     def get(self):
-        self.render('index.html')
+        layouts = [{'name': "Default", 'file': 'default.yml'}]
+        
+        d = os.path.dirname(os.path.realpath(__file__))
+        widgetdir = os.path.join(d, "frontend/widgets/")
+        temp = template.Loader(widgetdir)
+        html = temp.load("metric.html").generate(name='ADIS X-Accel')
+        widgets = [{'x': 1, 'y': 1, 'sx': 2, 'sy': 2, 'html': html}]
+
+        self.render('index.html', layouts=layouts, widgets=widgets)
 
 
 class NewLayoutHandler(tornado.web.RequestHandler):

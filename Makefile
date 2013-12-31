@@ -1,10 +1,10 @@
-FILES=frontend/src/*.coffee frontend/src/widgets/*.coffee
-STATIC=static/psas/
+FILES=frontend/src/*.coffee frontend/widgets/*.coffee
+STATIC=static/psas/telemetry.js
 
 all: clean build
 
 build:
-	coffee -c -o $(STATIC) $(FILES)
+	coffee -cj $(STATIC) $(FILES)
 
 clean:
 	rm -f $(STATIC)*

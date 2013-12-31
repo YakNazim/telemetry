@@ -92,18 +92,31 @@ class CurrentData
 
     # Eval expression and return data, or null if broken
     get: (expression) ->
-        eval(expression)
-
+        try
+            ret = eval(expression)
+        catch error
+            console.log error
+            ret = 'nodata'
+        ret
 
 # Run
 
 window.start = () ->
-    w = new Message('Messages')
-    p = new Packets('Packets')
-    g = new Graph('graphh')
+    #w = new Message('Messages')
+    #p = new Packets('Packets')
+    #g = new Graph('graphh')
 
-    data = new CurrentData([w, p, g])
+    list = []
+
+    # Get all data binds on page
+    data_binds = document.querySelectorAll "[data-bind]"
+
+    for node in data_binds
+        n = new Metric('metric', node)
+        list.push n
+        console.log node
+
+    data = new CurrentData(list)
     conn = new Connection(data)
 
 #setTimeout (-> console.log data.get('d.ADIS.VCC + 1')), 3000
-
