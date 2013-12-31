@@ -45,6 +45,7 @@ class Connection
             console.log 'ALREADY OPEN'
             return
 
+        WebSocket = window.WebSocket || window.MozWebSocket
         @websocket = new WebSocket @constructor.server
 
         @websocket.onopen = (evt) =>
