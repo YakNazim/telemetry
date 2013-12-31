@@ -22,17 +22,24 @@ class MainHandler(tornado.web.RequestHandler):
         widgetdir = os.path.join(d, "frontend/widgets/")
         temp = template.Loader(widgetdir)
 
-        metrics = [
+        adis = [
             {'name': "ADIS X-Accel", 'data': "d.ADIS.Acc_X_mean"},
             {'name': "ADIS Y-Accel", 'data': "d.ADIS.Acc_Y_mean"},
             {'name': "ADIS Z-Accel", 'data': "d.ADIS.Acc_Z_mean"},
             {'name': "divider"},
             {'name': "ADIS X-Gyro", 'data': "d.ADIS.Gyro_X_mean"},
         ]
-        html = temp.load("metric.html").generate(name="ADIS", metrics=metrics)
+        adis_html = temp.load("metric.html").generate(name="ADIS", metrics=adis)
 
+        packet = [
+            {'name': "Time since last FC packet", 'data': "d.servertime - d.RECV_fc.TimeLastPacketReceived"},
+        ] 
+        packet_html = temp.load("metric.html").generate(name="Connection Stats", metrics=packet)
 
-        widgets = [{'x': 1, 'y': 1, 'sx':2, 'sy': 2, 'html': html}]
+        widgets = [
+            {'x': 1, 'y': 1, 'sx':2, 'sy': 1, 'html': packet_html},
+            {'x': 3, 'y': 1, 'sx':2, 'sy': 2, 'html': adis_html},
+       ]
 
         self.render('index.html', layouts=layouts, widgets=widgets)
 
