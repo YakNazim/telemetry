@@ -3,11 +3,16 @@
     .metric h2 { margin-top: -5px; margin-bottom: 15px; font-weight: bold; color: #333; }
     .metric h3 { font-size: 0.9em; margin: 0; margin-bottom: 0.3em; line-height: 1.2; text-transform: uppercase; color: #999; font-weight: bold; }
     .metric .number { display: block; font-family: monospace; line-height: 0.7; color: #333; background: none; border: none; padding: 0; font-size: 60px; margin-bottom: 15px; }
+    .metric hr { border-top: 2px solid #999; }
 </style>
 <div class="metric">
     <h2>{{ name }}</h2>
     {% for metric in metrics %}
-        <h3>{{ metric['name'] }}</h3>
-        <pre class="number" title="{{ metric['name'] }}" data-bind="{{ metric['data'] }}"></pre>
+        {% if metric['name'] == 'divider' %}
+            <hr>
+        {% else %}
+            <h3>{{ metric['name'] }}</h3>
+            <pre class="number" title="{{ metric['name'] }}" data-bind="{{ metric['data'] }}"><span class="nodata">nodata</span></pre>
+        {% end %}
     {% end %}
-  </div>
+</div>

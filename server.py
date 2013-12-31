@@ -26,11 +26,13 @@ class MainHandler(tornado.web.RequestHandler):
             {'name': "ADIS X-Accel", 'data': "d.ADIS.Acc_X_mean"},
             {'name': "ADIS Y-Accel", 'data': "d.ADIS.Acc_Y_mean"},
             {'name': "ADIS Z-Accel", 'data': "d.ADIS.Acc_Z_mean"},
+            {'name': "divider"},
+            {'name': "ADIS X-Gyro", 'data': "d.ADIS.Gyro_X_mean"},
         ]
         html = temp.load("metric.html").generate(name="ADIS", metrics=metrics)
 
 
-        widgets = [{'x': 1, 'y': 1, 'sx': 2, 'sy': 2, 'html': html}]
+        widgets = [{'x': 1, 'y': 1, 'sx':2, 'sy': 2, 'html': html}]
 
         self.render('index.html', layouts=layouts, widgets=widgets)
 
