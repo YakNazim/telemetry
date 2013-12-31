@@ -5,6 +5,10 @@ class window.Widget
 
     update: (d) ->
 
+    editor: () ->
+        h = '<div>&nbsp;</div>'
+        h
+
 
 class window.Packets extends Widget
 

@@ -10,12 +10,13 @@ class Tile
 
     # instance variables
     type = 'text'
-    title = 'Title'
+    title = 'Widget Title'
     sizex = 2
     sizey = 1
     coords = [1,1]
 
     constructor: (@id) ->
+        @w = new WidgetText('newTextWidget'+title)
 
     sizex: sizex
     sizey: sizey
@@ -28,7 +29,8 @@ class Tile
         h += '  <select class="form-control">'
         h += '   <option>Text Values</option>'
         h += '  </select>'
-        h += '</div>'
+        h += ' </div>'
+        h += @w.editor()
         h += '</li>'
         h
 

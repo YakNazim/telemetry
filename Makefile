@@ -1,4 +1,4 @@
-FILES=frontend/src/*.coffee
+FILES=frontend/src/*.coffee frontend/src/widgets/*.coffee
 STATIC=static/psas/
 
 all: clean build
