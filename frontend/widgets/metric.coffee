@@ -1,4 +1,4 @@
-class window.Metric extends Widget
+class Metric extends Widget
 
     constructor: (id, @node) ->
         super(id)

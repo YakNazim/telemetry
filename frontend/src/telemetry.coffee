@@ -1,12 +1,12 @@
 # Main PSAS Controller.
 
 # inject context into a function that is othewise called globally
-window.proxy = (fn, context) ->
+proxy = (fn, context) ->
     p = -> fn.apply(context)
     return p
 
 
-# A PSAS Backend connection class
+# PSAS Backend connection class
 class Connection
 
     @server = 'ws://'+ location.host + '/ws'
@@ -69,7 +69,7 @@ class Connection
 
         return
 
-
+# Contains and handles current data
 class CurrentData
 
     # Data state
@@ -101,22 +101,18 @@ class CurrentData
         ret
 
 # Run
-
 window.start = () ->
-    #w = new Message('Messages')
-    #p = new Packets('Packets')
     #g = new Graph('graphh')
 
-    list = []
+    views = []
 
     # Get all data binds on page
     data_binds = document.querySelectorAll "[data-bind]"
-
     for node in data_binds
         n = new Metric('metric', node)
-        list.push n
+        views.push n
 
-    data = new CurrentData(list)
+    data = new CurrentData(views)
     conn = new Connection(data)
 
 #setTimeout (-> console.log data.get('d.ADIS.VCC + 1')), 3000
