@@ -18,9 +18,11 @@
         {% else %}
             <h3>{{ metric['name'] }}</h3>
             <div class="row" data-bind="{{ metric['data'] }}">
-                <pre class="col-xs-5 number {{ metric['drift'] }}" title="{{ metric['name'] }}"><span class="nodata">-----</span></pre>
-                {% if metric['spark'] %}
+                {% if metric['spark'] == "True" %}
+                    <pre class="col-xs-5 number {{ metric['drift'] }}" title="{{ metric['name'] }}"><span class="nodata">-----</span></pre>
                     <div class="col-xs-7 spark" style="height: {% if metric['drift'] == 'key' %}75{% elif  metric['drift'] == 'major' %}40{%else%}25{% end %}px;"></div>
+                {% else %}
+                    <pre class="col-xs-8 number {{ metric['drift'] }}" title="{{ metric['name'] }}"><span class="nodata">-----</span></pre>
                 {% end %}
             </div>
         {% end %}

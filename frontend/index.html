@@ -20,7 +20,7 @@
     <a class="brand" href="/"><img src="/static/css/PSAS_Logo-small.png" alt="logo" width="40" height="40"></a>
     <ul class="tabs">
      {% for tab in layouts %}
-        <li><a href="/">{{ tab['name'] }}</a></li>
+        <li><a href="{{ tab['uri'] }}">{{ tab['name'] }}</a></li>
      {% end %}
     </ul>
     <div id="status-holder" class="pull-right">

@@ -15,36 +15,29 @@ clients = []
 class MainHandler(tornado.web.RequestHandler):
     """Basic web server. This is a single page javascript webapp"""
 
-    def get(self):
-        layouts = [{'name': "Default", 'file': 'default.yml'}]
-        
-        d = os.path.dirname(os.path.realpath(__file__))
-        widgetdir = os.path.join(d, "frontend/widgets/")
-        temp = template.Loader(widgetdir)
+    Profiles = [
+        {'name': "Default", 'uri': "/", 'file': 'default.json'},
+        {'name': "ADIS", 'uri': "/profiles/adis", 'file': 'adis.json'},
+    ]
+    WidgetDir = os.path.join(os.path.dirname(os.path.realpath(__file__)), "frontend/widgets/")
+    Template = template.Loader(WidgetDir)
 
-        adis = [
-            {'name': "ADIS X-Accel", 'data': "d.ADIS.Acc_X_mean", 'drift': "key",  'spark': True},
-            {'name': "ADIS Y-Accel", 'data': "d.ADIS.Acc_Y_mean", 'drift': "major", 'spark': True},
-            {'name': "ADIS Z-Accel", 'data': "d.ADIS.Acc_Z_mean", 'drift': "major", 'spark': False},
-            {'name': "divider"},
-            {'name': "ADIS X-Gyro", 'data': "d.ADIS.Gyro_X_mean", 'drift': "minor", 'spark': True},
-            {'name': "ADIS X-Mag",  'data': "d.ADIS.Magn_X_mean", 'drift': "minor", 'spark': True},
-        ]
-        adis_html = temp.load("metric.html").generate(name="ADIS", metrics=adis)
+    def get(self, profile=None):
 
-        packet = [
-            {'name': "Time since last FC packet", 'data': "d.servertime - d.RECV_fc.TimeLastPacketReceived", 'drift': "minor", 'spark': False},
-            {'name': "Dropped FC packets",        'data': "d.RECV_fc.PacketsLostRecently", 'drift': "minor", 'spark': False},
-            {'name': "Packet Rate",               'data': "d.RECV_fc.PacketsReceivedRecently / 0.1", 'drift': "minor", 'spark': False},
-        ] 
-        packet_html = temp.load("metric.html").generate(name="Connection Stats", metrics=packet)
+        rendered_widgets = []
 
-        widgets = [
-            {'x': 1, 'y': 1, 'sx':2, 'sy': 1, 'html': packet_html},
-            {'x': 3, 'y': 1, 'sx':3, 'sy': 3, 'html': adis_html},
-       ]
+        if profile is not None:
+            filename = os.path.join(os.path.dirname(os.path.realpath(__file__)), "profiles/%s.json" % profile)
+        else:
+            filename = os.path.join(os.path.dirname(os.path.realpath(__file__)), "profiles/default.json")
 
-        self.render('index.html', layouts=layouts, widgets=widgets)
+        with open(filename, 'r') as j:
+            widgets = json.loads(j.read())
+            for w in widgets:
+                html = self.Template.load('metric.html').generate(name=w['name'], metrics=w['lines'])
+                w['html'] = html
+                rendered_widgets.append(w)
+        self.render('index.html', layouts=self.Profiles, widgets=rendered_widgets)
 
 
 class NewLayoutHandler(tornado.web.RequestHandler):
@@ -85,6 +78,7 @@ class Webservice(object):
         template_path = os.path.join(os.path.dirname(__file__), 'frontend')
         self.application = tornado.web.Application([
                 (r'/', MainHandler),
+                (r'/profiles/([^/]+)', MainHandler),
                 (r'/create', NewLayoutHandler),
                 (r'/ws', FrontEndWebSocket),
                 (r'/(.*)', tornado.web.StaticFileHandler, dict(path=static_path)),
