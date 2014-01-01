@@ -1,0 +1,39 @@
+[
+    {
+        "type": "metric", "name": "FC Packet Statistics",
+        "x": 4, "y": 1, "sx":2, "sy": 1,
+        "lines":  [
+            {"name": "Time since last FC packet",   "data": "d.servertime - d.RECV_fc.TimeLastPacketReceived",  "drift": "minor", "spark": "False"},
+            {"name": "Dropped FC packets",          "data": "d.RECV_fc.PacketsLostRecently",                    "drift": "minor", "spark": "False"},
+            {"name": "Packet Rate",                 "data": "d.RECV_fc.PacketsReceivedRecently / 0.1",          "drift": "minor", "spark": "False"}
+        ]
+    },
+    {
+        "type": "metric",
+        "name": "Roll control",
+        "x": 1, "y": 1, "sx":3, "sy": 2,
+        "lines": [
+            {"name": "X-Gyro",                  "data": "d.ADIS.Gyro_X_mean",   "drift": "key", "spark": "True"},
+            {"name": "Servo Position",          "data": "d.ROLL.PWM",           "drift": "key", "spark": "True", "format": "%5d"},
+            {"name": "Servo State",             "data": "d.ROLL.Disable",       "drift": "key", "spark": "False", "format": "special", "extra": "data-select='[[0, \"Enabled\"], [1, \"Disabled\"]]'"}
+        ]
+    },
+    {
+        "type": "metric",
+        "name": "Accel",
+        "x": 4, "y": 2, "sx":1, "sy": 1,
+        "lines": [
+            {"name": "X-Accel",                "data": "d.ADIS.Acc_X_mean",     "drift": "minor", "spark": "False"}
+        ]
+    },
+    {
+        "type": "metric",
+        "name": "Mag",
+        "x": 5, "y": 2, "sx":1, "sy": 1,
+        "lines": [
+            {"name": "X-Mag",                "data": "d.ADIS.Magn_X_mean",      "drift": "minor", "spark": "False"},
+            {"name": "Y-Mag",                "data": "d.ADIS.Magn_Y_mean",      "drift": "minor", "spark": "False"},
+            {"name": "Z-Mag",                "data": "d.ADIS.Magn_Z_mean",      "drift": "minor", "spark": "False"}
+        ]
+    }
+]

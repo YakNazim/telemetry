@@ -18,6 +18,7 @@ class MainHandler(tornado.web.RequestHandler):
     Profiles = [
         {'name': "Default", 'uri': "/", 'file': 'default.json'},
         {'name': "ADIS", 'uri': "/profiles/adis", 'file': 'adis.json'},
+        {'name': "ROLL", 'uri': "/profiles/roll", 'file': 'roll.json'},
     ]
     WidgetDir = os.path.join(os.path.dirname(os.path.realpath(__file__)), "frontend/widgets/")
     Template = template.Loader(WidgetDir)

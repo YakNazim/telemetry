@@ -96,7 +96,8 @@ class CurrentData
         try
             ret = eval(expression)
         catch error
-            console.log error
+            # Turn on for debug:
+            #console.log error
             ret = '-----'
         if not ret?
             ret = '-----'

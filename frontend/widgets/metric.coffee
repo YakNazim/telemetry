@@ -4,6 +4,10 @@ class Metric extends Widget
         super(id)
         @buffer = []
         @datastring = @node.getAttribute "data-bind"
+        @format = @node.getAttribute "data-format"
+        @select = @node.getAttribute "data-select"
+        if @select?
+            @select = JSON.parse @select
         @number = @node.firstElementChild
         @chart = @node.children[1]
         if @chart?
@@ -28,7 +32,14 @@ class Metric extends Widget
                         @buffer.push message
 
                 @spark.update @buffer, now
-            val = sprintf "%5.1f", val
+            if @format != 'special'
+                val = sprintf @format, val
+            else
+                if @select?
+                    for t in @select
+                        if val == t[0]
+                            val = t[1]
+                
         else
             val = '<span class="nodata">' + val + '</span>'
         @number.innerHTML = val
