@@ -4,6 +4,7 @@ STATIC=static/psas/telemetry.js
 all: clean build
 
 build:
+	cat `find ./frontend/ -name *.css` > static/psas/style.css
 	coffee -cj $(STATIC) $(FILES)
 
 clean:
