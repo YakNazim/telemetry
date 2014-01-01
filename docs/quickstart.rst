@@ -16,24 +16,50 @@ Installing
 
 Read about `python virualenv's! <http://blog.fruiapps.com/2012/06/An-introductory-tutorial-to-python-virtualenv-and-virtualenvwrapper>`_
 
-Make sure you have python and pip: ::
+Make sure you have python and pip ::
 
     $ sudo apt-get install python2.7 python-pip virtualenvwrapper
 
-Create an environment to run in: ::
+.. note:: If this is your first time using python virtual environments,
+          remember to kill your shell and open a new one after installing
+          virtualenvwrapper for the first time (you only have to do this
+          once).
+
+To build the javascript you need coffeescript_::
+
+    $ sudo apt-get install nodejs npm
+
+Install globablly, since you might want this for other projects.::
+
+    $ sudo npm install -g coffee-script
+
+Now you can build the js::
+
+    $ make build
+
+For the server, create a python environment to run in::
 
     $ mkvirtualenv psas-telemetry
 
-Install python dependencies: ::
+Install python dependencies::
 
-    $ pip install -r requirements.txt
+    (psas-telemetry)$ pip install -r requirements.txt
 
 
 Running
 =======
 
-Start the telemetry server ::
+Start the telemetry server.  If you changed some scripts, don't forget to
+rerun `make build`.::
 
-    $ ./telemetry.py
+    (psas-telemetry)$ ./telemetry.py
 
-Then point a browser to http://localhost:8080/
+
+Usage
+=====
+
+Once the rocket is sending data and the backend server is running, simply
+navigate to http://localhost:8080 to start seeing data.
+
+
+.. _coffeescript: http://psas.pdx.edu/
