@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/static/lib/d3.v3.min.js"></script>
+  <script src="/static/lib/jquery-1.10.2.min.js"></script>
+  <script src="/static/lib/jquery.gridster.min.js"></script>
+  <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/css/jquery.gridster.min.css" rel="stylesheet">
+  <link href="/static/css/style.css" rel="stylesheet">
+
+  <title>PSAS - Real Time Telemetry Server</title>
+ </head>
+ <body>
+
+  <div id="header">
+    <a class="brand" href="/"><img src="/static/css/PSAS_Logo-small.png" alt="logo" width="40" height="40"></a>
+    <ul class="tabs">
+     <li><a href="/">Default</a></li>
+     <li><a href="/create" class="new">New Layout</a></li>
+    </ul>
+  </div>
+
+  <div id="controls">
+    <form class="form-inline" role="form">
+      <div class="form-group">
+        <label class="col-sm-5 control-label" for="layoutname">Layout Name: </label>
+        <div class="col-sm-7">
+          <input type="text" class="form-control input-sm" id="layoutname" placeholder="Telemetry">
+        </div>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary" id="savelayout">Save</button>
+      </div>
+      <div class="form-group">
+        <button class="btn" onclick="new_grid(); return false;">Add Tile</button>
+      </div>
+    <form>
+  </div>
+
+  <div class="gridster">
+    <ul>
+    </ul>
+  </div>
+
+  <script>
+
+    var gridster;
+    
+    $(function(){ //DOM Ready
+     
+        gridster = $(".gridster ul").gridster({
+            widget_margins: [15, 15],
+            widget_base_dimensions: [200, 200],
+            avoid_overlapped_widgets: true,
+            extra_rows: 1,
+            resize: {
+                enabled: true
+            }
+        }).data('gridster');
+    });
+
+    function new_grid () {
+        var newtile = window.addTile();
+        var widget = [newtile.html(), newtile.sizex, newtile.sizey, 1, 1];
+        gridster.add_widget.apply(gridster, widget);
+    }
+  </script>
+ </body>
+</html>
+

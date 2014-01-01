@@ -1,6 +1,6 @@
 body {
     margin: 0px auto;
-    background: #fff;
+    background: #79c;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
@@ -24,7 +24,7 @@ body {
         float: left;
         list-style: none;
         margin-bottom: 0;
-        margin-top: 24px;
+        margin-top: 22px;
         padding-left: 10px;
     }
 
@@ -49,18 +49,36 @@ body {
         background: #e2effe;
     }
 
+#status-holder {
+    width: 200px;
+    margin-top: 25px;
+    color: #444;
+}
+
+    #status-holder span {
+        font-weight: bold;
+        color: #000;
+    }
+
+#controls {
+    background: #fe9;
+    height: 50px;
+}
+
+#controls form {
+    padding-top: 8px;
+}
+
 
 /* Layout */
-.container {
-  padding: 25px;
-  overflow: hidden;
-}
 
 .widget.lock {
   width: 250px;
   height: 125px;
 }
 
+
+/*Chart*/
 value{
   font-family: "Andale Mono", AndaleMono, Consolas, monaco, "Lucida Console", "Lucida Sans Typewriter", monospace;
 }
@@ -70,10 +88,39 @@ svg {
   margin: 0px 5px 10px;
 }
 
-.axis path, .axis line {
+.chart .axis path,
+.chart .tick line {
   fill: none;
-  stroke: #000;
+  stroke: #bbb;
   shape-rendering: crispEdges;
+}
+
+.chart .tick text {
+    fill: #555;
+}
+
+.chart path.line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.4;
+}
+
+.chart path.xgrid,
+.chart path.ygrid {
+    fill: none;
+    stroke: #e5e5e5;
+    stroke-dasharray: 3, 10;
+    shape-rendering: crispEdges;
+}
+
+.chart .needle {
+    fill: steelblue;
+    stroke: #ccc;
+    shape-rendering: crispEdges;
+}
+
+.chart .needlenum {
+    fill: #fff;
 }
 
 /* Text Widget */
@@ -131,4 +178,31 @@ svg {
       left: 0px;
       width: 100%;
       height: 100%;
+}
+
+
+/* Grid */
+.tile {
+    background: #fff;
+}
+
+.gridster {
+    padding: 0px;
+}
+
+.gridster ul {
+    list-style: none;
+}
+
+.gridster h4 {
+    margin-top: 0;
+    margin-bottom: 4px;
+}
+
+.tile>.lines {
+    list-style: square;
+}
+
+.nodata {
+    color: #ebb;
 }

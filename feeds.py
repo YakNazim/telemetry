@@ -71,7 +71,9 @@ class MessageReader(object):
         # packet header, sequence number
         seqn, = struct.unpack('!L', packet[0:4])
         packet = packet[4:]
-        yield {'fieldID': 'SEQN', 'n': seqn, 'recv': time.time()}
+
+        # TODO: fix hardcoded message type!!!!
+        yield {'fieldID': 'RECV_fc', 'n': seqn, 'recv': time.time()}
 
         # Loop until we've read the entire packet
         while len(packet) > 0:
@@ -95,7 +97,7 @@ class MessageReader(object):
             if message_type is not None:
 
                 # init a container for the values
-                body = {'fieldID': fourcc}
+                body = {'fieldID': fourcc, 'recv': {}, 'timestamp': time.time()}
 
                 # Fixed lenght messages have a struct already
                 st = message_type.get('struct', None)
@@ -122,9 +124,9 @@ class MessageReader(object):
                         shift = units.get('shift', 0)
                         scale = units.get('scale', 1)
                         # dump into dict
-                        body[field['key']] = (unpacked[i] * scale) + shift
+                        body['recv'][field['key']] = (unpacked[i] * scale) + shift
                     else:
-                        body[field['key']] = unpacked[i]
+                        body['recv'][field['key']] = unpacked[i]
 
                 # Debug
                 yield body
@@ -181,7 +183,7 @@ fc = {
         'MESG': {
             'type': "String",
             'members': [
-                {'key': "Message", 'struct': "STRING"},
+                {'key': "Message"},
             ],
         },
     },
