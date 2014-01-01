@@ -1,0 +1,11 @@
+[
+    {
+        "type": "metric", "name": "FC Packet Statistics",
+        "x": 4, "y": 1, "sx":2, "sy": 1,
+        "lines":  [
+            {"name": "Time since last FC packet",   "data": "d.servertime - d.RECV_fc.TimeLastPacketReceived",  "drift": "minor", "spark": "False"},
+            {"name": "Dropped FC packets",          "data": "d.RECV_fc.PacketsLostRecently",                    "drift": "minor", "spark": "False"},
+            {"name": "Packet Rate",                 "data": "d.RECV_fc.PacketsReceivedRecently / 0.1",          "drift": "minor", "spark": "False"}
+        ]
+    }
+]
