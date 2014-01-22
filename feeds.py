@@ -159,7 +159,7 @@ fc = {
                 {'key': "Magn_X",  'struct': "h", 'units': {'mks': "tesla", 'scale': 0.5}},
                 {'key': "Magn_Y",  'struct': "h", 'units': {'mks': "tesla", 'scale': 0.5}},
                 {'key': "Magn_Z",  'struct': "h", 'units': {'mks': "tesla", 'scale': 0.5}},
-                {'key': "Temp",    'struct': "h", 'units': {'mks': "kelvin", 'scale': 0.14, 'shift': 273.15}},
+                {'key': "Temp",    'struct': "h", 'units': {'mks': "c", 'scale': 0.14 , 'shift': 25}},
                 {'key': "Aux_ADC", 'struct': "h", 'units': {'mks': "volt", 'scale': 806}},
             ],
         },

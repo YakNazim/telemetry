@@ -13,9 +13,9 @@
         "name": "ADIS Vertical",
         "x": 1, "y": 1, "sx":3, "sy": 2,
         "lines": [
-            {"name": "Vertical Acceleration",   "data": "d.ADIS.Acc_X_mean",                                "drift": "key", "spark": "True"},
-            {"name": "Roll Rate",               "data": "d.ADIS.Gyro_Y_mean",                               "drift": "key", "spark": "True"},
-            {"name": "Roll Magnitometer",       "data": "d.ADIS.Magn_X_mean",                               "drift": "key", "spark": "True"}
+            {"name": "Vertical Acceleration [m/s&sup2;]", "data": "d.ADIS.Acc_X_mean",                          "drift": "key", "spark": "True"},
+            {"name": "Roll Rate [&deg;/s]",               "data": "d.ADIS.Gyro_Y_mean",                         "drift": "key", "spark": "True"},
+            {"name": "Roll Magnitometer [nT]",            "data": "d.ADIS.Magn_X_mean",                         "drift": "key", "spark": "True"}
         ]
     },
     {
@@ -23,12 +23,12 @@
         "name": "Other data",
         "x": 4, "y": 2, "sx":2, "sy": 2,
         "lines": [
-            {"name": "Temperature",            "data": "d.ADIS.Temp_mean",                                  "drift": "major", "spark": "False"},
+            {"name": "Temperature [&deg;C]",   "data": "d.ADIS.Temp_mean",                                  "drift": "major", "spark": "False"},
             {"name": "divider" },
             {"name": "Y-Mag",                  "data": "d.ADIS.Magn_Y_mean",                                "drift": "minor", "spark": "False"},
             {"name": "Z-Mag",                  "data": "d.ADIS.Magn_Z_mean",                                "drift": "minor", "spark": "False"},
             {"name": "divider" },
-            {"name": "Voltage",                "data": "d.ADIS.VCC_mean",                                   "drift": "minor", "spark": "False"}
+            {"name": "Voltage [V]",            "data": "d.ADIS.VCC_mean",                                   "drift": "minor", "spark": "False"}
         ]
     },
     {
