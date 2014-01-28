@@ -4,3 +4,4 @@
 
 .horizon { fill: #f7ffff; stroke: #999; stroke-width: 2; }
 .zenith { stroke: #c22; stroke-width: 1; shape-rendering: crispEdges; }
+.sky .grid { fill: none; stroke: #cce0e0; stroke-width: 1; stroke-dasharray: 4,7; }

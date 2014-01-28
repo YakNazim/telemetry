@@ -53,3 +53,14 @@ class Skychart
             .attr('y1', @height/2 - 5)
             .attr('x2', @width/2)
             .attr('y2', @height/2 + 5)
+
+        # grid
+        for i in [1...3] by 1
+            @mark = i * (@horizon / 3)
+
+            @svg.append("circle")
+                .attr('class', 'grid')
+                .attr('cx', @width/2)
+                .attr('cy', @height/2)
+                .attr('r', @mark)
+
