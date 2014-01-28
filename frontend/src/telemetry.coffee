@@ -109,13 +109,18 @@ window.start = () ->
 
     views = []
 
-    # Get all data binds on page
-    data_binds = document.querySelectorAll "[data-bind]"
+    # Get all data binds for metric types
+    data_binds = $('.metric *[data-bind]')
     for node in data_binds
         n = new Metric('metric', node)
         views.push n
 
+    # Get all data binds for sky types
+    data_binds = $('.sky *[data-bind]')
+    for node in data_binds
+        n = new Sky('sky', node)
+        views.push n
+
+
     data = new CurrentData(views)
     conn = new Connection(data)
-
-#setTimeout (-> console.log data.get('d.ADIS.VCC + 1')), 3000

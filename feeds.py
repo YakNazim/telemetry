@@ -203,7 +203,8 @@ GPS = {
     'messages': {
         'SATS': {
             'members': [
-                {'key': "Num_Sats"}
+                {'key': "Num_Sats"},
+                {'key': "Sky"},
             ],
         },
     },

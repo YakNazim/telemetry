@@ -1,0 +1,5 @@
+.sky { padding: 20px; height: 100%; }
+.sky h2 { margin-top: -5px; margin-bottom: 8px; font-weight: bold; color: #333; }
+.skyholder { height: 90%}
+
+.horizon { fill: #f7ffff; stroke: #999; stroke-width: 2; }
