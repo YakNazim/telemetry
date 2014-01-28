@@ -8,6 +8,7 @@ import threading
 import config
 import socket
 import time
+import gps
 
 
 ################################################################################
@@ -71,6 +72,8 @@ class GPSConst(Listener):
 
     def __init__(self, args, reader):
         super(GPSConst, self).__init__(reader)
+        # Init sat data
+        gps.init_constellation()
 
     def thread(self):
         # compute gps positions
@@ -191,7 +194,7 @@ class GPSMessages(object):
 ################################################################################
 
 # GPS Constilation
-gps = {
+GPS = {
     'listener': GPSConst,
     'listener_args': {},
     'message_type': GPSMessages,
@@ -206,7 +209,7 @@ gps = {
 
 
 # Flight Computer
-fc = {
+FC = {
     'listener': UDPListener,
     'listener_args': {'ip': "", 'port': 35001},
     'message_type': MessageReader,
@@ -257,6 +260,6 @@ fc = {
 
 # List all active feeds
 FEEDS = {
-    'fc': fc,
-    'gps': gps,
+    'fc': FC,
+    'gps': GPS,
 }
