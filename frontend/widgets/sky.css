@@ -5,4 +5,4 @@
 .horizon { fill: #f7ffff; stroke: #999; stroke-width: 2; }
 .zenith { stroke: #c22; stroke-width: 1; shape-rendering: crispEdges; opacity: 0.4; }
 .sky .grid { fill: none; stroke: #cce0e0; stroke-width: 1; stroke-dasharray: 4,7; }
-.sky .sat { fill: #c2f; stroke: #a0d; stroke-width: 1; opacity: 0.6}
+.sky .sat circle { fill: #c2f; stroke: #a0d; stroke-width: 1; opacity: 0.6}

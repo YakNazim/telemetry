@@ -74,10 +74,20 @@ class Skychart
         rad = @r
         x = @width/2
         y = @height/2
-        @svg.selectAll('.sat').data(data)
+        sats = @svg.selectAll('.sat').data(data)
             .enter()
-              .append("circle")
+              .append("g")
                 .attr('class', 'sat')
-                .attr('cx', (d) -> rad(d.alt)*Math.cos(d.az) + x)
-                .attr('cy', (d) -> rad(d.alt)*Math.sin(d.az) + y)
-                .attr('r', 7)
+                .attr("transform", (d) ->
+                    dx = rad(d.alt)*Math.cos(d.az+(Math.PI/2)) + x
+                    dy = rad(d.alt)*Math.sin(d.az+(Math.PI/2)) + y
+                    return "translate("+dx+","+dy+")")
+
+        sats.append('circle')
+            .attr('r', 7)
+
+        sats.append('text')
+            .attr("text-anchor", "middle")
+            .attr('y', 16)
+            .attr('x', 1)
+            .text((d) -> d.prn )
