@@ -1,7 +1,7 @@
 {% autoescape None %}
 <div class="metric">
     <h2>{{ name }}</h2>
-    {% for metric in metrics %}
+    {% for metric in metrics['lines'] %}
         {% if metric['name'] == 'divider' %}
             <hr class="clearfix">
         {% else %}

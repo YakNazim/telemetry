@@ -10,9 +10,14 @@
     },
     {
         "type": "metric", "name": "GPS Constellation",
-        "x": 1, "y": 1, "sx":3, "sy": 2,
+        "x": 4, "y": 2, "sx":2, "sy": 1,
         "lines": [
-            {"name": "Overhead Sats", "data": "d.SATS.Num_Sats", "drift": "key", "spark": "False", "format": "%5d"}
+            {"name": "Overhead Sats", "data": "d.SATS.Num_Sats", "drift": "major", "spark": "False", "format": "%5d"}
         ]
+    },
+    {
+        "type": "sky", "name": "Current Sky",
+        "x": 1, "y": 1, "sx":3, "sy": 3
     }
+
 ]

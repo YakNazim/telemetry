@@ -36,7 +36,7 @@ class MainHandler(tornado.web.RequestHandler):
         with open(filename, 'r') as j:
             widgets = json.loads(j.read())
             for w in widgets:
-                html = self.Template.load('metric.html').generate(name=w['name'], metrics=w['lines'])
+                html = self.Template.load(w['type']+'.html').generate(name=w['name'], metrics=w)
                 w['html'] = html
                 rendered_widgets.append(w)
         self.render('index.html', layouts=self.Profiles, widgets=rendered_widgets)
