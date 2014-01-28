@@ -32,6 +32,7 @@ class Skychart
                 .attr("transform", "translate(" + @margin.left + "," + @margin.top + ")")
 
 
+        # horizon
         @horizon = if @width <= @height then @width/2 else  @height /2
         @svg.append("circle")
             .attr('class', 'horizon')
@@ -39,4 +40,16 @@ class Skychart
             .attr('cy', @height/2)
             .attr('r', @horizon)
 
-
+        # zenith
+        @svg.append("line")
+            .attr('class', 'zenith')
+            .attr('x1', @width/2 - 5)
+            .attr('y1', @height/2)
+            .attr('x2', @width/2 + 5)
+            .attr('y2', @height/2)
+        @svg.append("line")
+            .attr('class', 'zenith')
+            .attr('x1', @width/2)
+            .attr('y1', @height/2 - 5)
+            .attr('x2', @width/2)
+            .attr('y2', @height/2 + 5)
