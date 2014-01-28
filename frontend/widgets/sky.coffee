@@ -70,7 +70,22 @@ class Skychart
                 .attr('cy', @height/2)
                 .attr('r', @mark)
 
-    update: (data)->
+        @svg.append('text')
+            .attr('class', 'label')
+            .attr('x', @width/2)
+            .attr('y', 6)
+            .attr("text-anchor", "middle")
+            .text("N")
+
+        @svg.append('text')
+            .attr('class', 'label')
+            .attr('x', @width - 30)
+            .attr('y', @height/2)
+            .text("E")
+
+
+
+    update: (data) ->
         rad = @r
         x = @width/2
         y = @height/2
@@ -79,8 +94,8 @@ class Skychart
               .append("g")
                 .attr('class', 'sat')
                 .attr("transform", (d) ->
-                    dx = rad(d.alt)*Math.cos(d.az+(Math.PI/2)) + x
-                    dy = rad(d.alt)*Math.sin(d.az+(Math.PI/2)) + y
+                    dx = -rad(d.alt)*Math.cos(d.az+(Math.PI/2)) + x
+                    dy = -rad(d.alt)*Math.sin(d.az+(Math.PI/2)) + y
                     return "translate("+dx+","+dy+")")
 
         sats.append('circle')
