@@ -105,6 +105,8 @@ class Webservice(object):
         # pull data out of queue (from listener threads)
         while not self.queue.empty():
             for data in self.queue.get():
+                # debug
+                #print data
                 pstat.append_data(data)
 
         # We're finished gathering data

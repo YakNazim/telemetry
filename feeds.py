@@ -73,13 +73,16 @@ class GPSConst(Listener):
     def __init__(self, args, reader):
         super(GPSConst, self).__init__(reader)
         # Init sat data
-        gps.init_constellation()
+        self.sats = gps.init_constellation()
 
     def thread(self):
         # compute gps positions
-        obj = self.reader.make_messages()
-        for q in self.queues:
-            q.put(obj)
+        if self.sats is not None:
+            data = gps.compute(self.sats)
+            obj = self.reader.make_messages(data)
+            if obj is not None:
+                for q in self.queues:
+                    q.put(obj)
         time.sleep(1)
 
 
@@ -183,9 +186,8 @@ class GPSMessages(object):
     def __init__(self, messages):
         self.messages = messages
 
-    def make_messages(self):
-        body = {'fieldID': "SATS", 'recv': {}, 'timestamp': time.time()}
-        body['recv']['Num_Sats'] = 5
+    def make_messages(self, data):
+        body = {'fieldID': "SATS", 'recv': data, 'timestamp': time.time()}
         yield body
 
 
