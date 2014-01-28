@@ -7,7 +7,8 @@ class Sky extends Widget
 
     update: (d) ->
         val = d.get(@datastring)
-        console.log(val)
+        if '-' not in val
+            @skychart.update(val)
 
 class Skychart
 
@@ -32,8 +33,13 @@ class Skychart
                 .attr("transform", "translate(" + @margin.left + "," + @margin.top + ")")
 
 
-        # horizon
         @horizon = if @width <= @height then @width/2 else  @height /2
+
+        @r = d3.scale.linear()
+            .domain([0, Math.PI/2])
+            .range([@horizon, 0])
+
+        # horizon
         @svg.append("circle")
             .attr('class', 'horizon')
             .attr('cx', @width/2)
@@ -64,3 +70,14 @@ class Skychart
                 .attr('cy', @height/2)
                 .attr('r', @mark)
 
+    update: (data)->
+        rad = @r
+        x = @width/2
+        y = @height/2
+        @svg.selectAll('.sat').data(data)
+            .enter()
+              .append("circle")
+                .attr('class', 'sat')
+                .attr('cx', (d) -> rad(d.alt)*Math.cos(d.az) + x)
+                .attr('cy', (d) -> rad(d.alt)*Math.sin(d.az) + y)
+                .attr('r', 7)

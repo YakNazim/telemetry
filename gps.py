@@ -41,9 +41,12 @@ def compute(sats):
     SITE.date = now
 
     count = 0
+    sky = []
     for PRN, sat in sats.iteritems():
         sat['ephem'].compute(SITE)
         if sat['ephem'].alt > 0:
             count += 1
+            sky.append({'prn': PRN, 'alt': sat['ephem'].alt, 'az': sat['ephem'].az})
+            
 
-    return {'Num_Sats': count}
+    return {'Num_Sats': count, 'Sky': sky}
