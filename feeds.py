@@ -13,14 +13,14 @@ import time
 class UDPListener(threading.Thread):
     """A reusable UDP listener that sends incoming packes to a message reader"""
 
-    def __init__(self, ip, port, reader):
+    def __init__(self, args, reader):
         threading.Thread.__init__(self)
         self._stop = threading.Event()
         self.daemon = True
         self.queues = []
         self.reader = reader
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.sock.bind((ip, port))
+        self.sock.bind((args['ip'], args['port']))
         self.sock.settimeout(0.01)
 
     def add_queue(self, q):
@@ -141,8 +141,7 @@ class MessageReader(object):
 # Flight Computer
 fc = {
     'listener': UDPListener,
-    'ip': "",
-    'port': 35001,
+    'listener_args': {'ip': "", 'port': 35001},
     'message_type': MessageReader,
     'messages': {
         'ADIS': {

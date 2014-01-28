@@ -14,10 +14,8 @@ def run():
     # Spin up listener threads
     threads = []
     for key, feed in FEEDS.iteritems():
-        ip = feed['ip']
-        port = feed['port']
         reader = feed['message_type'](feed['messages'])
-        listener = feed['listener'](ip, port, reader)
+        listener = feed['listener'](feed['listener_args'], reader)
         listener.add_queue(q)
         threads.append(listener)
 
