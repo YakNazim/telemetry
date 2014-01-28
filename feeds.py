@@ -10,42 +10,79 @@ import socket
 import time
 
 
-class UDPListener(threading.Thread):
-    """A reusable UDP listener that sends incoming packes to a message reader"""
+################################################################################
+# LISTENER CLASSES
+################################################################################
+class Listener(threading.Thread):
+    """Abstract listener class"""
 
-    def __init__(self, args, reader):
+    def __init__(self, reader):
+        """Init thread"""
         threading.Thread.__init__(self)
         self._stop = threading.Event()
         self.daemon = True
         self.queues = []
         self.reader = reader
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.sock.bind((args['ip'], args['port']))
-        self.sock.settimeout(0.01)
 
     def add_queue(self, q):
+        """Must accept a queue during initilaztion in main thread"""
         self.queues.append(q)
 
     def run(self):
+        """begin thread"""
         while (not self._stop.is_set()):
-            data = None
-            try:
-                data, addr = self.sock.recvfrom(config.PACKET_SIZE)
-                if data is not None:
-                    obj = self.reader.decode_packet(data)
-                    for q in self.queues:
-                        q.put(obj)
-            except socket.timeout:
-                pass
+            self.thread()
 
-           
     def stop(self):
+        """Stop thread"""
         self._stop.set()
         self.join()
         self.sock.close()
 
+    def thread(self):
+        """Override this to add functionality to a thread"""
+        pass
 
 
+class UDPListener(Listener):
+    """A reusable UDP listener that sends incoming packes to a message reader"""
+
+    def __init__(self, args, reader):
+        super(UDPListener, self).__init__(reader)
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.sock.bind((args['ip'], args['port']))
+        self.sock.settimeout(0.01)
+
+
+    def thread(self):
+        data = None
+        try:
+            data, addr = self.sock.recvfrom(config.PACKET_SIZE)
+            if data is not None:
+                obj = self.reader.decode_packet(data)
+                for q in self.queues:
+                    q.put(obj)
+        except socket.timeout:
+            pass
+
+
+class GPSConst(Listener):
+    """A GPS Constilation Renderer"""
+
+    def __init__(self, args, reader):
+        super(GPSConst, self).__init__(reader)
+
+    def thread(self):
+        # compute gps positions
+        obj = self.reader.make_messages()
+        for q in self.queues:
+            q.put(obj)
+        time.sleep(1)
+
+
+################################################################################
+# MESSAGE CLASSES
+################################################################################
 class MessageReader(object):
     """A message reader class for PSAS FC messages"""
 
@@ -136,7 +173,37 @@ class MessageReader(object):
             # truncate what we've already read
             packet = packet[message_length:]
 
-## Definitions of feeds:
+
+class GPSMessages(object):
+    """generage messages for GPS Const"""
+
+    def __init__(self, messages):
+        self.messages = messages
+
+    def make_messages(self):
+        body = {'fieldID': "SATS", 'recv': {}, 'timestamp': time.time()}
+        body['recv']['Num_Sats'] = 5
+        yield body
+
+
+################################################################################
+# FEED DEFS
+################################################################################
+
+# GPS Constilation
+gps = {
+    'listener': GPSConst,
+    'listener_args': {},
+    'message_type': GPSMessages,
+    'messages': {
+        'SATS': {
+            'members': [
+                {'key': "Num_Sats"}
+            ],
+        },
+    },
+}
+
 
 # Flight Computer
 fc = {
@@ -191,4 +258,5 @@ fc = {
 # List all active feeds
 FEEDS = {
     'fc': fc,
+    'gps': gps,
 }

@@ -7,5 +7,12 @@
             {"name": "Dropped FC packets",          "data": "d.RECV_fc.PacketsLostRecently",                    "drift": "minor", "spark": "False"},
             {"name": "Packet Rate",                 "data": "d.RECV_fc.PacketsReceivedRecently / 0.1",          "drift": "minor", "spark": "False"}
         ]
+    },
+    {
+        "type": "metric", "name": "GPS Constellation",
+        "x": 1, "y": 1, "sx":3, "sy": 2,
+        "lines": [
+            {"name": "Overhead Sats", "data": "d.SATS.Num_Sats", "drift": "key", "spark": "False", "format": "%5d"}
+        ]
     }
 ]
