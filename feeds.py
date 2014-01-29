@@ -239,7 +239,7 @@ FC = {
             'type': "Fixed",
             'endianness': '<',
             'members': [
-                {'key': "PWM", 'struct': "H", 'units': {'mks': "seconds", 'scale': 0}},
+                {'key': "PWM", 'struct': "H", 'units': {'mks': "seconds", 'scale': 1, 'shift': -1500}},
                 {'key': "Disable", 'struct': "B"},
             ],
         },
