@@ -6,9 +6,9 @@ class Sky extends Widget
         @skychart = new Skychart(@node, true)
 
     update: (d) ->
-        val = d.get(@datastring)
-        if '-' not in val
-            @skychart.update(val)
+        sats = d.get(@datastring)
+        if '-' not in sats
+            @skychart.update(sats)
 
 class Skychart
 
@@ -89,13 +89,28 @@ class Skychart
             .attr('x', @width - 30)
             .attr('y', @height/2)
             .text("E")
-
-
+    
+        rad = @r
+        x = @width/2
+        y = @height/2
+        @line = d3.svg.line()
+            .x((d) -> -rad(d[0])*Math.cos(d[1]+(Math.PI/2)) + x)
+            .y((d) -> -rad(d[0])*Math.sin(d[1]+(Math.PI/2)) + y)
+            .interpolate("basis")
 
     update: (data) ->
         rad = @r
         x = @width/2
         y = @height/2
+        line = @line
+
+        @svg.selectAll('.bread').data(data)
+          .enter()
+            .append('path')
+              .attr('class', 'bread')
+              .attr('d', (d) -> line(d.crumbs))
+
+
         sats = @svg.selectAll('.sat').data(data)
             .enter()
               .append("g")
