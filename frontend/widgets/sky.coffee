@@ -70,6 +70,13 @@ class Skychart
                 .attr('cy', @height/2)
                 .attr('r', @mark)
 
+        # 20 deg horiz
+        @svg.append("circle")
+            .attr('class', 'warn')
+            .attr('cx', @width/2)
+            .attr('cy', @height/2)
+            .attr('r', (@horizon*(70/90)))
+
         @svg.append('text')
             .attr('class', 'label')
             .attr('x', @width/2)
