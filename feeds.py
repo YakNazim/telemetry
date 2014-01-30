@@ -174,7 +174,7 @@ class MessageReader(object):
                 # Debug
                 yield body
             else:
-                print "skipped unkown header"
+                print "skipped unkown header", fourcc
 
             # truncate what we've already read
             packet = packet[message_length:]
@@ -256,6 +256,25 @@ FC = {
             'type': "String",
             'members': [
                 {'key': "Message"},
+            ],
+        },
+        'GPS1': {
+            'type': "Fixed",
+            'endianness': '<',
+            'members': [
+                {'key': "AgeOfDiff",        'struct': "B", 'units': {'mks': "seconds"}},
+                {'key': "NumOfSats",        'struct': "B"},
+                {'key': "GPSWeek",          'struct': "H"},
+                {'key': "GPSTimeOfWeek",    'struct': "d", 'units': {'mks': "seconds"}},
+                {'key': "Latitude",         'struct': "d", 'units': {'mks': "degrees"}},
+                {'key': "Longitude",        'struct': "d", 'units': {'mks': "degrees"}},
+                {'key': "Height",           'struct': "f", 'units': {'mks': "meters"}},
+                {'key': "VNorth",           'struct': "f", 'units': {'mks': "meter/s"}},
+                {'key': "VEast",            'struct': "f", 'units': {'mks': "meter/s"}},
+                {'key': "VUp",              'struct': "f", 'units': {'mks': "meter/s"}},
+                {'key': "StdDevResid",      'struct': "f", 'units': {'mks': "meters"}},
+                {'key': "NavMode",          'struct': "H"},
+                {'key': "ExtendedAgeOfDiff",'struct': "H", 'units': {'mks': "seconds"}},
             ],
         },
     },

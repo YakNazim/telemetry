@@ -1,23 +1,22 @@
 [
     {
-        "type": "metric", "name": "FC Packet Statistics",
-        "x": 4, "y": 1, "sx":2, "sy": 1,
-        "lines":  [
-            {"name": "Time since last FC packet",   "data": "d.servertime - d.RECV_fc.TimeLastPacketReceived",  "drift": "minor", "spark": "False"},
-            {"name": "Dropped FC packets",          "data": "d.RECV_fc.PacketsLostRecently",                    "drift": "minor", "spark": "False"},
-            {"name": "Packet Rate",                 "data": "d.RECV_fc.PacketsReceivedRecently / 0.1",          "drift": "minor", "spark": "False"}
-        ]
+        "type": "sky", "name": "Current Sky",
+        "x": 1, "y": 1, "sx":3, "sy": 3
     },
     {
         "type": "metric", "name": "GPS Constellation",
-        "x": 4, "y": 2, "sx":2, "sy": 1,
+        "x": 4, "y": 1, "sx":2, "sy": 1,
         "lines": [
-            {"name": "Overhead Sats", "data": "d.SATS.Num_Sats", "drift": "major", "spark": "False", "format": "%5d"}
+            {"name": "Overhead Sats", "data": "d.SATS.Num_Sats",  "drift": "minor", "spark": "False", "format": "%4d"},
+            {"name": "Locked Sats",   "data": "d.GPS1.NumOfSats", "drift": "major", "spark": "False", "format": "%4d"}
         ]
     },
     {
-        "type": "sky", "name": "Current Sky",
-        "x": 1, "y": 1, "sx":3, "sy": 3
+        "type": "metric", "name": "Position",
+        "x": 4, "y": 2, "sx":2, "sy": 2,
+        "lines": [
+            {"name": "Latitude",    "data": "d.GPS1.Latitude",  "drift": "minor", "spark": "False", "format": "%13.6f"},
+            {"name": "Longitude",   "data": "d.GPS1.Longitude", "drift": "minor", "spark": "False", "format": "%13.6f"}
+        ]
     }
-
 ]
