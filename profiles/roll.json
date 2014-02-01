@@ -13,7 +13,7 @@
         "name": "Roll control",
         "x": 1, "y": 1, "sx":3, "sy": 2,
         "lines": [
-            {"name": "X-Gyro",                  "data": "d.ADIS.Gyro_X_mean",   "drift": "key", "spark": "True"},
+            {"name": "X-Gyro",                  "data": "d.ADIS.Gyro_X",   "drift": "key", "spark": "True"},
             {"name": "Servo Position",          "data": "d.ROLL.PWM",           "drift": "key", "spark": "True", "format": "%5d"},
             {"name": "Servo State",             "data": "d.ROLL.Disable",       "drift": "key", "spark": "False", "format": "special", "extra": "data-select='[[0, \"Enabled\"], [1, \"Disabled\"]]'"}
         ]

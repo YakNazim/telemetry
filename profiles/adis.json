@@ -14,7 +14,7 @@
         "x": 1, "y": 1, "sx":3, "sy": 2,
         "lines": [
             {"name": "Vertical Acceleration [m/s&sup2;]", "data": "d.ADIS.Acc_X_mean",                          "drift": "key", "spark": "True"},
-            {"name": "Roll Rate [&deg;/s]",               "data": "d.ADIS.Gyro_Y_mean",                         "drift": "key", "spark": "True"},
+            {"name": "Roll Rate [&deg;/s]",               "data": "d.ADIS.Gyro_X_mean",                         "drift": "key", "spark": "True"},
             {"name": "Roll Magnitometer [uT]",            "data": "d.ADIS.Magn_X_mean",                         "drift": "key", "spark": "True"}
         ]
     },
