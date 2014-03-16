@@ -1,26 +1,46 @@
 {
   "bounds": [
-    -180,
-    -85.05112877980659,
-    180,
-    85.05112877980659
+    -120.8385,
+    43.7078,
+    -120.4732,
+    43.9011
   ],
   "center": [
-    0,
-    0,
-    2
+    -120.6492,
+    43.8075,
+    13
   ],
   "format": "png",
   "interactivity": false,
-  "minzoom": 0,
+  "minzoom": 12,
   "maxzoom": 22,
   "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
   "Stylesheet": [
     "style.mss"
   ],
-  "Layer": [],
+  "Layer": [
+    {
+      "geometry": "linestring",
+      "extent": [
+        -120.99999999999996,
+        42.99999999992207,
+        -119.99999999999994,
+        44.000000000453156
+      ],
+      "id": "contour",
+      "class": "topo",
+      "Datasource": {
+        "file": "/home/natronics/PSAS/Ground/telemetry/data/maps/Elev_322302_Crescent_E_1X1/Elev_Contour.shp"
+      },
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "contour"
+    }
+  ],
   "scale": 1,
   "metatile": 2,
   "name": "Brother Launch Site",
-  "description": "Brothers launch site"
+  "description": "Brothers launch site",
+  "attribution": ""
 }
