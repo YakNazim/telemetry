@@ -6,19 +6,55 @@
     43.9011
   ],
   "center": [
-    -120.6492,
-    43.8075,
-    13
+    -120.649,
+    43.8074,
+    14
   ],
   "format": "png",
   "interactivity": false,
-  "minzoom": 12,
+  "minzoom": 11,
   "maxzoom": 22,
   "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
   "Stylesheet": [
     "style.mss"
   ],
   "Layer": [
+    {
+      "geometry": "raster",
+      "extent": [
+        -121.29848582474001,
+        43.482187534313695,
+        -120.54474311837804,
+        43.998230960600004
+      ],
+      "id": "elevation",
+      "class": "",
+      "Datasource": {
+        "file": "/home/natronics/PSAS/Ground/telemetry/data/maps/SRTM_Brothers_relief.tif"
+      },
+      "srs-name": "900913",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "advanced": {},
+      "name": "elevation"
+    },
+    {
+      "geometry": "raster",
+      "extent": [
+        -121.29848582474001,
+        43.482187534313695,
+        -120.54474311837804,
+        43.998230960600004
+      ],
+      "id": "slope",
+      "class": "",
+      "Datasource": {
+        "file": "/home/natronics/PSAS/Ground/telemetry/data/maps/SRTM_Brothers_slope_ramp.tif"
+      },
+      "srs-name": "900913",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "advanced": {},
+      "name": "slope"
+    },
     {
       "geometry": "linestring",
       "extent": [
@@ -28,9 +64,9 @@
         44.000000000453156
       ],
       "id": "contour",
-      "class": "topo",
+      "class": "",
       "Datasource": {
-        "file": "/home/natronics/PSAS/Ground/telemetry/data/maps/Elev_322302_Crescent_E_1X1/Elev_Contour.shp"
+        "file": "/home/natronics/PSAS/Ground/telemetry/data/maps/Elev_Contour.shp"
       },
       "srs-name": "autodetect",
       "srs": "",
