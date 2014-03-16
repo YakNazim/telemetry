@@ -2,54 +2,100 @@ Map {
   background-color: #f6f4f2;
 }
 
-#elevation {
+#relief {
   raster-opacity: 0.7;
   raster-scaling: bicubic;
 }
 
 #slope {
-  raster-opacity:1;
+  raster-opacity:0;
   raster-scaling: bicubic;
   raster-comp-op: multiply;
 }
+
 
 #contour {
   line-width:0.7;
   line-color:#392b22;
   line-opacity: 0.2;
   line-comp-op: color-burn;
-  [CONTOURELE=4200],
-  [CONTOURELE=4300],
-  [CONTOURELE=4400],
-  [CONTOURELE=4500],
-  [CONTOURELE=4600], 
-  [CONTOURELE=4700], 
-  [CONTOURELE=4800], 
-  [CONTOURELE=4900], 
-  [CONTOURELE=5000], 
-  [CONTOURELE=5100], 
-  [CONTOURELE=5200],
-  [CONTOURELE=5300], 
-  [CONTOURELE=5400] {
-  line-width: 1.5;
-    ::labels {
-      text-name: [CONTOURELE];
-      text-face-name: "Droid Sans Regular";
-      text-placement: line;
-      text-ratio: 3;
-      text-fill:#392b22;
-      text-opacity: 0.6;
-      text-halo-fill: #bed993;
-      text-halo-radius: 3;
-      text-max-char-angle-delta: 40;
+  line-simplify: 0.5;
+  line-simplify-algorithm: zhao-saalfeld;
+  line-smooth: 0.4;
+
+  [zoom>=10] {
+    [ELEV=1200],
+    [ELEV=1500],
+    [ELEV=1800] {
+      line-width: 1.5;
+      ::labels {
+        text-name: [ELEV];
+        text-face-name: "Droid Sans Regular";
+        text-placement: line;
+        text-spacing: 500;
+        text-fill:#392b22;
+        text-opacity: 0.6;
+        text-halo-fill: #bed993;
+        text-halo-radius: 3;
+      }
     }
   }
+
+  [zoom>=14] {
+    [ELEV=1100],
+    [ELEV=1150],
+    [ELEV=1200],
+    [ELEV=1250],
+    [ELEV=1300],
+    [ELEV=1350],
+    [ELEV=1400],
+    [ELEV=1450],
+    [ELEV=1500],
+    [ELEV=1550],
+    [ELEV=1600],
+    [ELEV=1650], 
+    [ELEV=1700],
+    [ELEV=1750],
+    [ELEV=1800],
+    [ELEV=1850],
+    [ELEV=1900],
+    [ELEV=1950],
+    [ELEV=2000] {
+      line-width: 1.5;
+      ::labels {
+        text-name: [ELEV];
+        text-face-name: "Droid Sans Regular";
+        text-placement: line;
+        text-spacing: 500;
+        text-fill:#392b22;
+        text-opacity: 0.6;
+        text-halo-fill: #bed993;
+        text-halo-radius: 3;
+        text-max-char-angle-delta: 40;
+      }
+    }
+  }
+  [zoom>=17] {
+    line-width: 0.8;
+    line-opacity: 0.1;
+      ::labels {
+        text-name: [ELEV];
+        text-face-name: "Droid Sans Regular";
+        text-placement: line;
+        text-spacing: 500;
+        text-fill:#392b22;
+        text-opacity: 0.5;
+        text-halo-radius: 0;
+        text-max-char-angle-delta: 40;
+      }
+    }
 }
 
 #roads {
   line-width:0;
 
   [name='Central Oregon Highway'] {
+
     ::case {
       line-width: 4;
       line-color:#d83;
@@ -78,22 +124,41 @@ Map {
         line-color:#fe3;
       }
     }
+    
+    ::labels {
+      text-name: [ref];
+      text-face-name: "Droid Sans Regular";
+      text-placement: line;
+      //text-spacing: 1000;
+      text-halo-fill: #fe3;
+      text-halo-radius: 3;
+    }
   }
   
   [highway='track'],
   [highway='service'],
   [highway='residential'],
   [highway='unclassified']{
-        line-width: 1;
-        line-color:#ddd;
+        line-width: 1.5;
+        line-color:#bbb;
     [zoom>=15] {
       ::case {
         line-width: 4;
-        line-color:#ccc;
+        line-color:#bbb;
       }
       ::fill {
         line-width: 3;
-        line-color:#eee;
+        line-color:#ddd;
+      }
+     }
+     [zoom>=18] {
+      ::case {
+        line-width: 9;
+        line-color:#bbb;
+      }
+      ::fill {
+        line-width: 8;
+        line-color:#ddd;
       }
      }
   }
@@ -109,11 +174,27 @@ Map {
   [name='Frederick Butte Road'] {
     line-width: 2;
     line-color: #666;
+    ::labels {
+      text-name: [name];
+      text-face-name: "Droid Sans Regular";
+      text-placement: line;
+      //text-spacing: 1000;
+      text-halo-fill: #ccc;
+      text-halo-radius: 3;
+    }
   }
 
   [power!='']{
     line-width: 2;
     line-color:#dd26c5;
     line-opacity: 0.4;
+    ::labels {
+      text-name: [operator];
+      text-face-name: "Droid Sans Regular";
+      text-placement: line;
+      //text-spacing: 1000;
+      text-halo-fill: #eee;
+      text-halo-radius: 3;
+    }
   }
 }

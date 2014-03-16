@@ -1,9 +1,9 @@
 {
   "bounds": [
-    -120.8385,
-    43.7078,
-    -120.4732,
-    43.9011
+    -120.7382,
+    43.748,
+    -120.557,
+    43.8662
   ],
   "center": [
     -120.649,
@@ -27,15 +27,15 @@
         -120.54474311837804,
         43.998230960600004
       ],
-      "id": "elevation",
+      "id": "relief",
       "class": "",
       "Datasource": {
-        "file": "/home/natronics/PSAS/Ground/telemetry/data/maps/SRTM_Brothers_relief.tif"
+        "file": "assets/DEM/SRTM_Brothers_relief.tif"
       },
       "srs-name": "900913",
       "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
       "advanced": {},
-      "name": "elevation"
+      "name": "relief"
     },
     {
       "geometry": "raster",
@@ -48,7 +48,7 @@
       "id": "slope",
       "class": "",
       "Datasource": {
-        "file": "/home/natronics/PSAS/Ground/telemetry/data/maps/SRTM_Brothers_slope_ramp.tif"
+        "file": "assets/DEM/SRTM_Brothers_slope_ramp.tif"
       },
       "srs-name": "900913",
       "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
@@ -58,15 +58,15 @@
     {
       "geometry": "linestring",
       "extent": [
-        -120.99999999999996,
-        42.99999999992207,
-        -119.99999999999994,
-        44.000000000453156
+        -121.29848582474001,
+        43.482187534313695,
+        -120.54474311837804,
+        43.998230960600004
       ],
       "id": "contour",
       "class": "",
       "Datasource": {
-        "file": "/home/natronics/PSAS/Ground/telemetry/data/maps/Elev_Contour.shp",
+        "file": "assets/DEM/SRTM_Brothers_elevation.shp",
         "id": "contour",
         "project": "brothers",
         "srs": ""
@@ -87,7 +87,7 @@
       "id": "roads",
       "class": "",
       "Datasource": {
-        "file": "/home/natronics/PSAS/Ground/telemetry/data/maps/OSM/osm_line.shp",
+        "file": "assets/OSM/osm_line.shp",
         "id": "roads",
         "project": "brothers",
         "srs": ""
