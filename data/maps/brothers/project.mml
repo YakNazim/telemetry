@@ -66,7 +66,10 @@
       "id": "contour",
       "class": "",
       "Datasource": {
-        "file": "/home/natronics/PSAS/Ground/telemetry/data/maps/Elev_Contour.shp"
+        "file": "/home/natronics/PSAS/Ground/telemetry/data/maps/Elev_Contour.shp",
+        "id": "contour",
+        "project": "brothers",
+        "srs": ""
       },
       "srs-name": "autodetect",
       "srs": "",
