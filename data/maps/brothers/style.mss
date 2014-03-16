@@ -71,7 +71,6 @@ Map {
         text-opacity: 0.6;
         text-halo-fill: #bed993;
         text-halo-radius: 3;
-        text-max-char-angle-delta: 40;
       }
     }
   }
@@ -84,9 +83,8 @@ Map {
         text-placement: line;
         text-spacing: 500;
         text-fill:#392b22;
-        text-opacity: 0.5;
+        text-opacity: 0.17;
         text-halo-radius: 0;
-        text-max-char-angle-delta: 40;
       }
     }
 }
@@ -243,11 +241,11 @@ Map {
   
   [description='ruin'] {
     polygon-fill: #9e713b;
-    polygon-opacity: 0.3; 
+    polygon-opacity: 0.4; 
   }
   
   [description='gate'] {
-    marker-fill: #cfb3c0;
+    marker-fill: #aa6a88;
     marker-line-width: 0;
     marker-type: arrow;
     ::labels {
@@ -265,7 +263,7 @@ Map {
     ::labels {
       text-name: [Name];
       text-face-name: "Droid Sans Regular";
-      text-fill: #cfb3c0;
+      text-fill: #aa6a88;
       text-size: 13;
       text-placement: interior;
       text-allow-overlap: false;
