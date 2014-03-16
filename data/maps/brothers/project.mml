@@ -72,6 +72,27 @@
       "srs": "",
       "advanced": {},
       "name": "contour"
+    },
+    {
+      "geometry": "linestring",
+      "extent": [
+        -121.30621712128742,
+        43.19443356217296,
+        -119.56071761694871,
+        44.48255558367402
+      ],
+      "id": "roads",
+      "class": "",
+      "Datasource": {
+        "file": "/home/natronics/PSAS/Ground/telemetry/data/maps/OSM/osm_line.shp",
+        "id": "roads",
+        "project": "brothers",
+        "srs": ""
+      },
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "roads"
     }
   ],
   "scale": 1,
