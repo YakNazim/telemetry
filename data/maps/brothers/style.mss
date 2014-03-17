@@ -202,6 +202,37 @@ Map {
 }
 
 #extra {
+  [description='track'] {
+    line-width: 3;
+    line-color: #ccc;
+    line-opacity: 0.4;
+  }
+  
+  [description='trail'] {
+    line-width: 2;
+    line-color: #ddd;
+    line-opacity: 0.4;
+  }
+  
+    [description='path'] {
+    line-width: 2;
+    line-color: #b9b0a7;
+    line-opacity: 0.4;
+    line-dasharray: 5, 3;
+  }
+  
+  [description='fence'] {
+    line-width: 1;
+    line-color: #b27118;
+    line-opacity: 0.7;
+    line-dasharray: 8, 3;
+  }
+  
+  [description='ruin'] {
+    polygon-fill: #9e713b;
+    polygon-opacity: 0.4; 
+  }
+ 
   [description='road'] {
     line-width: 1.5;
         line-color:#bbb;
@@ -236,22 +267,6 @@ Map {
       }
     }
   }
-  [description='track'] {
-    line-width: 3;
-    line-color: #ccc;
-    line-opacity: 0.4;
-  }
-  
-  [description='trail'] {
-    line-width: 2;
-    line-color: #ddd;
-    line-opacity: 0.4;
-  }
-  
-  [description='ruin'] {
-    polygon-fill: #9e713b;
-    polygon-opacity: 0.4; 
-  }
   
   [description='gate'] {
     marker-fill: #aa6a88;
@@ -265,17 +280,24 @@ Map {
       text-placement: vertex;
     }
   }
+  
+   [description='tree'] {
+    marker-fill: #31691a;
+    marker-line-width: 1;
+    marker-line-color: darken(#31691a, 10%);
+    marker-type: ellipse;
+    marker-opacity: 0.5
+    }
 }
 
-#extra [description='clear'] {
-  [Name='Flight Line'] {
-    ::labels {
-      text-name: [Name];
-      text-face-name: "Droid Sans Regular";
-      text-fill: #aa6a88;
-      text-size: 13;
-      text-placement: interior;
-      text-allow-overlap: false;
-      }
+#extra [description='label'] {
+  line-smooth: 1;
+  line-width: 0;
+  ::labels {
+    text-name: [Name];
+    text-face-name: "Droid Sans Regular";
+    text-fill: #aa6a88;
+    text-size: 13;
+    text-placement: line;
   }
 }
