@@ -1,14 +1,14 @@
 {
   "bounds": [
-    -120.7382,
-    43.748,
-    -120.557,
-    43.8662
+    -120.7113,
+    43.7542,
+    -120.5879,
+    43.8427
   ],
   "center": [
-    -120.6498,
-    43.7975,
-    17
+    -120.6501,
+    43.7976,
+    18
   ],
   "format": "png",
   "interactivity": false,
@@ -123,5 +123,6 @@
   "metatile": 2,
   "name": "Brother Launch Site",
   "description": "Brothers launch site",
-  "attribution": ""
+  "attribution": "",
+  "version": "0.1.0"
 }
