@@ -6,7 +6,8 @@ SOURCE_PROJECTION=EPSG:4326
 
 # Hillshade options
 AZIMUTH=330
-ALTITUDE=60
+ALTITUDE=85
+EXAGERATE=4
 
 # Color relief options
 RAMP=colorramp.txt
@@ -23,7 +24,7 @@ webmercator:
 	gdalwarp -s_srs $(SOURCE_PROJECTION) -t_srs EPSG:3785 -r bilinear -co compress=lzw $(INPUT).tif $(INPUT)_mercator.tif
 
 hillshade: webmercator
-	gdaldem hillshade -co compress=lzw -az $(AZIMUTH) -alt $(ALTITUDE) $(INPUT)_mercator.tif $(INPUT)_hillshade.tif
+	gdaldem hillshade -co compress=lzw -az $(AZIMUTH) -alt $(ALTITUDE) -z $(EXAGERATE) $(INPUT)_mercator.tif $(INPUT)_hillshade.tif
 
 relief: webmercator
 	gdaldem color-relief $(INPUT)_mercator.tif $(RAMP) $(INPUT)_relief.tif

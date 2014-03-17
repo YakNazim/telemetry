@@ -7,12 +7,11 @@ Map {
   raster-scaling: bicubic;
 }
 
-#slope {
-  raster-opacity:0;
+#shade {
+  raster-opacity: 1;
   raster-scaling: bicubic;
-  raster-comp-op: multiply;
+  raster-comp-op: color-burn;
 }
-
 
 #contour {
   line-width:0.7;
