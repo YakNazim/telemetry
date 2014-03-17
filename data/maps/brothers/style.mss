@@ -225,6 +225,16 @@ Map {
         line-color:#ddd;
       }
     }
+    [Name='Entrance Road'] {
+      ::case {
+        line-width: 9;
+        line-color:#bdd;
+      }
+      ::fill {
+        line-width: 8;
+        line-color:#dff;
+      }
+    }
   }
   [description='track'] {
     line-width: 3;

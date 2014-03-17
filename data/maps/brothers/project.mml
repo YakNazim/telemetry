@@ -79,27 +79,6 @@
     {
       "geometry": "linestring",
       "extent": [
-        -120.65269231796266,
-        43.78210959536108,
-        -120.630784034729,
-        43.823199430823564
-      ],
-      "id": "extra",
-      "class": "",
-      "Datasource": {
-        "file": "assets/extra_data.kml",
-        "id": "extra",
-        "project": "brothers",
-        "srs": ""
-      },
-      "srs-name": "autodetect",
-      "srs": "",
-      "advanced": {},
-      "name": "extra"
-    },
-    {
-      "geometry": "linestring",
-      "extent": [
         -121.30621712128742,
         43.19443356217296,
         -119.56071761694871,
@@ -117,6 +96,27 @@
       "srs": "",
       "advanced": {},
       "name": "roads"
+    },
+    {
+      "geometry": "linestring",
+      "extent": [
+        -120.65269231796266,
+        43.78210959536108,
+        -120.630784034729,
+        43.823199430823564
+      ],
+      "id": "extra",
+      "class": "",
+      "Datasource": {
+        "file": "assets/extra_data.kml",
+        "id": "extra",
+        "project": "brothers",
+        "srs": ""
+      },
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "extra"
     }
   ],
   "scale": 1,
