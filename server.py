@@ -2,6 +2,7 @@ import tornado.ioloop
 import tornado.web
 import tornado.websocket
 from tornado import template
+import sqlite3
 import time
 import config
 import stats
@@ -10,6 +11,36 @@ import os
 
 # Stores list of attached clients for the websocket
 clients = []
+
+class Tileset(object):
+
+    def __init__(self, filename):
+        self.filename = filename
+
+    def get_tile(self, z, x, y):
+        ymax = 1 << z
+        y = ymax - y - 1
+        row = self.query('''SELECT tile_data FROM tiles
+                            WHERE zoom_level = %s
+                            AND tile_column = %s
+                            AND tile_row = %s''' % (z,x,y))
+        if not row:
+            return None
+        return bytes(row[0])
+
+    def query(self, sql):
+        db = getattr(self, '_database', None)
+        if db is None:
+            self._database = self.connect()
+            db = self._database
+        
+        cur = db.cursor()
+        cur.execute(sql)
+        row = cur.fetchone()
+        return row
+
+    def connect(self):
+        return sqlite3.connect(self.filename)
 
 
 class MainHandler(tornado.web.RequestHandler):
@@ -20,6 +51,7 @@ class MainHandler(tornado.web.RequestHandler):
         {'name': "ADIS", 'uri': "/profiles/adis", 'file': 'adis.json'},
         {'name': "ROLL", 'uri': "/profiles/roll", 'file': 'roll.json'},
         {'name': "GPS", 'uri': "/profiles/gps", 'file': 'gps.json'},
+        {'name': "Map", 'uri': "/profiles/map", 'file': 'map.json'},
     ]
     WidgetDir = os.path.join(os.path.dirname(os.path.realpath(__file__)), "frontend/widgets/")
     Template = template.Loader(WidgetDir)
@@ -47,6 +79,16 @@ class NewLayoutHandler(tornado.web.RequestHandler):
 
     def get(self):
         self.render('new.html')
+
+class TileServer(tornado.web.RequestHandler):
+
+    tilesets = {'brothers': Tileset('data/maps/brothers/mbtiles/brothers.mbtiles')}
+    def get(self, **r):
+        t = self.tilesets[r['mapname']].get_tile(int(r['z']), int(r['x']), int(r['y']))
+        if t is None:
+            t = ""
+        self.write(t)
+        self.set_header("Content-Type", "image/png")
 
 
 class FrontEndWebSocket(tornado.websocket.WebSocketHandler):
@@ -81,6 +123,7 @@ class Webservice(object):
         self.application = tornado.web.Application([
                 (r'/', MainHandler),
                 (r'/profiles/([^/]+)', MainHandler),
+                (r'/maps/(?P<mapname>[^\/]+)/?(?P<z>[^\/]+)/?(?P<x>[^\/]+)?/?(?P<y>[^\/]+)?/', TileServer),
                 (r'/create', NewLayoutHandler),
                 (r'/ws', FrontEndWebSocket),
                 (r'/(.*)', tornado.web.StaticFileHandler, dict(path=static_path)),

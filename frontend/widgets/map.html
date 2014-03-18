@@ -1,0 +1,14 @@
+{% autoescape None %}
+<div class="map">
+    <h2>{{ name }}</h2>
+    <div id="maptile" style="width:600px;height:500px;"></div>
+
+<script>
+    var map = L.map('maptile').setView([43.798806, -120.650155], 13);
+
+    L.tileLayer('/maps/brothers/{z}/{x}/{y}/', {
+        maxZoom: 20,
+    }).addTo(map);
+
+</script>
+</div>
