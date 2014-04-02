@@ -48,6 +48,7 @@ class MainHandler(tornado.web.RequestHandler):
 
     Profiles = [
         {'name': "Default", 'uri': "/", 'file': 'default.json'},
+        {'name': "FC Health", 'uri': "/profiles/health", 'file': 'health.json'},
         {'name': "ADIS", 'uri': "/profiles/adis", 'file': 'adis.json'},
         {'name': "ROLL", 'uri': "/profiles/roll", 'file': 'roll.json'},
         {'name': "GPS", 'uri': "/profiles/gps", 'file': 'gps.json'},

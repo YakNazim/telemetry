@@ -243,6 +243,27 @@ FC = {
                 {'key': "Disable", 'struct': "B"},
             ],
         },
+        'RNHH': {
+            'type': "Fixed",
+            'endianness': '!',
+            'members': [
+                {'key': "Temperature", 'struct': "H"},
+                {'key': "TS1Temperature", 'struct': "h"},
+                {'key': "TS2Temperature", 'struct': "h"},
+                {'key': "TempRange", 'struct': "H"},
+                {'key': "Voltage", 'struct': "H"},
+                {'key': "Current", 'struct': "h"},
+                {'key': "AverageCurrent", 'struct': "h"},
+                {'key': "AverageCurrent", 'struct': "h"},
+                {'key': "CellVoltage1", 'struct': "H"},
+                {'key': "CellVoltage2", 'struct': "H"},
+                {'key': "CellVoltage3", 'struct': "H"},
+                {'key': "CellVoltage4", 'struct': "H"},
+                {'key': "PackVoltage", 'struct': "H"},
+                {'key': "AverageVoltage", 'struct': "H"},
+
+            ],
+        },
         'MPL3': {
             'type': "Fixed",
             'endianness': '<',
