@@ -262,6 +262,21 @@ FC = {
                 {'key': "AverageVoltage", 'struct': "H", 'units': {'mks': "volt", 'scale': .001}},
             ],
         },
+        'RNHP': {
+            'type': "Fixed",
+            'endianness': '!',
+            'members': [
+                {'key': "Port 1 Current", 'struct': "H"},
+                {'key': "Port 2 Current", 'struct': "H"},
+                {'key': "Port 3 Current", 'struct': "H"},
+                {'key': "Port 4 Current", 'struct': "H"},
+                {'key': "Port 5 Current", 'struct': "H"},
+                {'key': "Port 6 Current", 'struct': "H"},
+                {'key': "Port 7 Current", 'struct': "H"},
+                {'key': "Port 8 Current", 'struct': "H"},
+            ],
+        },
+ 
         'MPL3': {
             'type': "Fixed",
             'endianness': '<',
