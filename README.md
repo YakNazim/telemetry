@@ -18,13 +18,11 @@ Make sure you have python and pip:
 
     $ sudo apt-get install python2.7 python-pip virtualenvwrapper
 
+If virtualenvwrapper is installed, go ahead and close your terminal and re-open it again.
+
 To build the javascript you need [coffeescript](http://coffeescript.org/)
 
-    $ sudo apt-get install nodejs npm
-
-Install globablly, since you might want this for other projects.
-
-    $ sudo npm install -g coffee-script
+    $ sudo apt-get install nodejs coffeescript
 
 Now you can build the js:
 
