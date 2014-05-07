@@ -106,7 +106,7 @@ class MessageReader(object):
                 struct_string = self.messages[message]['endianness']
                 for member in self.messages[message]['members']:
                     struct_string += member['struct']
-                self.messages[message]['struct'] = struct.Struct(struct_string)                
+                self.messages[message]['struct'] = struct.Struct(struct_string)
 
     def decode_packet(self, packet):
         """A decoder for a packet"""
@@ -266,17 +266,17 @@ FC = {
             'type': "Fixed",
             'endianness': '!',
             'members': [
-                {'key': "Port 1 Current", 'struct': "H"},
-                {'key': "Port 2 Current", 'struct': "H"},
-                {'key': "Port 3 Current", 'struct': "H"},
-                {'key': "Port 4 Current", 'struct': "H"},
-                {'key': "Port 5 Current", 'struct': "H"},
-                {'key': "Port 6 Current", 'struct': "H"},
-                {'key': "Port 7 Current", 'struct': "H"},
-                {'key': "Port 8 Current", 'struct': "H"},
+                {'key': "Port1", 'struct': "H"},
+                {'key': "Port2", 'struct': "H"},
+                {'key': "Port3", 'struct': "H"},
+                {'key': "Port4", 'struct': "H"},
+                {'key': "Port5", 'struct': "H"},
+                {'key': "Port6", 'struct': "H"},
+                {'key': "Port7", 'struct': "H"},
+                {'key': "Port8", 'struct': "H"},
             ],
         },
- 
+
         'MPL3': {
             'type': "Fixed",
             'endianness': '<',

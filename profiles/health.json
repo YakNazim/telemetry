@@ -22,5 +22,19 @@
             {"name": "Dropped FC packets",          "data": "d.RECV_fc.PacketsLostRecently",                    "drift": "minor", "spark": "False"},
             {"name": "Packet Rate",                 "data": "d.RECV_fc.PacketsReceivedRecently / 0.1",          "drift": "minor", "spark": "False"}
         ]
+    },
+    {
+        "type": "metric", "name": "Port Current Measurements",
+        "x": 1, "y": 4, "sx":5, "sy":5,
+        "lines": [
+            {"name": "Port 1",                      "data": "d.RNHP.Port1",                                     "drift": "key",    "spark": "True"},
+            {"name": "Port 2",                      "data": "d.RNHP.Port2",                                     "drift": "key",    "spark": "True"},
+            {"name": "Port 3",                      "data": "d.RNHP.Port3",                                     "drift": "key",    "spark": "True"},
+            {"name": "Port 4",                      "data": "d.RNHP.Port4",                                     "drift": "key",    "spark": "True"},
+            {"name": "Port 5",                      "data": "d.RNHP.Port5",                                     "drift": "key",    "spark": "True"},
+            {"name": "Port 6",                      "data": "d.RNHP.Port6",                                     "drift": "key",    "spark": "True"},
+            {"name": "Port 7",                      "data": "d.RNHP.Port7",                                     "drift": "key",    "spark": "True"},
+            {"name": "Port 8",                      "data": "d.RNHP.Port8",                                     "drift": "key",    "spark": "True"}
+        ]
     }
 ]
