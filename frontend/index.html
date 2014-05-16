@@ -34,7 +34,7 @@
     <ul>
       {% for widget in widgets %}
           {% autoescape None %}
-          <li class="tile" data-row="{{ widget['y'] }}" data-col="{{ widget['x'] }}" data-sizex="{{ widget['sx'] }}" data-sizey="{{ widget['sy'] }}">{{ widget['html'] }}</li>
+          <li class="tile" data-row="{{ widget['placement'][1] }}" data-col="{{ widget['placement'][0] }}" data-sizex="{{ widget['size'][0] }}" data-sizey="{{  widget['size'][1] }}">{{ widget['html'] }}</li>
       {% end %}
     </ul>
   </div>

@@ -1,0 +1,44 @@
+---
+
+title: Default
+
+blocks:
+  - title: Telemetry Example
+    type: metric
+    placement: [1,1]
+    size: [2,2]
+    contents:
+      - title: Main Number
+        data: "d.servertime - d.RECV_fc.TimeLastPacketReceived"
+        units: seconds
+        importance: major
+        viz: none
+      - title: Large Number
+        data: "d.RECV_fc.PacketsLostRecently"
+        importance: minor
+        viz: none
+      - title: Small Number
+        data: "d.RECV_fc.PacketsReceivedRecently / 0.1"
+        units: packet/second
+        importance: minor
+        viz: sparkline
+  - title: FC Packet Statistics
+    type: metric
+    placement: [3,1]
+    size: [2,1]
+    contents:
+      - title: Time since last FC packet
+        data: "d.servertime - d.RECV_fc.TimeLastPacketReceived"
+        units: seconds
+        importance: minor
+        viz: none
+      - title: Dropped FC packets
+        data: "d.RECV_fc.PacketsLostRecently"
+        importance: minor
+        viz: none
+      - title: Packet Rate
+        data: "d.RECV_fc.PacketsReceivedRecently / 0.1"
+        units: packet/second
+        importance: minor
+        viz: sparkline
+...

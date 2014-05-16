@@ -1,17 +1,17 @@
 {% autoescape None %}
 <div class="metric">
     <h2>{{ name }}</h2>
-    {% for metric in metrics['lines'] %}
-        {% if metric['name'] == 'divider' %}
+    {% for metric in metrics['contents'] %}
+        {% if metric['title'] == 'divider' %}
             <hr class="clearfix">
         {% else %}
-            <h3>{{ metric['name'] }}</h3>
+            <h3>{{ metric['title'] }}</h3>
             <div class="row" data-bind="{{ metric['data'] }}" data-format="{% if 'format' in metric %}{{ metric['format'] }}{% else %}%5.1f{% end %}" {% if 'extra' in metric %}{{ metric['extra'] }}{% end %}>
-                {% if metric['spark'] == "True" %}
-                    <pre class="col-xs-5 number {{ metric['drift'] }}" title="{{ metric['name'] }}"><span class="nodata">-----</span></pre>
-                    <div class="col-xs-7 spark" style="height: {% if metric['drift'] == 'key' %}75{% elif  metric['drift'] == 'major' %}40{%else%}25{% end %}px;"></div>
+                {% if metric['viz'] == "sparkline" %}
+                    <pre class="col-xs-5 number {{ metric['importance'] }}" title="{{ metric['title'] }}"><span class="nodata">-----</span></pre>
+                    <div class="col-xs-7 spark" style="height: {% if metric['importance'] == 'key' %}75{% elif  metric['importance'] == 'major' %}40{%else%}25{% end %}px;"></div>
                 {% else %}
-                    <pre class="col-xs-8 number {{ metric['drift'] }}" title="{{ metric['name'] }}"><span class="nodata">-----</span></pre>
+                    <pre class="col-xs-8 number {{ metric['importance'] }}" title="{{ metric['title'] }}"><span class="nodata">-----</span></pre>
                 {% end %}
             </div>
         {% end %}

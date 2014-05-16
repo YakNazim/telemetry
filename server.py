@@ -6,8 +6,10 @@ import sqlite3
 import time
 import config
 import stats
+import yaml
 import json
 import os
+import glob
 
 # Stores list of attached clients for the websocket
 clients = []
@@ -46,33 +48,55 @@ class Tileset(object):
 class MainHandler(tornado.web.RequestHandler):
     """Basic web server. This is a single page javascript webapp"""
 
-    Profiles = [
-        {'name': "Default", 'uri': "/", 'file': 'default.json'},
-        {'name': "FC Health", 'uri': "/profiles/health", 'file': 'health.json'},
-        {'name': "ADIS", 'uri': "/profiles/adis", 'file': 'adis.json'},
-        {'name': "ROLL", 'uri': "/profiles/roll", 'file': 'roll.json'},
-        {'name': "GPS", 'uri': "/profiles/gps", 'file': 'gps.json'},
-        {'name': "Map", 'uri': "/profiles/map", 'file': 'map.json'},
-    ]
     WidgetDir = os.path.join(os.path.dirname(os.path.realpath(__file__)), "frontend/widgets/")
     Template = template.Loader(WidgetDir)
 
     def get(self, profile=None):
 
-        rendered_widgets = []
+        # Find all .yml files
+        files_yml = glob.glob(os.path.join(os.path.dirname(os.path.realpath(__file__)), "profiles/*.yml"))
+
+        # Make lise of files + names
+        Profiles = []
+        for f in files_yml:
+            with open(f, 'r') as y:
+                profile = yaml.load(y, Loader=yaml.Loader)
+                Profiles.append({
+                    'name': profile['title'],
+                    'slug': profile['title'],
+                    'uri': "/",
+                    'file': f
+                })
+
+        print Profiles
 
         if profile is not None:
-            filename = os.path.join(os.path.dirname(os.path.realpath(__file__)), "profiles/%s.json" % profile)
-        else:
-            filename = os.path.join(os.path.dirname(os.path.realpath(__file__)), "profiles/default.json")
+            for p in Profiles:
+                if p['slug'] == profile:
+                    filename = p['file']
+                    break
+            else:
+                filename = os.path.join(os.path.dirname(os.path.realpath(__file__)), "profiles/default.yml")
 
-        with open(filename, 'r') as j:
-            widgets = json.loads(j.read())
-            for w in widgets:
-                html = self.Template.load(w['type']+'.html').generate(name=w['name'], metrics=w)
-                w['html'] = html
-                rendered_widgets.append(w)
-        self.render('index.html', layouts=self.Profiles, widgets=rendered_widgets)
+        # Parse profile:
+        # place to stash the rendered html inside of a widget
+        rendered_widgets = []
+
+        # Open fiel, loop, parse, render
+        with open(filename, 'r') as y:
+            profile = yaml.load(y, Loader=yaml.Loader)
+            widgets = []
+            for widget in profile['blocks']:
+                title = widget['title']
+                wtype = widget['type']
+                html = self.Template.load(wtype+'.html').generate(name=title, metrics=widget)
+
+                # store rendered html to inject in main page
+                widget['html'] = html
+                rendered_widgets.append(widget)
+
+        # final call to render page with list of rendered contents
+        self.render('index.html', layouts=Profiles, widgets=rendered_widgets)
 
 
 class NewLayoutHandler(tornado.web.RequestHandler):
