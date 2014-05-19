@@ -210,6 +210,8 @@ GPS = {
     },
 }
 
+# ADC scale for power measuremnets
+_rnhpscale = (3.3/2**12) * (63000.0/69800.0)
 
 # Flight Computer
 FC = {
@@ -266,14 +268,14 @@ FC = {
             'type': "Fixed",
             'endianness': '!',
             'members': [
-                {'key': "Port1", 'struct': "H"},
-                {'key': "Port2", 'struct': "H"},
-                {'key': "Port3", 'struct': "H"},
-                {'key': "Port4", 'struct': "H"},
-                {'key': "Port5", 'struct': "H"},
-                {'key': "Port6", 'struct': "H"},
-                {'key': "Port7", 'struct': "H"},
-                {'key': "Port8", 'struct': "H"},
+                {'key': "Port1", 'struct': "H", 'units': {'mks': "amp", 'scale': _rnhpscale}},
+                {'key': "Port2", 'struct': "H", 'units': {'mks': "amp", 'scale': _rnhpscale}},
+                {'key': "Port3", 'struct': "H", 'units': {'mks': "amp", 'scale': _rnhpscale}},
+                {'key': "Port4", 'struct': "H", 'units': {'mks': "amp", 'scale': _rnhpscale}},
+                {'key': "Port5", 'struct': "H", 'units': {'mks': "amp", 'scale': _rnhpscale}},
+                {'key': "Port6", 'struct': "H", 'units': {'mks': "amp", 'scale': _rnhpscale}},
+                {'key': "Port7", 'struct': "H", 'units': {'mks': "amp", 'scale': _rnhpscale}},
+                {'key': "Port8", 'struct': "H", 'units': {'mks': "amp", 'scale': _rnhpscale}},
             ],
         },
 
