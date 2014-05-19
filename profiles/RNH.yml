@@ -1,0 +1,122 @@
+---
+
+title: RNH
+
+blocks:
+  - title: Battery
+    type: metric
+    placement: [1,1]
+    size: [3,3]
+    contents:
+      - title: Battery Pack Current
+        data: "d.RNHH.Current"
+        units: A
+        format: "%5.3f"
+        importance: major
+        viz: sparkline
+        scale: [3.0,-3.0]
+        showzero: True
+      - title: divider
+      - title: Battery Pack Voltage
+        data: "d.RNHH.Voltage"
+        units: V
+        format: "%5.2f"
+        importance: major
+        viz: gauge
+        scale: [17,13.0]
+      - title: "Cell 1"
+        data: "d.RNHH.CellVoltage1"
+        units: V
+        format: "%5.3f"
+        importance: minor
+        viz: none
+      - title: "Cell 2"
+        data: "d.RNHH.CellVoltage2"
+        units: V
+        format: "%5.3f"
+        importance: minor
+        viz: none
+      - title: "Cell 3"
+        data: "d.RNHH.CellVoltage3"
+        units: V
+        format: "%5.3f"
+        importance: minor
+        viz: none
+      - title: "Cell 4"
+        data: "d.RNHH.CellVoltage4"
+        units: V
+        format: "%5.3f"
+        importance: minor
+        viz: none
+      - title: divider
+      - title: Battery Temperature
+        data: "d.RNHH.Temperature"
+        units: K
+        format: "%5.1f"
+        importance: major
+        viz: gauge
+        scale: [270,350]
+  - title: Port Currents
+    type: metric
+    placement: [4,1]
+    size: [2,3]
+    contents:
+      - title: "(1) Flight Computer"
+        data: "d.RNHP.Port1"
+        units: A
+        format: "%5.3f"
+        importance: minor
+        viz: sparkline
+        scale: [3.0,0.0]
+        showzero: True
+      - title: "(2) RasPi Cam"
+        data: "d.RNHP.Port2"
+        units: A
+        format: "%5.3f"
+        importance: minor
+        viz: sparkline
+        scale: [3.0,0.0]
+        showzero: True
+      - title: "(3) NC"
+        data: "d.RNHP.Port3"
+        units: A
+        format: "%5.3f"
+        importance: minor
+        viz: sparkline
+        scale: [3.0,0.0]
+        showzero: True
+      - title: "(4) IMU"
+        data: "d.RNHP.Port4"
+        units: A
+        format: "%5.3f"
+        importance: minor
+        viz: sparkline
+        scale: [3.0,0.0]
+        showzero: True
+      - title: divider
+      - title: "(6) NC"
+        data: "d.RNHP.Port6"
+        units: A
+        format: "%5.3f"
+        importance: minor
+        viz: sparkline
+        scale: [3.0,0.0]
+        showzero: True
+      - title: "(7) Roll"
+        data: "d.RNHP.Port7"
+        units: A
+        format: "%5.3f"
+        importance: minor
+        viz: sparkline
+        scale: [3.0,0.0]
+        showzero: True
+      - title: "(8) NC"
+        data: "d.RNHP.Port8"
+        units: A
+        format: "%5.3f"
+        importance: minor
+        viz: sparkline
+        scale: [3.0,0.0]
+        showzero: True
+
+...
