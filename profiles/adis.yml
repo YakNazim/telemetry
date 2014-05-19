@@ -14,7 +14,7 @@ blocks:
         format: "%5.2f"
         importance: key
         viz: sparkline
-        scale: [-18.0,18.0]
+        scale: [18.0,-18.0]
         showzero: True
       - title: Roll Rate
         data: "d.ADIS.Gyro_X_mean"
@@ -22,7 +22,7 @@ blocks:
         format: "%5.0f"
         importance: key
         viz: sparkline
-        scale: [-1000.0,1000.0]
+        scale: [1000.0,-1000.0]
         showzero: True
   - title: Accel
     type: metric

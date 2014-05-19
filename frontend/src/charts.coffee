@@ -1,7 +1,7 @@
 # Canvas base chart
 class CanvasChart
 
-    constructor: (node, @margin, xaxis, yaxis, grid)->
+    constructor: (node, @margin, xaxis, yaxis, grid, range)->
 
         w = node.clientWidth
         h = node.clientHeight
@@ -19,7 +19,7 @@ class CanvasChart
 
         @y = d3.scale.linear()
             .range([0, @height])
-            .domain([15, -15])
+            .domain(range)
 
         @x = d3.scale.linear()
             .range([0, @width])
@@ -113,7 +113,7 @@ class CanvasChart
 
 class Sparkline extends CanvasChart
 
-    constructor: (node, usekey)->
+    constructor: (node, usekey, range)->
         if usekey
             margin =
                 top: 0
@@ -126,4 +126,4 @@ class Sparkline extends CanvasChart
                 right: 5
                 bottom: 0
                 left: 7
-        super(node, margin, usekey, false, false)
+        super(node, margin, usekey, false, false, range)

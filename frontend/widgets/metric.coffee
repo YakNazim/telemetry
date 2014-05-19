@@ -6,15 +6,24 @@ class Metric extends Widget
         @datastring = @node.getAttribute "data-bind"
         @format = @node.getAttribute "data-format"
         @select = @node.getAttribute "data-select"
+        @range = @node.getAttribute "data-range"
+
         if @select?
             @select = JSON.parse @select
+
+        if @range?
+            @range = JSON.parse @range
+        else
+            @range = [10,-10]
+
         @number = @node.firstElementChild
         @chart = @node.children[1]
+
         if @chart?
             if @number.className.indexOf('key') > 0
-                @spark = new Sparkline(@chart, true)
+                @spark = new Sparkline(@chart, true, @range)
             else
-                @spark = new Sparkline(@chart, false)
+                @spark = new Sparkline(@chart, false, @range)
 
     update: (d) ->
         val = d.get(@datastring)
