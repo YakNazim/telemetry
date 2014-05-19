@@ -1,0 +1,32 @@
+---
+
+title: Roll
+
+blocks:
+  - title: Roll Control
+    type: metric
+    placement: [1,1]
+    size: [3,2]
+    contents:
+      - title: Roll Rate
+        data: "d.ADIS.Gyro_X_mean"
+        units: "&deg/s"
+        format: "%5.0f"
+        importance: key
+        viz: sparkline
+        scale: [1000.0,-1000.0]
+        showzero: True
+      - title: Servo Position
+        data: "d.ROLL.PWM"
+        format: "%5.0f"
+        importance: key
+        viz: sparkline
+        scale: [1600.0,-1600.0]
+        showzero: True
+      - title: Servo Enable State
+        format: "%2d"
+        data: "d.ROLL.Disable"
+        importance: key
+        viz: color
+
+...
