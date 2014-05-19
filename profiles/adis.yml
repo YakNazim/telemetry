@@ -1,0 +1,105 @@
+---
+
+title: ADIS
+
+blocks:
+  - title: Vertical
+    type: metric
+    placement: [1,1]
+    size: [3,2]
+    contents:
+      - title: Acceleration
+        data: "d.ADIS.Acc_X_mean"
+        units: m/s/s
+        format: "%5.2f"
+        importance: key
+        viz: sparkline
+        scale: [-18.0,18.0]
+        showzero: True
+      - title: Roll Rate
+        data: "d.ADIS.Gyro_X_mean"
+        units: deg/s
+        format: "%5.0f"
+        importance: key
+        viz: sparkline
+        scale: [-1000.0,1000.0]
+        showzero: True
+  - title: Accel
+    type: metric
+    placement: [4,1]
+    size: [1,1]
+    contents:
+      - title: Y-Accel
+        data: "d.ADIS.Acc_Y_mean"
+        units: m/s/s
+        format: "%5.2f"
+        importance: minor
+        viz: none
+      - title: Z-Accel
+        data: "d.ADIS.Acc_Z_mean"
+        units: m/s/s
+        format: "%5.2f"
+        importance: minor
+        viz: none
+  - title: Gryo
+    type: metric
+    placement: [5,1]
+    size: [1,1]
+    contents:
+      - title: Y-Gyro
+        data: "d.ADIS.Gyro_Y_mean"
+        units: deg/s
+        format: "%5.0f"
+        importance: minor
+        viz: none
+      - title: Z-Gyro
+        data: "d.ADIS.Gyro_Z_mean"
+        units: deg/s
+        format: "%5.0f"
+        importance: minor
+        viz: none
+  - title: Magnitude
+    type: metric
+    placement: [4,2]
+    size: [2,1]
+    contents:
+      - title: Acceleration
+        data: "Math.sqrt((d.ADIS.Acc_X_mean*d.ADIS.Acc_X_mean)+(d.ADIS.Acc_Y_mean*d.ADIS.Acc_Y_mean)+(d.ADIS.Acc_Z_mean*d.ADIS.Acc_Z_mean))"
+        units: m/s/s
+        format: "%5.2f"
+        importance: major
+        viz: none
+  - title: Extra
+    type: metric
+    placement: [1,3]
+    size: [1,1]
+    contents:
+      - title: Temperature
+        data: "d.ADIS.Temp_mean"
+        units: "&deg;C"
+        format: "%5.1f"
+        importance: minor
+        viz: none
+  - title: Magneto
+    type: metric
+    placement: [2,3]
+    size: [1,1]
+    contents:
+      - title: X-Mag
+        data: "d.ADIS.Magn_X_mean"
+        format: "%5.1f"
+        importance: minor
+        viz: none
+      - title: Y-Mag
+        data: "d.ADIS.Magn_Y_mean"
+        format: "%5.1f"
+        importance: minor
+        viz: none      
+      - title: Z-Mag
+        data: "d.ADIS.Magn_Z_mean"
+        format: "%5.1f"
+        importance: minor
+        viz: none
+
+
+...

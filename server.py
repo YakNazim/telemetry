@@ -60,15 +60,15 @@ class MainHandler(tornado.web.RequestHandler):
         Profiles = []
         for f in files_yml:
             with open(f, 'r') as y:
-                profile = yaml.load(y, Loader=yaml.Loader)
+                p = yaml.load(y, Loader=yaml.Loader)
                 Profiles.append({
-                    'name': profile['title'],
-                    'slug': profile['title'],
-                    'uri': "/",
+                    'name': p['title'],
+                    'slug': p['title'],
+                    'uri': "/profiles/"+p['title'],
                     'file': f
                 })
 
-        print Profiles
+        #print Profiles
 
         if profile is not None:
             for p in Profiles:
@@ -77,6 +77,8 @@ class MainHandler(tornado.web.RequestHandler):
                     break
             else:
                 filename = os.path.join(os.path.dirname(os.path.realpath(__file__)), "profiles/default.yml")
+        else:
+            filename = os.path.join(os.path.dirname(os.path.realpath(__file__)), "profiles/default.yml")
 
         # Parse profile:
         # place to stash the rendered html inside of a widget

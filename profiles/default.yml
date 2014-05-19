@@ -11,11 +11,11 @@ blocks:
       - title: Main Number
         data: "d.servertime - d.RECV_fc.TimeLastPacketReceived"
         units: seconds
-        importance: major
+        importance: key
         viz: none
       - title: Large Number
         data: "d.RECV_fc.PacketsLostRecently"
-        importance: minor
+        importance: major
         viz: none
       - title: Small Number
         data: "d.RECV_fc.PacketsReceivedRecently / 0.1"
@@ -41,4 +41,15 @@ blocks:
         units: packet/second
         importance: minor
         viz: sparkline
+  - title: Telemetry Example
+    type: metric
+    placement: [2,2]
+    size: [3,1]
+    contents:
+      - title: Small Number
+        data: "d.RECV_fc.PacketsReceivedRecently / 0.1"
+        units: packet/second
+        importance: minor
+        viz: sparkline
+
 ...

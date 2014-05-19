@@ -5,7 +5,7 @@
         {% if metric['title'] == 'divider' %}
             <hr class="clearfix">
         {% else %}
-            <h3>{{ metric['title'] }}</h3>
+            <h3>{{ metric['title'] }} {% if 'units' in metric %}<span class="units">[{{ metric['units'] }}]</span>{% end %}</h3>
             <div class="row" data-bind="{{ metric['data'] }}" data-format="{% if 'format' in metric %}{{ metric['format'] }}{% else %}%5.1f{% end %}" {% if 'extra' in metric %}{{ metric['extra'] }}{% end %}>
                 {% if metric['viz'] == "sparkline" %}
                     <pre class="col-xs-5 number {{ metric['importance'] }}" title="{{ metric['title'] }}"><span class="nodata">-----</span></pre>
