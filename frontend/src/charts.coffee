@@ -157,43 +157,30 @@ class GaugeViz
             .attr("transform", "translate(0," + @height + ")")
             .call(@xAxis)
 
-        #h = @height
-        #w = @width
-        x = @x
 
+        draw = @draw_needle
+        x = @x
+        @needle = @svg.append("path").data([range[0]])
+            .attr('class', 'needle')
+            .attr('d', (d) -> draw(d,x) )
+
+    draw_needle: (d, x)->
         needle_h = 30
         needle_w = 10
         needle_w2 = needle_w/2.0
-        @needle = @svg.append("path").data([15.5])
-            .attr('class', 'needle')
-            .attr('d', (d) ->
-                p = x(d)
-                r =  'M' + (p-needle_w2) + ' ' + 3
-                r += 'L' + (p+needle_w2) + ' ' + 3
-                r += 'L' + (p+needle_w2) + ' ' + needle_h
-                r += 'L' +  p            + ' ' + (needle_h + needle_w)
-                r += 'L' + (p-needle_w2) + ' ' + needle_h
-                r += 'L' + (p-needle_w2) + ' ' + 3
-                r
-            )
+        p = x(d)
+        r =  'M' + (p-needle_w2) + ' ' + 3
+        r += 'L' + (p+needle_w2) + ' ' + 3
+        r += 'L' + (p+needle_w2) + ' ' + needle_h
+        r += 'L' +  p            + ' ' + (needle_h + needle_w)
+        r += 'L' + (p-needle_w2) + ' ' + needle_h
+        r += 'L' + (p-needle_w2) + ' ' + 3
+        r
 
     update: (data) ->
+        draw = @draw_needle
         x = @x
-
-        needle_h = 30
-        needle_w = 10
-        needle_w2 = needle_w/2.0
-
         @needle.datum(data)
-        .attr('class', 'needle')
-            .attr('d', (d) ->
-                p = x(d)
-                r =  'M' + (p-needle_w2) + ' ' + 3
-                r += 'L' + (p+needle_w2) + ' ' + 3
-                r += 'L' + (p+needle_w2) + ' ' + needle_h
-                r += 'L' +  p            + ' ' + (needle_h + needle_w)
-                r += 'L' + (p-needle_w2) + ' ' + needle_h
-                r += 'L' + (p-needle_w2) + ' ' + 3
-                r
-            )
+            .attr('class', 'needle')
+            .attr('d', (d) -> draw(d,x) )
 

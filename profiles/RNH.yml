@@ -27,25 +27,25 @@ blocks:
       - title: "Cell 1"
         data: "d.RNHH.CellVoltage1"
         units: V
-        format: "%5.3f"
+        format: "%7.3f"
         importance: minor
         viz: none
       - title: "Cell 2"
         data: "d.RNHH.CellVoltage2"
         units: V
-        format: "%5.3f"
+        format: "%7.3f"
         importance: minor
         viz: none
       - title: "Cell 3"
         data: "d.RNHH.CellVoltage3"
         units: V
-        format: "%5.3f"
+        format: "%7.3f"
         importance: minor
         viz: none
       - title: "Cell 4"
         data: "d.RNHH.CellVoltage4"
         units: V
-        format: "%5.3f"
+        format: "%7.3f"
         importance: minor
         viz: none
       - title: divider
