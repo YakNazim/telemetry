@@ -9,5 +9,7 @@
 .metric hr { border-top: 2px solid #999; }
 .metric .spark { padding: 0; }
 .metric .spark svg { margin: 0; }
+.metric .gauge { padding: 0; }
+.metric .gauge svg { margin: 0; }
 .metric .row { margin: 0; }
-
+.gauge .needle { stroke: none; fill: #444; }

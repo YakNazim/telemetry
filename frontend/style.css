@@ -113,16 +113,6 @@ svg {
     shape-rendering: crispEdges;
 }
 
-.chart .needle {
-    fill: steelblue;
-    stroke: #ccc;
-    shape-rendering: crispEdges;
-}
-
-.chart .needlenum {
-    fill: #fff;
-}
-
 /* Text Widget */
 .widget h2 {
     margin: 0.2em 0;

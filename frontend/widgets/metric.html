@@ -10,10 +10,14 @@
                 data-bind="{{ metric['data'] }}"
                 data-format="{% if 'format' in metric %}{{ metric['format'] }}{% else %}%5.1f{% end %}"
                 {% if 'extra' in metric %}{{ metric['extra'] }}{% end %}
+                data-viz="{{ metric['viz'] }}"
                 {% if 'scale' in metric %}data-range="{{ metric['scale'] }}"{% end %}>
                 {% if metric['viz'] == "sparkline" %}
                     <pre class="col-xs-5 number {{ metric['importance'] }}" title="{{ metric['title'] }}"><span class="nodata">-----</span></pre>
                     <div class="col-xs-7 spark" style="height: {% if metric['importance'] == 'key' %}75{% elif  metric['importance'] == 'major' %}40{%else%}25{% end %}px;"></div>
+                {% elif metric['viz'] == "gauge" %}
+                    <pre class="col-xs-5 number {{ metric['importance'] }}" title="{{ metric['title'] }}"><span class="nodata">-----</span></pre>
+                    <div class="col-xs-7 gauge" style="height: {% if metric['importance'] == 'key' %}75{% elif  metric['importance'] == 'major' %}60{%else%}25{% end %}px;"></div>      
                 {% else %}
                     <pre class="col-xs-8 number {{ metric['importance'] }}" title="{{ metric['title'] }}"><span class="nodata">-----</span></pre>
                 {% end %}

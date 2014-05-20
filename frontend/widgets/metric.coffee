@@ -6,6 +6,7 @@ class Metric extends Widget
         @datastring = @node.getAttribute "data-bind"
         @format = @node.getAttribute "data-format"
         @select = @node.getAttribute "data-select"
+        @viztype = @node.getAttribute "data-viz"
         @range = @node.getAttribute "data-range"
 
         if @select?
@@ -20,10 +21,20 @@ class Metric extends Widget
         @chart = @node.children[1]
 
         if @chart?
-            if @number.className.indexOf('key') > 0
-                @spark = new Sparkline(@chart, true, @range)
-            else
-                @spark = new Sparkline(@chart, false, @range)
+
+            if @viztype == 'sparkline'
+                if @number.className.indexOf('key') > 0
+                    @spark = new Sparkline(@chart, true, @range)
+                else
+                    @spark = new Sparkline(@chart, false, @range)
+
+            if @viztype == 'gauge'
+                margin =
+                    top: 0
+                    right: 15
+                    bottom: 17
+                    left: 15
+                @viz = new GaugeViz(@chart, margin, @range)
 
     update: (d) ->
         val = d.get(@datastring)
@@ -41,6 +52,10 @@ class Metric extends Widget
                         @buffer.push message
 
                 @spark.update @buffer, now
+
+            if @viz?
+                @viz.update val
+
             if @format != 'special'
                 val = sprintf @format, val
             else

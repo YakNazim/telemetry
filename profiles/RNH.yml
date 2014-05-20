@@ -23,7 +23,7 @@ blocks:
         format: "%5.2f"
         importance: major
         viz: gauge
-        scale: [17,13.0]
+        scale: [14,17]
       - title: "Cell 1"
         data: "d.RNHH.CellVoltage1"
         units: V
@@ -55,7 +55,7 @@ blocks:
         format: "%5.1f"
         importance: major
         viz: gauge
-        scale: [270,350]
+        scale: [275,325]
   - title: Port Currents
     type: metric
     placement: [4,1]
@@ -67,7 +67,7 @@ blocks:
         format: "%5.3f"
         importance: minor
         viz: sparkline
-        scale: [3.0,0.0]
+        scale: [2.0,0.0]
         showzero: True
       - title: "(2) RasPi Cam"
         data: "d.RNHP.Port2"
@@ -75,7 +75,7 @@ blocks:
         format: "%5.3f"
         importance: minor
         viz: sparkline
-        scale: [3.0,0.0]
+        scale: [2.0,0.0]
         showzero: True
       - title: "(3) NC"
         data: "d.RNHP.Port3"
@@ -83,7 +83,7 @@ blocks:
         format: "%5.3f"
         importance: minor
         viz: sparkline
-        scale: [3.0,0.0]
+        scale: [2.0,0.0]
         showzero: True
       - title: "(4) IMU"
         data: "d.RNHP.Port4"
@@ -91,7 +91,7 @@ blocks:
         format: "%5.3f"
         importance: minor
         viz: sparkline
-        scale: [3.0,0.0]
+        scale: [2.0,0.0]
         showzero: True
       - title: divider
       - title: "(6) NC"
@@ -100,7 +100,7 @@ blocks:
         format: "%5.3f"
         importance: minor
         viz: sparkline
-        scale: [3.0,0.0]
+        scale: [2.0,0.0]
         showzero: True
       - title: "(7) Roll"
         data: "d.RNHP.Port7"
@@ -108,7 +108,7 @@ blocks:
         format: "%5.3f"
         importance: minor
         viz: sparkline
-        scale: [3.0,0.0]
+        scale: [2.0,0.0]
         showzero: True
       - title: "(8) NC"
         data: "d.RNHP.Port8"
@@ -116,7 +116,7 @@ blocks:
         format: "%5.3f"
         importance: minor
         viz: sparkline
-        scale: [3.0,0.0]
+        scale: [2.0,0.0]
         showzero: True
 
 ...

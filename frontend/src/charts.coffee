@@ -127,3 +127,73 @@ class Sparkline extends CanvasChart
                 bottom: 0
                 left: 7
         super(node, margin, usekey, false, false, range)
+
+class GaugeViz
+
+    constructor: (node, @margin, range)->
+
+        w = node.clientWidth
+        h = node.clientHeight
+
+        @width = w - @margin.left - @margin.right
+        @height = h - @margin.top - @margin.bottom
+
+        @svg = d3.select(node).append('svg')
+            .attr('class', 'chart')
+            .attr('width', @width + @margin.left + @margin.right)
+            .attr('height', @height + @margin.top + @margin.bottom)
+            .append("g")
+                .attr("transform", "translate(" + @margin.left + "," + @margin.top + ")")
+
+        @x = d3.scale.linear()
+            .range([0, @width])
+            .domain(range)
+
+        @xAxis = d3.svg.axis()
+            .scale(@x)
+
+        @svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + @height + ")")
+            .call(@xAxis)
+
+        #h = @height
+        #w = @width
+        x = @x
+
+        needle_h = 30
+        needle_w = 10
+        needle_w2 = needle_w/2.0
+        @needle = @svg.append("path").data([15.5])
+            .attr('class', 'needle')
+            .attr('d', (d) ->
+                p = x(d)
+                r =  'M' + (p-needle_w2) + ' ' + 3
+                r += 'L' + (p+needle_w2) + ' ' + 3
+                r += 'L' + (p+needle_w2) + ' ' + needle_h
+                r += 'L' +  p            + ' ' + (needle_h + needle_w)
+                r += 'L' + (p-needle_w2) + ' ' + needle_h
+                r += 'L' + (p-needle_w2) + ' ' + 3
+                r
+            )
+
+    update: (data) ->
+        x = @x
+
+        needle_h = 30
+        needle_w = 10
+        needle_w2 = needle_w/2.0
+
+        @needle.datum(data)
+        .attr('class', 'needle')
+            .attr('d', (d) ->
+                p = x(d)
+                r =  'M' + (p-needle_w2) + ' ' + 3
+                r += 'L' + (p+needle_w2) + ' ' + 3
+                r += 'L' + (p+needle_w2) + ' ' + needle_h
+                r += 'L' +  p            + ' ' + (needle_h + needle_w)
+                r += 'L' + (p-needle_w2) + ' ' + needle_h
+                r += 'L' + (p-needle_w2) + ' ' + 3
+                r
+            )
+
