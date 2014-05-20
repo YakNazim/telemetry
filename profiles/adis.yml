@@ -11,10 +11,10 @@ blocks:
       - title: Acceleration
         data: "d.ADIS.Acc_X_mean"
         units: m/s/s
-        format: "%5.2f"
+        format: "%5.1f"
         importance: key
         viz: sparkline
-        scale: [18.0,-18.0]
+        scale: [180.0,-50.0]
         showzero: True
       - title: Roll Rate
         data: "d.ADIS.Gyro_X_mean"
@@ -66,7 +66,7 @@ blocks:
       - title: Acceleration
         data: "Math.sqrt((d.ADIS.Acc_X_mean*d.ADIS.Acc_X_mean)+(d.ADIS.Acc_Y_mean*d.ADIS.Acc_Y_mean)+(d.ADIS.Acc_Z_mean*d.ADIS.Acc_Z_mean))"
         units: m/s/s
-        format: "%5.2f"
+        format: "%5.1f"
         importance: major
         viz: none
   - title: Extra
