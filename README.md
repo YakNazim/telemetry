@@ -28,7 +28,11 @@ Now you can build the js:
 
     $ make build
 
-For the server, create a python environment to run in:
+For the server, install libyaml:
+
+    $ sudo apt-get install libyaml-0-2
+
+Create a python environment to run in:
 
     $ mkvirtualenv psas-telemetry
 
