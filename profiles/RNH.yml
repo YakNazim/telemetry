@@ -94,6 +94,14 @@ blocks:
         scale: [2.0,0.0]
         showzero: True
       - title: divider
+      - title: "(5) Umbilical"
+        data: "d.RNHP.Port5"
+        units: A
+        format: "%5.3f"
+        importance: minor
+        viz: sparkline
+        scale: [2.0,0.0]
+        showzero: True
       - title: "(6) NC"
         data: "d.RNHP.Port6"
         units: A

@@ -212,7 +212,7 @@ GPS = {
 
 # ADC scale for power measuremnets
 _rnhpscale = (3.3/2**12) * (63000.0/69800.0)
-
+_rnhpumbscale = (3.3/2**12)
 # Flight Computer
 FC = {
     'listener': UDPListener,
@@ -272,7 +272,7 @@ FC = {
                 {'key': "Port2", 'struct': "H", 'units': {'mks': "amp", 'scale': _rnhpscale}},
                 {'key': "Port3", 'struct': "H", 'units': {'mks': "amp", 'scale': _rnhpscale}},
                 {'key': "Port4", 'struct': "H", 'units': {'mks': "amp", 'scale': _rnhpscale}},
-                {'key': "Port5", 'struct': "H", 'units': {'mks': "amp", 'scale': _rnhpscale}},
+                {'key': "Port5", 'struct': "H", 'units': {'mks': "amp", 'scale': _rnhpumbscale}},
                 {'key': "Port6", 'struct': "H", 'units': {'mks': "amp", 'scale': _rnhpscale}},
                 {'key': "Port7", 'struct': "H", 'units': {'mks': "amp", 'scale': _rnhpscale}},
                 {'key': "Port8", 'struct': "H", 'units': {'mks': "amp", 'scale': _rnhpscale}},
