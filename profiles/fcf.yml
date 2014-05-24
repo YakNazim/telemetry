@@ -1,0 +1,65 @@
+---
+
+title: FCF
+
+blocks:
+  - title: CPU
+    type: metric
+    placement: [1,1]
+    size: [3,2]
+    contents:
+      - title: CPU Usage
+        data: "d.FCFH.CPU_User"
+        units: '%'
+        format: "%5.1f"
+        importance: major
+        viz: sparkline
+        scale: [100, 0]
+        showzero: True
+      - title: RAM
+        data: "d.FCFH.RAM_Used"
+        units: 'MB'
+        format: "%5.0f"
+        importance: major
+        viz: gauge
+        scale: [0,2000]
+      - title: Core Temperature
+        data: "d.FCFH.Core_Temp"
+        units: K
+        format: "%5.0f"
+        importance: major
+        viz: gauge
+        scale: [275,375]
+  - title: IO
+    type: metric
+    placement: [1,1]
+    size: [3,2]
+    contents:
+      - title: Disk Write Rate
+        data: "d.FCFH.Disk_Write"
+        units: 'KB/s'
+        format: "%5.0f"
+        importance: major
+        viz: sparkline
+        scale: [1000, 0]
+        showzero: True
+      - title: wlan0 Byte Rate
+        data: "d.FCFH.IO_wlan0_Bytes_Sent"
+        units: 'KB/s'
+        format: "%5.1f"
+        importance: major
+        viz: sparkline
+        scale: [100, 0]
+        showzero: True
+  - title: Extra
+    type: metric
+    placement: [4,1]
+    size: [2,2]
+    contents:
+      - title: PIDs
+        data: "d.FCFH.PID"
+        units: No.
+        format: "%5.0f"
+        importance: minor
+        viz: none
+
