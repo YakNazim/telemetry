@@ -292,7 +292,7 @@ FC = {
                 {'key': "RAM_Buffer",                   'struct': 'Q', 'units': {'mks': "MB", 'scale': 1/float(2<<20)}},
                 {'key': "RAM_Cached",                   'struct': 'Q', 'units': {'mks': "MB", 'scale': 1/float(2<<20)}},
                 {'key': "PID",                          'struct': 'H'},
-                {'key': "Disk_Used",                    'struct': 'Q'},
+                {'key': "Disk_Used",                    'struct': 'Q', 'units': {'mks': "MB", 'scale': 1/float(2<<20)}},
                 {'key': "Disk_Read",                    'struct': 'Q', 'units': {'mks': "KB/s", 'scale': 2/float(2<<10)}},
                 {'key': "Disk_Write",                   'struct': 'Q', 'units': {'mks': "KB/s", 'scale': 2/float(2<<10)}},
                 {'key': "IO_lo_Bytes_Sent",             'struct': 'L', 'units': {'mks': "KB/s", 'scale': 2/float(2<<10)}},

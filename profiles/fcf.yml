@@ -22,7 +22,14 @@ blocks:
         format: "%5.0f"
         importance: major
         viz: gauge
-        scale: [0,2000]
+        scale: [0,1000]
+      - title: Disk Full
+        data: "d.FCFH.Disk_Used"
+        units: 'MB'
+        format: "%5.0f"
+        importance: major
+        viz: gauge
+        scale: [0,8000]
       - title: Core Temperature
         data: "d.FCFH.Core_Temp"
         units: K
@@ -62,4 +69,21 @@ blocks:
         format: "%5.0f"
         importance: minor
         viz: none
-
+      - title: Disk Fill
+        data: "d.FCFH.Disk_Used"
+        units: No.
+        format: "%5.0f"
+        importance: minor
+        viz: none
+      - title: "eth0 packets received"
+        data: "d.FCFH.IO_eth0_Packets_Recv"
+        units: No.
+        format: "%5.0f"
+        importance: minor
+        viz: none
+      - title: "eth0 bytes received"
+        data: "d.FCFH.IO_eth0_Bytes_Recv"
+        units: No.
+        format: "%5.0f"
+        importance: minor
+        viz: none
