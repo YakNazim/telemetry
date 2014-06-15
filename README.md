@@ -18,7 +18,9 @@ Make sure you have python and pip:
 
     $ sudo apt-get install python2.7 python-pip virtualenvwrapper
 
-If virtualenvwrapper is installed, go ahead and close your terminal and re-open it again.
+If virtualenvwrapper is installed, go ahead and close your terminal and re-open it again. 
+
+Return to the directory where you cloned telemetry.
 
 To build the javascript you need [coffeescript](http://coffeescript.org/)
 
@@ -53,3 +55,10 @@ rerun `make build`.
 
 Once the rocket is sending data and the backend server is running, simply
 navigate to [http://localhost:8080](http://localhost:8080) to start seeing data.
+
+ 
+## Finish and Resume
+
+When you're finished, kill the script with Ctrl+C and get out of the virtualenv with `deactivate`.
+
+To resume the environment, navigate back to this directory and run `workon psas-telemetry`.
