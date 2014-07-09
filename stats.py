@@ -12,89 +12,89 @@ class PacketStats(object):
         self.data = {}
 
         # To differentiate incoming packet info we make a list of feeds
-        self.packet_types = []
-        for p in feeds.FEEDS.keys():
-            self.packet_types.append('RECV_'+p)
+        #self.packet_types = []
+        #for p in feeds.FEEDS.keys():
+        #    self.packet_types.append('RECV_'+p)
 
 
-    def append_data(self, incoming):
-        """Called with a set of data from a thread. Should contain one
-        message (many messages per packet)"""
+    def append_data(self, feed, incoming):
+        """Called with a set of data from a thread. Should contain at least one
+        message (many messages per packet)
+        """
 
-        field_id = incoming.get('fieldID')
-        timetamp = incoming.get('timestamp')
+        # we got at least one packet
+        if feed not in self.data:
+            self.data[feed] = {
+                'PacketsReceivedRecently': 0,
+                'PacketsLostRecently': 0,
+            }
 
-        # is this a seqn number?
-        if field_id in self.packet_types:
-            if field_id not in self.data:
-                self.data[field_id] = {
-                    'PacketsReceivedRecently': 1,
-                    'LastSEQN': incoming.get('n', 0),
-                    'TimeLastPacketReceived': incoming.get('recv', 0),
-                    'PacketsLostRecently': 0,
-                }
-            else:
-                last_seqn = self.data[field_id]['LastSEQN']
-                this_seqn = incoming.get('n', 0)
+        # go through data
+        for d in incoming:
+            for fourcc, msg in d.items():
 
-                seqn_diff = this_seqn - last_seqn
-                if seqn_diff == -1:
-                    # out of order packet?
-                    pass
-                elif seqn_diff < -1:
-                    # big shift?
-                    pass
-                elif seqn_diff > 1:
-                    self.data[field_id]['PacketsLostRecently'] += seqn_diff
+                # is this a seqn number?
+                if fourcc == 'SEQN':
+                    this_seqn = msg.get('Sequence', 0)
+                    last_seqn = self.data[feed].get('LastSEQN', None)
+                    if last_seqn is None:
+                        last_seqn = this_seqn
+                    
+                    seqn_diff = this_seqn - last_seqn
 
-                self.data[field_id]['PacketsReceivedRecently'] += 1
-                self.data[field_id]['LastSEQN'] = this_seqn
-                self.data[field_id]['TimeLastPacketReceived'] = incoming.get('recv', 0)
-            return
+                    if seqn_diff == -1:
+                        # out of order packet?
+                        pass
+                    elif seqn_diff < -1:
+                        # big shift?
+                        pass
+                    elif seqn_diff > 1:
+                        self.data[feed]['PacketsLostRecently'] += seqn_diff
 
-
-        if field_id not in self.data:
-            # if we've not seen this before make it exist and init its numbers
-            self.data[field_id] = {'count': 1, 'timestamp': timetamp}
-
-            # safely get members
-            d = incoming.get('recv', {})
-            for key, val in d.iteritems():
-                # Average number types
-                if isinstance(val, float) or isinstance(val, int):
-                    self.data[field_id][key+'_delta'] = val
-                    self.data[field_id][key+'_mean'] = val
-                    self.data[field_id][key+'_S'] = 0
-                    self.data[field_id][key+'_sd'] = 0
-                    self.data[field_id][key] = val
+                    self.data[feed]['LastSEQN'] = this_seqn
+                    self.data[feed]['PacketsReceivedRecently'] += 1
+                    self.data[feed]['TimeLastPacketReceived'] = msg.get('timestamp', 0)
                 else:
-                    self.data[field_id][key] = val
-        
-        else:
-            # Not the first instance of fieldID, so we append
-            count = self.data[field_id]['count'] + 1
-            self.data[field_id]['count'] = count
-            self.data[field_id]['timestamp'] = timetamp
-            d = incoming.get('recv', {})
-            for key, val in d.iteritems():
-                if isinstance(val, float) or isinstance(val, int):
-                    # previous values
-                    mean = self.data[field_id][key+'_mean']
-                    delta = self.data[field_id][key+'_delta']
-                    S = self.data[field_id][key+'_S']
 
-                    # new values
-                    delta = val - mean
-                    mean += delta/float(count)
-                    S += delta*(val - mean)
-                    sd = sqrt(S/float(count))
+                    # first instance
+                    if fourcc not in self.data[feed]:
 
-                    # update
-                    self.data[field_id][key+'_delta'] = delta
-                    self.data[field_id][key+'_mean'] = mean
-                    self.data[field_id][key+'_S'] = S
-                    self.data[field_id][key+'_sd'] = sd
-                    self.data[field_id][key] = val
-                else:
-                    types[field_id][key] = val
+                        self.data[feed][fourcc] = {'count': 1}
 
+                        for key, val in msg.items():
+                            # Average number types
+                            if isinstance(val, float) or isinstance(val, int):
+                                self.data[feed][fourcc][key+'_delta'] = val
+                                self.data[feed][fourcc][key+'_mean'] = val
+                                self.data[feed][fourcc][key+'_S'] = 0
+                                self.data[feed][fourcc][key+'_sd'] = 0
+                                self.data[feed][fourcc][key] = val
+                            else:
+                                self.data[feed][fourcc][key] = val
+
+                    else:
+                        # more than one:
+                        count = self.data[feed][fourcc]['count'] + 1
+                        self.data[feed][fourcc]['count'] = count
+
+                        for key, val in msg.items():
+                            if isinstance(val, float) or isinstance(val, int):
+                                # previous values
+                                mean = self.data[feed][fourcc][key+'_mean']
+                                delta = self.data[feed][fourcc][key+'_delta']
+                                S = self.data[feed][fourcc][key+'_S']
+
+                                # new values
+                                delta = val - mean
+                                mean += delta/float(count)
+                                S += delta*(val - mean)
+                                sd = sqrt(S/float(count))
+
+                                # update
+                                self.data[feed][fourcc][key+'_delta'] = delta
+                                self.data[feed][fourcc][key+'_mean'] = mean
+                                self.data[feed][fourcc][key+'_S'] = S
+                                self.data[feed][fourcc][key+'_sd'] = sd
+                                self.data[feed][fourcc][key] = val
+                            else:
+                                self.data[feed][fourcc][key] = val

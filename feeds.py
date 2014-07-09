@@ -9,6 +9,7 @@ import config
 import socket
 import time
 import gps
+from psas_packet import io, network, messages
 
 
 ################################################################################
@@ -43,6 +44,21 @@ class Listener(threading.Thread):
     def thread(self):
         """Override this to add functionality to a thread"""
         pass
+
+
+class PacketListener(Listener):
+    """Use PSAS Packet"""
+
+    def thread(self):
+        data = None
+        net = io.Network(network.ListenUDP)
+        data = []
+        for d in net.listen():
+            data.append(d)
+
+        if len(data) > 0:
+            for q in self.queues:
+                q.put({'FC': data})
 
 
 class UDPListener(Listener):
