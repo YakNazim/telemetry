@@ -174,7 +174,7 @@ class MessageReader(object):
                 # Debug
                 yield body
             else:
-                print "skipped unkown header", fourcc
+                print "skipped unknown header", fourcc
 
             # truncate what we've already read
             packet = packet[message_length:]
