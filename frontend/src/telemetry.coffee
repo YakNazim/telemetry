@@ -82,8 +82,11 @@ class CurrentData
     # update state with current data
     update: (chunk) ->
         newd = JSON.parse chunk
-        for type of newd
-            d[type] = newd[type]
+        for feed of newd
+            if feed not of d
+                d[feed] = newd[feed]
+            for data of newd[feed]
+                d[feed][data] = newd[feed][data]
         for wid in @widgets
             wid.update(@)
         return

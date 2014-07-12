@@ -9,7 +9,7 @@ blocks:
     size: [3,2]
     contents:
       - title: CPU Usage
-        data: "d.FCFH.CPU_User"
+        data: "d.FC.FCFH.CPU_User"
         units: '%'
         format: "%5.1f"
         importance: major
@@ -17,21 +17,21 @@ blocks:
         scale: [100, 0]
         showzero: True
       - title: RAM
-        data: "d.FCFH.RAM_Used"
+        data: "d.FC.FCFH.RAM_Used"
         units: 'MB'
         format: "%5.0f"
         importance: major
         viz: gauge
         scale: [0,1000]
       - title: Disk Full
-        data: "d.FCFH.Disk_Used"
+        data: "d.FC.FCFH.Disk_Used"
         units: 'MB'
         format: "%5.0f"
         importance: major
         viz: gauge
         scale: [0,8000]
       - title: Core Temperature
-        data: "d.FCFH.Core_Temp"
+        data: "d.FC.FCFH.Core_Temp"
         units: K
         format: "%5.0f"
         importance: major
@@ -43,7 +43,7 @@ blocks:
     size: [3,2]
     contents:
       - title: Disk Write Rate
-        data: "d.FCFH.Disk_Write"
+        data: "d.FC.FCFH.Disk_Write"
         units: 'KB/s'
         format: "%5.0f"
         importance: major
@@ -51,7 +51,7 @@ blocks:
         scale: [1000, 0]
         showzero: True
       - title: wlan0 Byte Rate
-        data: "d.FCFH.IO_wlan0_Bytes_Sent"
+        data: "d.FC.FCFH.IO_wlan0_Bytes_Sent"
         units: 'KB/s'
         format: "%5.1f"
         importance: major
@@ -64,25 +64,25 @@ blocks:
     size: [2,2]
     contents:
       - title: PIDs
-        data: "d.FCFH.PID"
+        data: "d.FC.FCFH.PID"
         units: No.
         format: "%5.0f"
         importance: minor
         viz: none
       - title: Disk Fill
-        data: "d.FCFH.Disk_Used"
+        data: "d.FC.FCFH.Disk_Used"
         units: No.
         format: "%5.0f"
         importance: minor
         viz: none
       - title: "eth0 packets received"
-        data: "d.FCFH.IO_eth0_Packets_Recv"
+        data: "d.FC.FCFH.IO_eth0_Packets_Recv"
         units: No.
         format: "%5.0f"
         importance: minor
         viz: none
       - title: "eth0 bytes received"
-        data: "d.FCFH.IO_eth0_Bytes_Recv"
+        data: "d.FC.FCFH.IO_eth0_Bytes_Recv"
         units: No.
         format: "%5.0f"
         importance: minor

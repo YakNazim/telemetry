@@ -41,8 +41,8 @@ class Metric extends Widget
         if typeof val == 'number'
             if @spark?
                 tbase = @datastring.split '.'
-                time = d.get('d.' + tbase[1] + '.timestamp')
-                now = d.get('d.servertime')
+                time = d.get('d.' + tbase[1] + '.' + tbase[2] + '.recv')
+                now = d.get('d.server.time')
                 if val? and time?
                     message =
                         v: val

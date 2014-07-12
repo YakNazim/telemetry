@@ -76,28 +76,6 @@ class CanvasChart
 
         @path = @svg.append("path")
 
-        ###
-        @needle = @svg.append("path").data([10])
-            .attr('class', 'needle')
-            .attr('d', (d) ->
-                r =  'M' + x(0) + ' ' + (y(d))
-                r += 'L' + (x(0)+6) + ' ' + (y(d)+6)
-                r += 'L' + (x(0)+25) + ' ' + (y(d)+6)
-                r += 'L' + (x(0)+25) + ' ' + (y(d)-6)
-                r += 'L' + (x(0)+6) + ' ' + (y(d)-6)
-                r += 'L' + x(0) + ' ' + (y(d))
-                r
-            )
-        @needlenum = @svg.append('text').data([10])
-            .attr('class', 'needlenum')
-            .style("text-anchor", "end")
-            .attr('x', (d) -> x(0) )
-            .attr('y', (d) -> y(d) )
-            .attr('dx', '21px')
-            .attr('dy', '4px')
-            .text((d) -> d)
-        ###
-
     update: (data, now)->
         timedata = []
         for d in data

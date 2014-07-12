@@ -49,11 +49,16 @@ class Listener(threading.Thread):
 class PacketListener(Listener):
     """Use PSAS Packet"""
 
+    def __init__(self):
+        super(PacketListener, self).__init__(None)
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.sock.bind(('', 35001))
+        self.net = io.Network(self.sock)
+
     def thread(self):
         data = None
-        net = io.Network(network.ListenUDP)
         data = []
-        for d in net.listen():
+        for d in self.net.listen():
             data.append(d)
 
         if len(data) > 0:

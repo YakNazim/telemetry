@@ -9,7 +9,7 @@ blocks:
     size: [3,2]
     contents:
       - title: Acceleration
-        data: "d.ADIS.Acc_X_mean"
+        data: "d.FC.ADIS.Acc_X_mean"
         units: m/s/s
         format: "%5.1f"
         importance: key
@@ -17,7 +17,7 @@ blocks:
         scale: [180.0,-50.0]
         showzero: True
       - title: Roll Rate
-        data: "d.ADIS.Gyro_X_mean"
+        data: "d.FC.ADIS.Gyro_X_mean"
         units: deg/s
         format: "%5.0f"
         importance: key
@@ -30,13 +30,13 @@ blocks:
     size: [1,1]
     contents:
       - title: Y-Accel
-        data: "d.ADIS.Acc_Y_mean"
+        data: "d.FC.ADIS.Acc_Y_mean"
         units: m/s/s
         format: "%5.2f"
         importance: minor
         viz: none
       - title: Z-Accel
-        data: "d.ADIS.Acc_Z_mean"
+        data: "d.FC.ADIS.Acc_Z_mean"
         units: m/s/s
         format: "%5.2f"
         importance: minor
@@ -47,13 +47,13 @@ blocks:
     size: [1,1]
     contents:
       - title: Y-Gyro
-        data: "d.ADIS.Gyro_Y_mean"
+        data: "d.FC.ADIS.Gyro_Y_mean"
         units: deg/s
         format: "%5.0f"
         importance: minor
         viz: none
       - title: Z-Gyro
-        data: "d.ADIS.Gyro_Z_mean"
+        data: "d.FC.ADIS.Gyro_Z_mean"
         units: deg/s
         format: "%5.0f"
         importance: minor
@@ -64,7 +64,7 @@ blocks:
     size: [2,1]
     contents:
       - title: Acceleration
-        data: "Math.sqrt((d.ADIS.Acc_X_mean*d.ADIS.Acc_X_mean)+(d.ADIS.Acc_Y_mean*d.ADIS.Acc_Y_mean)+(d.ADIS.Acc_Z_mean*d.ADIS.Acc_Z_mean))"
+        data: "Math.sqrt((d.FC.ADIS.Acc_X_mean*d.FC.ADIS.Acc_X_mean)+(d.FC.ADIS.Acc_Y_mean*d.FC.ADIS.Acc_Y_mean)+(d.FC.ADIS.Acc_Z_mean*d.FC.ADIS.Acc_Z_mean))"
         units: m/s/s
         format: "%5.1f"
         importance: major
@@ -75,7 +75,7 @@ blocks:
     size: [1,1]
     contents:
       - title: Temperature
-        data: "d.ADIS.Temp_mean"
+        data: "d.FC.ADIS.Temp_mean"
         units: "&deg;C"
         format: "%5.1f"
         importance: minor
@@ -86,17 +86,17 @@ blocks:
     size: [1,1]
     contents:
       - title: X-Mag
-        data: "d.ADIS.Magn_X_mean"
+        data: "d.FC.ADIS.Magn_X_mean"
         format: "%5.1f"
         importance: minor
         viz: none
       - title: Y-Mag
-        data: "d.ADIS.Magn_Y_mean"
+        data: "d.FC.ADIS.Magn_Y_mean"
         format: "%5.1f"
         importance: minor
         viz: none      
       - title: Z-Mag
-        data: "d.ADIS.Magn_Z_mean"
+        data: "d.FC.ADIS.Magn_Z_mean"
         format: "%5.1f"
         importance: minor
         viz: none

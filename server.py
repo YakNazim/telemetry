@@ -182,7 +182,7 @@ class Webservice(object):
         # We're finished gathering data
         data = pstat.data
 
-        data['servertime'] = time.time()
+        data['server'] = {'time': time.time()}
 
         # write data to clients
         for client in clients:

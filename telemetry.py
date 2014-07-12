@@ -21,7 +21,7 @@ def run():
     #    threads.append(listener)
 
 
-    playtime = PacketListener(None)
+    playtime = PacketListener()
     playtime.add_queue(q)
     threads.append(playtime)
 
