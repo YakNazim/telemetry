@@ -9,7 +9,7 @@ import config
 import socket
 import time
 import gps
-from psas_packet import io, network, messages
+from psas_packet import io, messages
 
 
 ################################################################################
@@ -53,39 +53,20 @@ class PacketListener(Listener):
         super(PacketListener, self).__init__(None)
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.bind(('', 35001))
+        #self.sock.settimeout(1)
         self.net = io.Network(self.sock)
 
     def thread(self):
         data = None
         data = []
         for d in self.net.listen():
-            data.append(d)
+            timestamp, values = d
+            fourcc, values = values
+            data.append({fourcc: dict({'recv': timestamp}, **values)})
 
         if len(data) > 0:
             for q in self.queues:
                 q.put({'FC': data})
-
-
-class UDPListener(Listener):
-    """A reusable UDP listener that sends incoming packes to a message reader"""
-
-    def __init__(self, args, reader):
-        super(UDPListener, self).__init__(reader)
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.sock.bind((args['ip'], args['port']))
-        self.sock.settimeout(0.01)
-
-
-    def thread(self):
-        data = None
-        try:
-            data, addr = self.sock.recvfrom(config.PACKET_SIZE)
-            if data is not None:
-                obj = self.reader.decode_packet(data)
-                for q in self.queues:
-                    q.put(obj)
-        except socket.timeout:
-            pass
 
 
 class GPSConst(Listener):
@@ -106,101 +87,6 @@ class GPSConst(Listener):
                     q.put(obj)
         time.sleep(1)
 
-
-################################################################################
-# MESSAGE CLASSES
-################################################################################
-class MessageReader(object):
-    """A message reader class for PSAS FC messages"""
-
-    # This header is consistant across messages
-    header = struct.Struct('!4sHLH')
-
-    def __init__(self, messages):
-        self.messages = messages
-        self.compute_sizes()
-
-    def compute_sizes(self):
-        """Build a struct object based on the field definitions"""
-        for message in self.messages:
-            if self.messages[message]['type'] == "Fixed":
-                struct_string = self.messages[message]['endianness']
-                for member in self.messages[message]['members']:
-                    struct_string += member['struct']
-                self.messages[message]['struct'] = struct.Struct(struct_string)
-
-    def decode_packet(self, packet):
-        """A decoder for a packet"""
-
-        # packet header, sequence number
-        seqn, = struct.unpack('!L', packet[0:4])
-        packet = packet[4:]
-
-        # TODO: fix hardcoded message type!!!!
-        yield {'fieldID': 'RECV_fc', 'n': seqn, 'recv': time.time()}
-
-        # Loop until we've read the entire packet
-        while len(packet) > 0:
-            # Read header:
-            try:
-                fourcc, timestamp_hi, timestamp_lo, message_length = self.header.unpack(packet[:self.header.size])
-            except:
-                print "Can't Read Header!!"
-                break
-            # fix timestamp
-            timestamp = timestamp_hi << 32 | timestamp_lo
-            # truncate what we've already read
-            packet = packet[self.header.size:]
-
-            # Debug
-            #print fourcc, timestamp, message_length
-
-            # Read body:
-            # get message type from header
-            message_type = self.messages.get(fourcc, None)
-            if message_type is not None:
-
-                # init a container for the values
-                body = {'fieldID': fourcc, 'recv': {}, 'timestamp': time.time()}
-
-                # Fixed lenght messages have a struct already
-                st = message_type.get('struct', None)
-                if st is not None:
-                    # check to see if we read the right number of bytes
-                    if message_length != st.size:
-                        # If the message isn't the right length, lets try and unpack
-                        # it using the size of the struct.
-                        message_length = st.size
-                else:
-                    st = struct.Struct('%ds'%message_length)
-
-                # read from packet
-                try:
-                    unpacked = st.unpack(packet[:message_length])
-                except:
-                    print "message read error"
-                    packet = packet[message_length:]
-                    continue
-                for i, field in enumerate(message_type['members']):
-                    # get unit math
-                    units = field.get('units', None)
-                    if units is not None:
-                        shift = units.get('shift', 0)
-                        scale = units.get('scale', 1)
-                        # dump into dict
-                        body['recv'][field['key']] = (unpacked[i] * scale) + shift
-                    else:
-                        body['recv'][field['key']] = unpacked[i]
-
-                # Debug
-                yield body
-            else:
-                print "skipped unkown header", fourcc
-
-            # truncate what we've already read
-            packet = packet[message_length:]
-
-
 class GPSMessages(object):
     """generage messages for GPS Const"""
 
@@ -210,166 +96,3 @@ class GPSMessages(object):
     def make_messages(self, data):
         body = {'fieldID': "SATS", 'recv': data, 'timestamp': time.time()}
         yield body
-
-
-################################################################################
-# FEED DEFS
-################################################################################
-
-# GPS Constilation
-GPS = {
-    'listener': GPSConst,
-    'listener_args': {},
-    'message_type': GPSMessages,
-    'messages': {
-        'SATS': {
-            'members': [
-                {'key': "Num_Sats"},
-                {'key': "Sky"},
-            ],
-        },
-    },
-}
-
-# ADC scale for power measuremnets
-_rnhpscale = (3.3/2**12) * (63000.0/69800.0)
-_rnhpumbscale = (3.3/2**12)
-# Flight Computer
-FC = {
-    'listener': UDPListener,
-    'listener_args': {'ip': "", 'port': 35001},
-    'message_type': MessageReader,
-    'messages': {
-        'ADIS': {
-            'type': "Fixed",
-            'endianness': '!',
-            'members': [
-                {'key': "VCC",     'struct': "h", 'units': {'mks': "volt", 'scale': 0.002418}},
-                {'key': "Gyro_X",  'struct': "h", 'untis': {'mks': "hertz", 'scale': 0.05}},
-                {'key': "Gyro_Y",  'struct': "h", 'units': {'mks': "hertz", 'scale': 0.05}},
-                {'key': "Gyro_Z",  'struct': "h", 'units': {'mks': "hertz", 'scale': 0.05}},
-                {'key': "Acc_X",   'struct': "h", 'units': {'mks': "meter/s/s", 'scale': 0.0333}},
-                {'key': "Acc_Y",   'struct': "h", 'units': {'mks': "meter/s/s", 'scale': 0.0333}},
-                {'key': "Acc_Z",   'struct': "h", 'units': {'mks': "meter/s/s", 'scale': 0.0333}},
-                {'key': "Magn_X",  'struct': "h", 'units': {'mks': "tesla", 'scale': 0.05}},
-                {'key': "Magn_Y",  'struct': "h", 'units': {'mks': "tesla", 'scale': 0.05}},
-                {'key': "Magn_Z",  'struct': "h", 'units': {'mks': "tesla", 'scale': 0.05}},
-                {'key': "Temp",    'struct': "h", 'units': {'mks': "c", 'scale': 0.14 , 'shift': 25}},
-                {'key': "Aux_ADC", 'struct': "h", 'units': {'mks': "volt", 'scale': 806}},
-            ],
-        },
-        'ROLL': {
-            'type': "Fixed",
-            'endianness': '<',
-            'members': [
-                {'key': "PWM", 'struct': "H", 'units': {'mks': "seconds", 'scale': 1, 'shift': -1500}},
-                {'key': "Disable", 'struct': "B"},
-            ],
-        },
-        'RNHH': {
-            'type': "Fixed",
-            'endianness': '!',
-            'members': [
-                {'key': "Temperature", 'struct': "H", 'units': {'mks': "k", 'scale': .1}},
-                {'key': "TS1Temperature", 'struct': "h", 'units': {'mks': "c", 'scale': .1}},
-                {'key': "TS2Temperature", 'struct': "h", 'units': {'mks': "c", 'scale': .1}},
-                {'key': "TempRange", 'struct': "H"},
-                {'key': "Voltage", 'struct': "H", 'units': {'mks': "volt", 'scale': .001}},
-                {'key': "Current", 'struct': "h", 'units': {'mks': "amp", 'scale': .001}},
-                {'key': "AverageCurrent", 'struct': "h", 'units': {'mks': "amp", 'scale': .001}},
-                {'key': "CellVoltage1", 'struct': "H", 'units': {'mks': "volt", 'scale': .001}},
-                {'key': "CellVoltage2", 'struct': "H", 'units': {'mks': "volt", 'scale': .001}},
-                {'key': "CellVoltage3", 'struct': "H", 'units': {'mks': "volt", 'scale': .001}},
-                {'key': "CellVoltage4", 'struct': "H", 'units': {'mks': "volt", 'scale': .001}},
-                {'key': "PackVoltage", 'struct': "H", 'units': {'mks': "volt", 'scale': .001}},
-                {'key': "AverageVoltage", 'struct': "H", 'units': {'mks': "volt", 'scale': .001}},
-            ],
-        },
-        'RNHP': {
-            'type': "Fixed",
-            'endianness': '!',
-            'members': [
-                {'key': "Port1", 'struct': "H", 'units': {'mks': "amp", 'scale': _rnhpscale}},
-                {'key': "Port2", 'struct': "H", 'units': {'mks': "amp", 'scale': _rnhpscale}},
-                {'key': "Port3", 'struct': "H", 'units': {'mks': "amp", 'scale': _rnhpscale}},
-                {'key': "Port4", 'struct': "H", 'units': {'mks': "amp", 'scale': _rnhpscale}},
-                {'key': "Port5", 'struct': "H", 'units': {'mks': "amp", 'scale': _rnhpumbscale}},
-                {'key': "Port6", 'struct': "H", 'units': {'mks': "amp", 'scale': _rnhpscale}},
-                {'key': "Port7", 'struct': "H", 'units': {'mks': "amp", 'scale': _rnhpscale}},
-                {'key': "Port8", 'struct': "H", 'units': {'mks': "amp", 'scale': _rnhpscale}},
-            ],
-        },
-        'FCFH': {
-            'type': "Fixed",
-            'endianness': '!',
-            'members': [
-                {'key': "CPU_User",                     'struct': 'f'},
-                {'key': "CPU_System",                   'struct': 'f'},
-                {'key': "CPU_Nice",                     'struct': 'f'},
-                {'key': "CPU_IOWait",                   'struct': 'f'},
-                {'key': "CPU_IRQ",                      'struct': 'f'},
-                {'key': "CPU_SoftIRQ",                  'struct': 'f'},
-                {'key': "RAM_Used",                     'struct': 'Q', 'units': {'mks': "MB", 'scale': 1/float(2<<20)}},
-                {'key': "RAM_Buffer",                   'struct': 'Q', 'units': {'mks': "MB", 'scale': 1/float(2<<20)}},
-                {'key': "RAM_Cached",                   'struct': 'Q', 'units': {'mks': "MB", 'scale': 1/float(2<<20)}},
-                {'key': "PID",                          'struct': 'H'},
-                {'key': "Disk_Used",                    'struct': 'Q', 'units': {'mks': "MB", 'scale': 1/float(2<<20)}},
-                {'key': "Disk_Read",                    'struct': 'Q', 'units': {'mks': "KB/s", 'scale': 2/float(2<<10)}},
-                {'key': "Disk_Write",                   'struct': 'Q', 'units': {'mks': "KB/s", 'scale': 2/float(2<<10)}},
-                {'key': "IO_lo_Bytes_Sent",             'struct': 'L', 'units': {'mks': "KB/s", 'scale': 2/float(2<<10)}},
-                {'key': "IO_lo_Bytes_Recv",             'struct': 'L', 'units': {'mks': "KB/s", 'scale': 2/float(2<<10)}},
-                {'key': "IO_lo_Packets_Sent",           'struct': 'L'},
-                {'key': "IO_lo_Packets_Recv",           'struct': 'L'},
-                {'key': "IO_eth0_Bytes_Sent",           'struct': 'L', 'units': {'mks': "KB/s", 'scale': 2/float(2<<10)}},
-                {'key': "IO_eth0_Bytes_Recv",           'struct': 'L', 'units': {'mks': "KB/s", 'scale': 2/float(2<<10)}},
-                {'key': "IO_eth0_Packets_Sent",         'struct': 'L'},
-                {'key': "IO_eth0_Packets_Recv",         'struct': 'L'},
-                {'key': "IO_wlan0_Bytes_Sent",          'struct': 'L', 'units': {'mks': "KB/s", 'scale': 2/float(2<<10)}},
-                {'key': "IO_wlan0_Bytes_Recv",          'struct': 'L', 'units': {'mks': "KB/s", 'scale': 2/float(2<<10)}},
-                {'key': "IO_wlan0_Packets_Sent",        'struct': 'L'},
-                {'key': "IO_wlan0_Packets_Recv",        'struct': 'L'},
-                {'key': "Core_Temp",                    'struct': 'H', 'units': {'mks': "K", 'scale': 1/1e3, 'shift': 273.15}},
-            ],
-        },
-        'MPL3': {
-            'type': "Fixed",
-            'endianness': '<',
-            'members': [
-                {'key': "dummy1", 'struct': "L"},
-                {'key': "dummy2", 'struct': "L"},
-                #{'key': "dummy3", 'struct': "B"},
-            ],
-        },
-        'MESG': {
-            'type': "String",
-            'members': [
-                {'key': "Message"},
-            ],
-        },
-        'GPS1': {
-            'type': "Fixed",
-            'endianness': '<',
-            'members': [
-                {'key': "AgeOfDiff",        'struct': "B", 'units': {'mks': "seconds"}},
-                {'key': "NumOfSats",        'struct': "B"},
-                {'key': "GPSWeek",          'struct': "H"},
-                {'key': "GPSTimeOfWeek",    'struct': "d", 'units': {'mks': "seconds"}},
-                {'key': "Latitude",         'struct': "d", 'units': {'mks': "degrees"}},
-                {'key': "Longitude",        'struct': "d", 'units': {'mks': "degrees"}},
-                {'key': "Height",           'struct': "f", 'units': {'mks': "meters"}},
-                {'key': "VNorth",           'struct': "f", 'units': {'mks': "meter/s"}},
-                {'key': "VEast",            'struct': "f", 'units': {'mks': "meter/s"}},
-                {'key': "VUp",              'struct': "f", 'units': {'mks': "meter/s"}},
-                {'key': "StdDevResid",      'struct': "f", 'units': {'mks': "meters"}},
-                {'key': "NavMode",          'struct': "H"},
-                {'key': "ExtendedAgeOfDiff",'struct': "H", 'units': {'mks': "seconds"}},
-            ],
-        },
-    },
-}
-
-# List all active feeds
-FEEDS = {
-    'fc': FC,
-    'gps': GPS,
-}

@@ -3,7 +3,6 @@
 
 import config
 import server
-from feeds import FEEDS
 from feeds import PacketListener
 import Queue
 
@@ -21,9 +20,9 @@ def run():
     #    threads.append(listener)
 
 
-    playtime = PacketListener()
-    playtime.add_queue(q)
-    threads.append(playtime)
+    fclisten = PacketListener()
+    fclisten.add_queue(q)
+    threads.append(fclisten)
 
 
     try:
