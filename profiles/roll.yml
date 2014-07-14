@@ -6,8 +6,16 @@ blocks:
   - title: Roll Control
     type: metric
     placement: [1,1]
-    size: [3,2]
+    size: [4,3]
     contents:
+      - title: Acceleration
+        data: "d.ADIS.Acc_X_mean"
+        units: m/s/s
+        format: "%5.1f"
+        importance: key
+        viz: sparkline
+        scale: [180.0,-50.0]
+        showzero: True
       - title: Roll Rate
         data: "d.ADIS.Gyro_X_mean"
         units: "&deg/s"
