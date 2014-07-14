@@ -87,6 +87,7 @@ class GPSConst(Listener):
                     q.put(obj)
         time.sleep(1)
 
+
 class GPSMessages(object):
     """generage messages for GPS Const"""
 
