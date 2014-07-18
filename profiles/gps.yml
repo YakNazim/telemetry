@@ -1,0 +1,199 @@
+---
+
+title: GPS
+
+blocks:
+  - title: GPS Fix (BIN 1)
+    type: metric
+    placement: [1,1]
+    size: [2,3]
+    contents:
+
+      - title: Number of Sats
+        data: "d.FC.GPS1.Num_Of_Sats"
+        format: "%4d"
+        importance: major
+        viz: none
+
+      - title: Latitude
+        data: "d.FC.GPS1.Latitude"
+        format: "%5.3d"
+        importance: major
+        viz: none
+
+      - title: Longitude
+        data: "d.FC.GPS1.Longitude"
+        format: "%5.3"
+        importance: major
+        viz: none
+
+      - title: Height
+        data: "d.FC.GPS1.Height"
+        units: meters
+        format: "%5.0"
+        importance: major
+        viz: none
+
+      - title: Speed go up
+        data: "d.FC.GPS1.VUp"
+        units: m/s
+        format: "%5.3"
+        importance: major
+        viz: none
+
+      - title: divider
+
+      - title: HDOP
+        data: "d.FC.GPS2.HDOP"
+        units: m/s
+        format: "%d"
+        importance: minor
+        viz: none
+
+      - title: VDOP
+        data: "d.FC.GPS2.VDOP"
+        units: m/s
+        format: "%d"
+        importance: minor
+        viz: none
+
+
+  - title: GPS Sats (BIN 99)
+    type: metric
+    placement: [3,1]
+    size: [2,7]
+    contents:
+
+      - title: "Channel 0"
+        data: "d.FC.GPS99.Channel_0"
+        format: "%d"
+        importance: minor
+        viz: none
+      - title: Tracked
+        data: "d.FC.GPS99.Tracked_0"
+        format: "%d"
+        importance: minor
+        viz: none
+      - title: Status
+        data: "d.FC.GPS99.Status_0"
+        format: "%d"
+        importance: minor
+        viz: none
+
+      - title: divider
+
+
+      - title: "Channel 1"
+        data: "d.FC.GPS99.Channel_1"
+        format: "%d"
+        importance: minor
+        viz: none
+      - title: Tracked
+        data: "d.FC.GPS99.Tracked_1"
+        format: "%d"
+        importance: minor
+        viz: none
+      - title: Status
+        data: "d.FC.GPS99.Status_1"
+        format: "%d"
+        importance: minor
+        viz: none
+
+      - title: divider
+
+
+      - title: "Channel 2"
+        data: "d.FC.GPS99.Channel_2"
+        format: "%d"
+        importance: minor
+        viz: none
+      - title: Tracked
+        data: "d.FC.GPS99.Tracked_2"
+        format: "%d"
+        importance: minor
+        viz: none
+      - title: Status
+        data: "d.FC.GPS99.Status_2"
+        format: "%d"
+        importance: minor
+        viz: none
+
+      - title: divider
+
+
+      - title: "Channel 3"
+        data: "d.FC.GPS99.Channel_3"
+        format: "%d"
+        importance: minor
+        viz: none
+      - title: Tracked
+        data: "d.FC.GPS99.Tracked_3"
+        format: "%d"
+        importance: minor
+        viz: none
+      - title: Status
+        data: "d.FC.GPS99.Status_3"
+        format: "%d"
+        importance: minor
+        viz: none
+
+      - title: divider
+
+
+      - title: "Channel 4"
+        data: "d.FC.GPS99.Channel_4"
+        format: "%d"
+        importance: minor
+        viz: none
+      - title: Tracked
+        data: "d.FC.GPS99.Tracked_4"
+        format: "%d"
+        importance: minor
+        viz: none
+      - title: Status
+        data: "d.FC.GPS99.Status_4"
+        format: "%d"
+        importance: minor
+        viz: none
+
+      - title: divider
+
+
+      - title: "Channel 5"
+        data: "d.FC.GPS99.Channel_5"
+        format: "%d"
+        importance: minor
+        viz: none
+      - title: Tracked
+        data: "d.FC.GPS99.Tracked_5"
+        format: "%d"
+        importance: minor
+        viz: none
+      - title: Status
+        data: "d.FC.GPS99.Status_5"
+        format: "%d"
+        importance: minor
+        viz: none
+
+      - title: divider
+
+
+      - title: "Channel 6"
+        data: "d.FC.GPS99.Channel_6"
+        format: "%d"
+        importance: minor
+        viz: none
+      - title: Tracked
+        data: "d.FC.GPS99.Tracked_6"
+        format: "%d"
+        importance: minor
+        viz: none
+      - title: Status
+        data: "d.FC.GPS99.Status_6"
+        format: "%d"
+        importance: minor
+        viz: none
+
+      - title: divider
+
+...
