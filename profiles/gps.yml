@@ -17,27 +17,27 @@ blocks:
 
       - title: Latitude
         data: "d.FC.GPS1.Latitude"
-        format: "%5.3d"
+        format: "%5.3f"
         importance: major
         viz: none
 
       - title: Longitude
         data: "d.FC.GPS1.Longitude"
-        format: "%5.3"
+        format: "%5.3f"
         importance: major
         viz: none
 
       - title: Height
         data: "d.FC.GPS1.Height"
         units: meters
-        format: "%5.0"
+        format: "%5.0f"
         importance: major
         viz: none
 
       - title: Speed go up
         data: "d.FC.GPS1.VUp"
         units: m/s
-        format: "%5.3"
+        format: "%5.1f"
         importance: major
         viz: none
 
@@ -64,11 +64,6 @@ blocks:
     size: [2,7]
     contents:
 
-      - title: "Channel 0"
-        data: "d.FC.GPS99.Channel_0"
-        format: "%d"
-        importance: minor
-        viz: none
       - title: Tracked
         data: "d.FC.GPS99.Tracked_0"
         format: "%d"
@@ -82,12 +77,6 @@ blocks:
 
       - title: divider
 
-
-      - title: "Channel 1"
-        data: "d.FC.GPS99.Channel_1"
-        format: "%d"
-        importance: minor
-        viz: none
       - title: Tracked
         data: "d.FC.GPS99.Tracked_1"
         format: "%d"
@@ -101,12 +90,6 @@ blocks:
 
       - title: divider
 
-
-      - title: "Channel 2"
-        data: "d.FC.GPS99.Channel_2"
-        format: "%d"
-        importance: minor
-        viz: none
       - title: Tracked
         data: "d.FC.GPS99.Tracked_2"
         format: "%d"
@@ -120,12 +103,6 @@ blocks:
 
       - title: divider
 
-
-      - title: "Channel 3"
-        data: "d.FC.GPS99.Channel_3"
-        format: "%d"
-        importance: minor
-        viz: none
       - title: Tracked
         data: "d.FC.GPS99.Tracked_3"
         format: "%d"
@@ -139,12 +116,6 @@ blocks:
 
       - title: divider
 
-
-      - title: "Channel 4"
-        data: "d.FC.GPS99.Channel_4"
-        format: "%d"
-        importance: minor
-        viz: none
       - title: Tracked
         data: "d.FC.GPS99.Tracked_4"
         format: "%d"
@@ -158,12 +129,6 @@ blocks:
 
       - title: divider
 
-
-      - title: "Channel 5"
-        data: "d.FC.GPS99.Channel_5"
-        format: "%d"
-        importance: minor
-        viz: none
       - title: Tracked
         data: "d.FC.GPS99.Tracked_5"
         format: "%d"
@@ -177,12 +142,6 @@ blocks:
 
       - title: divider
 
-
-      - title: "Channel 6"
-        data: "d.FC.GPS99.Channel_6"
-        format: "%d"
-        importance: minor
-        viz: none
       - title: Tracked
         data: "d.FC.GPS99.Tracked_6"
         format: "%d"
@@ -195,5 +154,16 @@ blocks:
         viz: none
 
       - title: divider
+
+      - title: Tracked
+        data: "d.FC.GPS99.Tracked_7"
+        format: "%d"
+        importance: minor
+        viz: none
+      - title: Status
+        data: "d.FC.GPS99.Status_7"
+        format: "%d"
+        importance: minor
+        viz: none
 
 ...

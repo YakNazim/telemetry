@@ -19,7 +19,7 @@
                     <pre class="col-xs-5 number {{ metric['importance'] }}" title="{{ metric['title'] }}"><span class="nodata">-----</span></pre>
                     <div class="col-xs-7 gauge" style="height: {% if metric['importance'] == 'key' %}75{% elif  metric['importance'] == 'major' %}60{%else%}25{% end %}px;"></div>      
                 {% else %}
-                    <pre class="col-xs-8 number {{ metric['importance'] }}" title="{{ metric['title'] }}"><span class="nodata">-----</span></pre>
+                    <pre class="col-xs-11 number {{ metric['importance'] }}" title="{{ metric['title'] }}"><span class="nodata">-----</span></pre>
                 {% end %}
             </div>
         {% end %}
