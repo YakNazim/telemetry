@@ -143,6 +143,7 @@ class Webservice(object):
 
         # Reference to thread queue
         self.queue = queue
+        self.last_seqn = 0
 
         # Configure tornado HTTPServer
         static_path = os.path.join(os.path.dirname(__file__), 'static')
@@ -170,7 +171,7 @@ class Webservice(object):
         """
 
         # Make statitics object
-        pstat = stats.PacketStats()
+        pstat = stats.PacketStats(self.last_seqn)
 
         # pull data out of queue (from listener threads)
         while not self.queue.empty():
@@ -187,6 +188,8 @@ class Webservice(object):
         # write data to clients
         for client in clients:
             client.write_message(json.dumps(data))
+
+        self.last_seqn = pstat.last_seqn
 
     def run(self):
         """Starts the IOloop. This is blocking!"""

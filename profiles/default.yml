@@ -3,55 +3,30 @@
 title: Default
 
 blocks:
-  - title: Telemetry Example
+
+  - title: FC Packets
     type: metric
     placement: [1,1]
     size: [2,2]
     contents:
-      - title: Accel X
-        data: "d.FC.ADIS.Acc_X"
-        units: m/s/s
-        importance: key
-        viz: none
-      - title: Large Number
-        data: "d.RECV_fc.PacketsLostRecently"
+
+      - title: Time since last FC packet
+        data: "d.server.time - d.FC.TimeLastPacketReceived"
+        format: "%7.1f"
+        units: seconds
         importance: major
         viz: none
-      - title: Small Number
-        data: "d.RECV_fc.PacketsReceivedRecently / 0.1"
-        units: packet/second
-        importance: minor
-        viz: sparkline
-  - title: FC Packet Statistics
-    type: metric
-    placement: [3,1]
-    size: [2,1]
-    contents:
-      - title: Time since last FC packet
-        data: "d.servertime - d.FC.TimeLastPacketReceived"
-        format: "%5.0f"
-        units: seconds
-        importance: minor
-        viz: none
+
       - title: Dropped FC packets
         format: "%5d"
         data: "d.FC.PacketsLostRecently"
         importance: minor
         viz: none
+
       - title: Packet Rate
         format: "%6.1f"
         data: "d.FC.PacketsReceivedRecently / 0.1"
         units: packets/second
-        importance: minor
-        viz: sparkline
-  - title: Telemetry Example
-    type: metric
-    placement: [2,2]
-    size: [3,1]
-    contents:
-      - title: Small Number
-        data: "d.RECV_fc.PacketsReceivedRecently / 0.1"
-        units: packet/second
         importance: minor
         viz: sparkline
 

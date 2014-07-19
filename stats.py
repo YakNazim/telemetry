@@ -4,12 +4,12 @@ import time
 from math import sqrt
 import feeds
 
-
 class PacketStats(object):
     """Can average multiple incoming packets before sending to frontend"""
 
-    def __init__(self):
+    def __init__(self, last_seqn):
         self.data = {}
+        self.last_seqn = last_seqn
 
         # To differentiate incoming packet info we make a list of feeds
         #self.packet_types = []
@@ -36,12 +36,7 @@ class PacketStats(object):
                 # is this a seqn number?
                 if fourcc == 'SEQN':
                     this_seqn = msg.get('Sequence', 0)
-                    last_seqn = self.data[feed].get('LastSEQN', None)
-                    if last_seqn is None:
-                        last_seqn = this_seqn
-                    
-                    seqn_diff = this_seqn - last_seqn
-
+                    seqn_diff = this_seqn - self.last_seqn
                     if seqn_diff == -1:
                         # out of order packet?
                         pass
@@ -51,9 +46,9 @@ class PacketStats(object):
                     elif seqn_diff > 1:
                         self.data[feed]['PacketsLostRecently'] += seqn_diff
 
-                    self.data[feed]['LastSEQN'] = this_seqn
+                    self.last_seqn = this_seqn
                     self.data[feed]['PacketsReceivedRecently'] += 1
-                    self.data[feed]['TimeLastPacketReceived'] = msg.get('timestamp', 0)
+                    self.data[feed]['TimeLastPacketReceived'] = msg.get('recv', 0)
                 else:
 
                     # first instance
