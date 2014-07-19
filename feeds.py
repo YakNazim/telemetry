@@ -49,12 +49,12 @@ class Listener(threading.Thread):
 class PacketListener(Listener):
     """Use PSAS Packet"""
 
-    def __init__(self):
+    def __init__(self, logfile):
         super(PacketListener, self).__init__(None)
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.bind(('', 35001))
         #self.sock.settimeout(1)
-        self.net = io.Network(self.sock)
+        self.net = io.Network(self.sock, logfile=logfile)
 
     def thread(self):
         data = None

@@ -19,11 +19,18 @@ def run():
     #    listener.add_queue(q)
     #    threads.append(listener)
 
+    lognum = -1
+    while True:
+        lognum += 1
+        try:
+            tmp = open('telemetry-%03d.log' % lognum, 'r')
+        except:
+            break
 
-    fclisten = PacketListener()
+    logfh = open('telemetry-%03d.log' % lognum, 'wb')
+    fclisten = PacketListener(logfh)
     fclisten.add_queue(q)
     threads.append(fclisten)
-
 
     try:
         # Init tornado
@@ -38,6 +45,7 @@ def run():
     except KeyboardInterrupt, SystemExit:
         for thread in threads:
             thread.stop()
+        logfh.close()
 
 
 if __name__ == '__main__':
