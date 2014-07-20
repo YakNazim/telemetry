@@ -25,7 +25,7 @@ blocks:
         scale: [1000.0,-1000.0]
         showzero: True
       - title: Servo Position
-        data: "d.ROLL.PWM"
+        data: "d.ROLL.Angle"
         format: "%5.0f"
         importance: key
         viz: sparkline
