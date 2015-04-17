@@ -16,7 +16,7 @@ for more detail.
 
 Make sure you have python and pip:
 
-    $ sudo apt-get install python2.7 python-pip virtualenvwrapper
+    $ sudo apt-get install python2.7 python-pip python-dev virtualenvwrapper
 
 If virtualenvwrapper is installed, go ahead and close your terminal and re-open it again. 
 
