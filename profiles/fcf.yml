@@ -17,33 +17,33 @@ blocks:
         scale: [100, 0]
         showzero: True
       - title: RAM
-        data: "d.FC.FCFH.RAM_Used"
+        data: "d.FC.FCFH.RAM_Used/1.0e6"
         units: 'MB'
         format: "%5.0f"
         importance: major
         viz: gauge
-        scale: [0,1000]
+        scale: [0,1024]
       - title: Disk Full
-        data: "d.FC.FCFH.Disk_Used"
-        units: 'MB'
-        format: "%5.0f"
+        data: "d.FC.FCFH.Disk_Used/1.0e9"
+        units: 'GB'
+        format: "%5.2f"
         importance: major
         viz: gauge
-        scale: [0,8000]
+        scale: [0,8]
       - title: Core Temperature
-        data: "d.FC.FCFH.Core_Temp"
-        units: K
-        format: "%5.0f"
+        data: "d.FC.FCFH.Core_Temp-273.15"
+        units: "&degC"
+        format: "%5.1f"
         importance: major
         viz: gauge
-        scale: [275,375]
+        scale: [20,60]
   - title: IO
     type: metric
     placement: [1,1]
     size: [3,2]
     contents:
       - title: Disk Write Rate
-        data: "d.FC.FCFH.Disk_Write"
+        data: "d.FC.FCFH.Disk_Write/1000"
         units: 'KB/s'
         format: "%5.0f"
         importance: major
@@ -51,7 +51,7 @@ blocks:
         scale: [1000, 0]
         showzero: True
       - title: wlan0 Byte Rate
-        data: "d.FC.FCFH.IO_wlan0_Bytes_Sent"
+        data: "d.FC.FCFH.IO_wlan0_Bytes_Sent/1000"
         units: 'KB/s'
         format: "%5.1f"
         importance: major
@@ -70,9 +70,9 @@ blocks:
         importance: minor
         viz: none
       - title: Disk Fill
-        data: "d.FC.FCFH.Disk_Used"
-        units: No.
-        format: "%5.0f"
+        data: "d.FC.FCFH.Disk_Used/8.0e7"
+        units: "%"
+        format: "%5.1f"
         importance: minor
         viz: none
       - title: "eth0 packets received"
@@ -81,9 +81,4 @@ blocks:
         format: "%5.0f"
         importance: minor
         viz: none
-      - title: "eth0 bytes received"
-        data: "d.FC.FCFH.IO_eth0_Bytes_Recv"
-        units: No.
-        format: "%5.0f"
-        importance: minor
-        viz: none
+
