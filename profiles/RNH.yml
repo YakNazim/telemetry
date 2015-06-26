@@ -3,7 +3,7 @@
 title: RNH
 
 blocks:
-  - title: Battery
+  - title: Battery Pack
     type: metric
     placement: [1,1]
     size: [3,3]
@@ -50,81 +50,99 @@ blocks:
         viz: none
       - title: divider
       - title: Battery Temperature
-        data: "d.FC.RNHH.Temperature"
-        units: K
+        data: "d.FC.RNHH.Temperature-273"
+        units: "&deg;C"
         format: "%5.1f"
         importance: major
         viz: gauge
-        scale: [275,325]
-  - title: Port Currents
+        scale: [20,60]
+  - title: System Power Draw
     type: metric
     placement: [4,1]
     size: [2,3]
     contents:
-      - title: "(1) Flight Computer"
-        data: "d.FC.RNHP.Port1"
-        units: A
-        format: "%5.3f"
+
+      - title: "Flight Computer"
+        data: "d.FC.RNHP.Port1*d.FC.RNHH.Voltage"
+        units: Watts
+        format: "%5.2f"
         importance: minor
         viz: sparkline
-        scale: [2.0,0.0]
-        showzero: True
-      - title: "(2) RasPi Cam"
-        data: "d.FC.RNHP.Port2"
-        units: A
-        format: "%5.3f"
+        scale: [20.0,0.25]
+        showzero: False
+
+      - title: "IMU"
+        data: "d.FC.RNHP.Port8*d.FC.RNHH.Voltage"
+        units: Watts
+        format: "%5.2f"
         importance: minor
         viz: sparkline
-        scale: [2.0,0.0]
-        showzero: True
-      - title: "(3) NC"
-        data: "d.FC.RNHP.Port3"
-        units: A
-        format: "%5.3f"
+        scale: [3.0,0.25]
+        showzero: False
+
+      - title: "GPS"
+        data: "d.FC.RNHP.Port3*d.FC.RNHH.Voltage"
+        units: Watts
+        format: "%5.2f"
         importance: minor
         viz: sparkline
-        scale: [2.0,0.0]
-        showzero: True
-      - title: "(4) IMU"
-        data: "d.FC.RNHP.Port4"
-        units: A
-        format: "%5.3f"
+        scale: [3.0,0.25]
+        showzero: False
+
+      - title: "RasPi Cam 1"
+        data: "d.FC.RNHP.Port2*d.FC.RNHH.Voltage"
+        units: Watts
+        format: "%5.2f"
         importance: minor
         viz: sparkline
-        scale: [2.0,0.0]
-        showzero: True
+        scale: [10.0,0.25]
+        showzero: False
+
+      - title: "RasPi Cam 2"
+        data: "d.FC.RNHP.Port4*d.FC.RNHH.Voltage"
+        units: Watts
+        format: "%5.2f"
+        importance: minor
+        viz: sparkline
+        scale: [10.0,0.25]
+        showzero: False
+
+      - title: "WiFi Power Amp"
+        data: "d.FC.RNHP.Port6*d.FC.RNHH.Voltage"
+        units: Watts
+        format: "%5.2f"
+        importance: minor
+        viz: sparkline
+        scale: [15.0,0.25]
+        showzero: Flalse
+
+      - title: "Roll Control"
+        data: "d.FC.RNHP.Port7*d.FC.RNHH.Voltage"
+        units: Watts
+        format: "%5.2f"
+        importance: minor
+        viz: sparkline
+        scale: [5.0,0.25]
+        showzero: False
+
+
       - title: divider
-      - title: "(5) Umbilical"
-        data: "d.FC.RNHP.Port5"
-        units: A
-        format: "%5.3f"
+
+
+      - title: "Umbilical Current"
+        data: "d.FC.RNHP.Umbilical"
+        units: Amps
+        format: "%5.2f"
         importance: minor
         viz: sparkline
-        scale: [2.0,0.0]
-        showzero: True
-      - title: "(6) NC"
-        data: "d.FC.RNHP.Port6"
-        units: A
-        format: "%5.3f"
+        scale: [2.0,0.25]
+        showzero: False
+
+      - title: "System Power"
+        data: "d.FC.RNHH.Current*d.FC.RNHH.Voltage"
+        units: Watts
+        format: "%5.1f"
         importance: minor
-        viz: sparkline
-        scale: [2.0,0.0]
-        showzero: True
-      - title: "(7) Roll"
-        data: "d.FC.RNHP.Port7"
-        units: A
-        format: "%5.3f"
-        importance: minor
-        viz: sparkline
-        scale: [2.0,0.0]
-        showzero: True
-      - title: "(8) NC"
-        data: "d.FC.RNHP.Port8"
-        units: A
-        format: "%5.3f"
-        importance: minor
-        viz: sparkline
-        scale: [2.0,0.0]
-        showzero: True
+        viz: None
 
 ...
