@@ -3,461 +3,89 @@
 title: GPS
 
 blocks:
+
   - title: GPS Fix
     type: metric
-    placement: [7,1]
-    size: [2,3]
+    placement: [1,1]
+    size: [2,4]
     contents:
 
       - title: Nav Mode
-        data: "d.FC.GPS1.Nav_Mode"
-        format: "%4d"
+        data: "d.FC.V6NA.Fix_Mode"
+        format: "%2d"
         importance: minor
         viz: none
 
       - title: Number of Sats
-        data: "d.FC.GPS1.Num_Of_Sats"
-        format: "%4d"
+        data: "d.FC.V6NA.Num_SV"
+        format: "%2d"
         importance: major
         viz: none
 
       - title: Latitude
-        data: "d.FC.GPS1.Latitude"
+        data: "d.FC.V6NA.Latitude"
         format: "%16.10f"
         importance: minor
+        units: "&deg;"
         viz: none
 
       - title: Longitude
-        data: "d.FC.GPS1.Longitude"
+        data: "d.FC.V6NA.Longitude"
         format: "%16.10f"
         importance: minor
+        units: "&deg;"
         viz: none
 
-      - title: Height
-        data: "d.FC.GPS1.Height"
+      - title: MSL Altitude
+        data: "d.FC.V6NA.MSL_Altitude"
         units: meters
         format: "%4.0f"
         importance: major
         viz: sparkline
-        scale: [5000.0,500.0]
+        scale: [7000.0,1500.0]
         showzero: True
 
-      - title: Speed go up
-        data: "d.FC.GPS1.VUp"
-        units: m/s
-        format: "%4.1f"
+      - title: AGL Altitude
+        data: "d.FC.V6NA.MSL_Altitude - 1393"
+        units: meters
+        format: "%4.0f"
         importance: major
         viz: sparkline
-        scale: [400.0,-100.0]
+        scale: [6000.0,0.0]
         showzero: True
 
-      - title: divider
+      - title: ECEF Velocity Magnitude
+        data: "Math.sqrt((d.FC.V6NA.ECEF_VX*d.FC.V6NA.ECEF_VX) + (d.FC.V6NA.ECEF_VY*d.FC.V6NA.ECEF_VY) + (d.FC.V6NA.ECEF_VZ*d.FC.V6NA.ECEF_VZ))"
+        format: "%5.2f"
+        units: "m/s"
+        importance: minor
+        viz: none
+
+
+
+  - title: GPS Quality
+    type: metric
+    placement: [3,1]
+    size: [2,2]
+    contents:
+
+      - title: GDOP
+        data: "d.FC.V6NA.GDOP"
+        format: "%5.2f"
+        importance: minor
+        viz: none
 
       - title: HDOP
-        data: "d.FC.GPS2.HDOP"
-        format: "%d"
+        data: "d.FC.V6NA.HDOP"
+        format: "%5.2f"
         importance: minor
         viz: none
 
       - title: VDOP
-        data: "d.FC.GPS2.VDOP"
-        format: "%d"
-        importance: minor
-        viz: none
-
-
-  - title: Ch. 0
-    type: metric
-    placement: [1,1]
-    size: [1,2]
-    contents:
-
-      - title: Sat
-        data: "d.FC.GPS99.Tracked_0"
-        format: "%3d"
-        importance: major
-        viz: none
-      - title: Status
-        data: "d.FC.GPS99.Status_0"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: Ephermeris Valid
-        data: "d.FC.GPS99.Ephm_V_Flag_0"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: Almanac Valid
-        data: "d.FC.GPS99.Alm_V_Flag_0"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: SNR
-        data: "(40960.0 * d.FC.GPS99.CLI_for_SNR_0)/80000.0"
+        data: "d.FC.V6NA.VDOP"
         format: "%5.2f"
-        importance: minor   
-        viz: none
-
-
-  - title: Ch. 1
-    type: metric
-    placement: [1,2]
-    size: [1,2]
-    contents:
-
-      - title: Sat
-        data: "d.FC.GPS99.Tracked_1"
-        format: "%3d"
-        importance: major
-        viz: none
-      - title: Status
-        data: "d.FC.GPS99.Status_1"
-        format: "%4d"
         importance: minor
         viz: none
-      - title: Ephermeris Valid
-        data: "d.FC.GPS99.Ephm_V_Flag_1"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: Almanac Valid
-        data: "d.FC.GPS99.Alm_V_Flag_1"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: SNR
-        data: "(40960.0 * d.FC.GPS99.CLI_for_SNR_1)/80000.0"
-        format: "%5.2f"
-        importance: minor   
-        viz: none
-
-  - title: Ch. 2
-    type: metric
-    placement: [3,1]
-    size: [1,2]
-    contents:
-
-      - title: Sat
-        data: "d.FC.GPS99.Tracked_2"
-        format: "%3d"
-        importance: major
-        viz: none
-      - title: Status
-        data: "d.FC.GPS99.Status_2"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: Ephermeris Valid
-        data: "d.FC.GPS99.Ephm_V_Flag_2"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: Almanac Valid
-        data: "d.FC.GPS99.Alm_V_Flag_2"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: SNR
-        data: "(40960.0 * d.FC.GPS99.CLI_for_SNR_2)/80000.0"
-        format: "%5.2f"
-        importance: minor   
-        viz: none
-
-  - title: Ch. 3
-    type: metric
-    placement: [4,1]
-    size: [1,2]
-    contents:
-
-      - title: Sat
-        data: "d.FC.GPS99.Tracked_3"
-        format: "%3d"
-        importance: major
-        viz: none
-      - title: Status
-        data: "d.FC.GPS99.Status_3"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: Ephermeris Valid
-        data: "d.FC.GPS99.Ephm_V_Flag_3"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: Almanac Valid
-        data: "d.FC.GPS99.Alm_V_Flag_3"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: SNR
-        data: "(40960.0 * d.FC.GPS99.CLI_for_SNR_3)/80000.0"
-        format: "%5.2f"
-        importance: minor   
-        viz: none
-
-
-  - title: Ch. 4
-    type: metric
-    placement: [4,1]
-    size: [1,2]
-    contents:
-
-      - title: Sat
-        data: "d.FC.GPS99.Tracked_4"
-        format: "%3d"
-        importance: major
-        viz: none
-      - title: Status
-        data: "d.FC.GPS99.Status_4"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: Ephermeris Valid
-        data: "d.FC.GPS99.Ephm_V_Flag_4"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: Almanac Valid
-        data: "d.FC.GPS99.Alm_V_Flag_4"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: SNR
-        data: "(40960.0 * d.FC.GPS99.CLI_for_SNR_4)/80000.0"
-        format: "%5.2f"
-        importance: minor   
-        viz: none
-
-  - title: Ch. 5
-    type: metric
-    placement: [5,1]
-    size: [1,2]
-    contents:
-
-      - title: Sat
-        data: "d.FC.GPS99.Tracked_5"
-        format: "%3d"
-        importance: major
-        viz: none
-      - title: Status
-        data: "d.FC.GPS99.Status_5"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: Ephermeris Valid
-        data: "d.FC.GPS99.Ephm_V_Flag_5"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: Almanac Valid
-        data: "d.FC.GPS99.Alm_V_Flag_5"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: SNR
-        data: "(40960.0 * d.FC.GPS99.CLI_for_SNR_5)/80000.0"
-        format: "%5.2f"
-        importance: minor   
-        viz: none
-
-
-  - title: Ch. 6
-    type: metric
-    placement: [1,2]
-    size: [1,2]
-    contents:
-
-      - title: Sat
-        data: "d.FC.GPS99.Tracked_6"
-        format: "%3d"
-        importance: major
-        viz: none
-      - title: Status
-        data: "d.FC.GPS99.Status_6"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: Ephermeris Valid
-        data: "d.FC.GPS99.Ephm_V_Flag_6"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: Almanac Valid
-        data: "d.FC.GPS99.Alm_V_Flag_6"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: SNR
-        data: "(40960.0 * d.FC.GPS99.CLI_for_SNR_6)/80000.0"
-        format: "%5.2f"
-        importance: minor   
-        viz: none
-
-  - title: Ch. 7
-    type: metric
-    placement: [2,2]
-    size: [1,2]
-    contents:
-
-      - title: Sat
-        data: "d.FC.GPS99.Tracked_7"
-        format: "%3d"
-        importance: major
-        viz: none
-      - title: Status
-        data: "d.FC.GPS99.Status_7"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: Ephermeris Valid
-        data: "d.FC.GPS99.Ephm_V_Flag_7"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: Almanac Valid
-        data: "d.FC.GPS99.Alm_V_Flag_7"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: SNR
-        data: "(40960.0 * d.FC.GPS99.CLI_for_SNR_7)/80000.0"
-        format: "%5.2f"
-        importance: minor   
-        viz: none
-
-
-  - title: Ch 8
-    type: metric
-    placement: [3,2]
-    size: [1,2]
-    contents:
-
-      - title: Sat
-        data: "d.FC.GPS99.Tracked_8"
-        format: "%3d"
-        importance: major
-        viz: none
-      - title: Status
-        data: "d.FC.GPS99.Status_8"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: Ephermeris Valid
-        data: "d.FC.GPS99.Ephm_V_Flag_8"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: Almanac Valid
-        data: "d.FC.GPS99.Alm_V_Flag_8"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: SNR
-        data: "(40960.0 * d.FC.GPS99.CLI_for_SNR_8)/80000.0"
-        format: "%5.2f"
-        importance: minor   
-        viz: none
-
-
-  - title: Ch. 9
-    type: metric
-    placement: [4,2]
-    size: [1,2]
-    contents:
-
-      - title: Sat
-        data: "d.FC.GPS99.Tracked_9"
-        format: "%3d"
-        importance: major
-        viz: none
-      - title: Status
-        data: "d.FC.GPS99.Status_9"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: Ephermeris Valid
-        data: "d.FC.GPS99.Ephm_V_Flag_9"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: Almanac Valid
-        data: "d.FC.GPS99.Alm_V_Flag_9"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: SNR
-        data: "(40960.0 * d.FC.GPS99.CLI_for_SNR_9)/80000.0"
-        format: "%5.2f"
-        importance: minor   
-        viz: none
-
-  - title: Ch. 10
-    type: metric
-    placement: [5,2]
-    size: [1,2]
-    contents:
-
-      - title: Sat
-        data: "d.FC.GPS99.Tracked_10"
-        format: "%3d"
-        importance: major
-        viz: none
-      - title: Status
-        data: "d.FC.GPS99.Status_10"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: Ephermeris Valid
-        data: "d.FC.GPS99.Ephm_V_Flag_10"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: Almanac Valid
-        data: "d.FC.GPS99.Alm_V_Flag_10"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: SNR
-        data: "(40960.0 * d.FC.GPS99.CLI_for_SNR_10)/80000.0"
-        format: "%5.2f"
-        importance: minor   
-        viz: none
-
-  - title: Ch. 11
-    type: metric
-    placement: [6,2]
-    size: [1,2]
-    contents:
-
-      - title: Sat
-        data: "d.FC.GPS99.Tracked_11"
-        format: "%3d"
-        importance: major
-        viz: none
-      - title: Status
-        data: "d.FC.GPS99.Status_11"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: Ephermeris Valid
-        data: "d.FC.GPS99.Ephm_V_Flag_11"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: Almanac Valid
-        data: "d.FC.GPS99.Alm_V_Flag_11"
-        format: "%4d"
-        importance: minor
-        viz: none
-      - title: SNR
-        data: "(40960.0 * d.FC.GPS99.CLI_for_SNR_11)/80000.0"
-        format: "%5.2f"
-        importance: minor   
-        viz: none
-
-
-
-
 
 
 
