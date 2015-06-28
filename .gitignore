@@ -2,3 +2,6 @@
 *.swp
 docs/_build
 *.log
+
+# Startup script and other runtime noise
+*.out
