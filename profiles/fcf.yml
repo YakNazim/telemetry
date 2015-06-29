@@ -31,7 +31,7 @@ blocks:
         viz: gauge
         scale: [0,8]
       - title: Core Temperature
-        data: "d.FC.FCFH.Core_Temp-273.15"
+        data: "d.FC.FCFH.Core_Temp/10000.0"
         units: "&degC"
         format: "%5.1f"
         importance: major
