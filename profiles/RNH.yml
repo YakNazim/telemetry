@@ -65,64 +65,64 @@ blocks:
       - title: "Flight Computer"
         data: "d.FC.RNHP.Port1*d.FC.RNHH.Voltage"
         units: Watts
-        format: "%5.2f"
+        format: "%5.1f"
         importance: minor
         viz: sparkline
-        scale: [20.0,0.25]
+        scale: [20.0,0.5]
         showzero: False
 
       - title: "IMU"
         data: "d.FC.RNHP.Port8*d.FC.RNHH.Voltage"
         units: Watts
-        format: "%5.2f"
+        format: "%5.1f"
         importance: minor
         viz: sparkline
-        scale: [3.0,0.25]
+        scale: [3.0,0.5]
         showzero: False
 
       - title: "GPS"
         data: "d.FC.RNHP.Port3*d.FC.RNHH.Voltage"
         units: Watts
-        format: "%5.2f"
+        format: "%5.1f"
         importance: minor
         viz: sparkline
-        scale: [3.0,0.25]
+        scale: [3.0,0.5]
         showzero: False
 
       - title: "RasPi Cam 1"
         data: "d.FC.RNHP.Port2*d.FC.RNHH.Voltage"
         units: Watts
-        format: "%5.2f"
+        format: "%5.1f"
         importance: minor
         viz: sparkline
-        scale: [10.0,0.25]
+        scale: [10.0,0.5]
         showzero: False
 
       - title: "RasPi Cam 2"
         data: "d.FC.RNHP.Port4*d.FC.RNHH.Voltage"
         units: Watts
-        format: "%5.2f"
+        format: "%5.1f"
         importance: minor
         viz: sparkline
-        scale: [10.0,0.25]
+        scale: [10.0,0.5]
         showzero: False
 
       - title: "WiFi Power Amp"
         data: "d.FC.RNHP.Port6*d.FC.RNHH.Voltage"
         units: Watts
-        format: "%5.2f"
+        format: "%5.1f"
         importance: minor
         viz: sparkline
-        scale: [15.0,0.25]
+        scale: [15.0,0.5]
         showzero: Flalse
 
       - title: "Roll Control"
         data: "d.FC.RNHP.Port7*d.FC.RNHH.Voltage"
         units: Watts
-        format: "%5.2f"
+        format: "%5.1f"
         importance: minor
         viz: sparkline
-        scale: [5.0,0.25]
+        scale: [5.0,0.5]
         showzero: False
 
 
