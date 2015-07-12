@@ -11,33 +11,33 @@ blocks:
     contents:
 
       - title: Nav Mode
-        data: "d.FC.V6NA.Fix_Mode"
+        data: "d.FC.V8A8.Fix_Mode"
         format: "%2d"
         importance: minor
         viz: none
 
       - title: Number of Sats
-        data: "d.FC.V6NA.Num_SV"
+        data: "d.FC.V8A8.Num_SV"
         format: "%2d"
         importance: major
         viz: none
 
       - title: Latitude
-        data: "d.FC.V6NA.Latitude"
+        data: "d.FC.V8A8.Latitude"
         format: "%16.10f"
         importance: minor
         units: "&deg;"
         viz: none
 
       - title: Longitude
-        data: "d.FC.V6NA.Longitude"
+        data: "d.FC.V8A8.Longitude"
         format: "%16.10f"
         importance: minor
         units: "&deg;"
         viz: none
 
       - title: MSL Altitude
-        data: "d.FC.V6NA.MSL_Altitude"
+        data: "d.FC.V8A8.MSL_Altitude"
         units: meters
         format: "%4.0f"
         importance: major
@@ -46,7 +46,7 @@ blocks:
         showzero: True
 
       - title: AGL Altitude
-        data: "d.FC.V6NA.MSL_Altitude - 1393"
+        data: "d.FC.V8A8.MSL_Altitude - 1393"
         units: meters
         format: "%4.0f"
         importance: major
@@ -55,7 +55,7 @@ blocks:
         showzero: True
 
       - title: ECEF Velocity Magnitude
-        data: "Math.sqrt((d.FC.V6NA.ECEF_VX*d.FC.V6NA.ECEF_VX) + (d.FC.V6NA.ECEF_VY*d.FC.V6NA.ECEF_VY) + (d.FC.V6NA.ECEF_VZ*d.FC.V6NA.ECEF_VZ))"
+        data: "Math.sqrt((d.FC.V8A8.ECEF_VX*d.FC.V8A8.ECEF_VX) + (d.FC.V8A8.ECEF_VY*d.FC.V8A8.ECEF_VY) + (d.FC.V8A8.ECEF_VZ*d.FC.V8A8.ECEF_VZ))"
         format: "%5.2f"
         units: "m/s"
         importance: minor
@@ -70,19 +70,19 @@ blocks:
     contents:
 
       - title: GDOP
-        data: "d.FC.V6NA.GDOP"
+        data: "d.FC.V8A8.GDOP"
         format: "%5.2f"
         importance: minor
         viz: none
 
       - title: HDOP
-        data: "d.FC.V6NA.HDOP"
+        data: "d.FC.V8A8.HDOP"
         format: "%5.2f"
         importance: minor
         viz: none
 
       - title: VDOP
-        data: "d.FC.V6NA.VDOP"
+        data: "d.FC.V8A8.VDOP"
         format: "%5.2f"
         importance: minor
         viz: none
