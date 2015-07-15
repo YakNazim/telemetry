@@ -5,3 +5,6 @@ docs/_build
 
 # Startup script and other runtime noise
 *.out
+
+/mirror/node_modules
+

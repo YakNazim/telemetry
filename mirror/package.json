@@ -1,0 +1,9 @@
+{
+ "name": "psas-telemetry-mirror",
+ "version": "0.0.1",
+ "description": "Connect to the websocket of an existing telemetry server, and feed a number of web clients",
+ "private": true,
+  "dependencies": {
+    "websock": "*"
+  }
+}
