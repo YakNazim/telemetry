@@ -9,7 +9,7 @@ blocks:
     size: [4,3]
     contents:
       - title: Acceleration
-        data: "d.ADIS.Acc_X_mean"
+        data: "d.FC.ADIS.Acc_X_mean"
         units: m/s/s
         format: "%5.1f"
         importance: key
@@ -17,7 +17,7 @@ blocks:
         scale: [180.0,-50.0]
         showzero: True
       - title: Roll Rate
-        data: "d.ADIS.Gyro_X_mean"
+        data: "d.FC.ADIS.Gyro_X_mean"
         units: "&deg/s"
         format: "%5.0f"
         importance: key
@@ -25,7 +25,7 @@ blocks:
         scale: [1000.0,-1000.0]
         showzero: True
       - title: Servo Position
-        data: "d.ROLL.Angle"
+        data: "d.FC.ROLL.Angle"
         format: "%5.0f"
         importance: key
         viz: sparkline
@@ -33,7 +33,7 @@ blocks:
         showzero: True
       - title: Servo Enable State
         format: "%2d"
-        data: "d.ROLL.Disable"
+        data: "d.FC.ROLL.Disable"
         importance: key
         viz: color
 

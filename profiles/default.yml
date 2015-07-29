@@ -60,7 +60,7 @@ blocks:
     contents:
 
       - title: Fin Angle
-        data: "d.ROLL.Angle"
+        data: "d.FC.ROLL.Angle"
         format: "%5.1f"
         units: degrees
         importance: major
