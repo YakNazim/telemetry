@@ -5,7 +5,7 @@ all: clean build
 
 build:
 	cat `find ./frontend/ -name *.css` > static/psas/style.css
-	coffee -cj $(STATIC) $(FILES)
+	cat $(FILES) | coffee --compile --stdio > $(STATIC)
 
 clean:
 	rm -f $(STATIC)*
